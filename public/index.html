@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="theme-color" content="#3a9be6">
 <title>Watchsball</title>
+<meta name="description" content="50 hero bola saling hajar: rank, royale taruhan, tower, dan gacha banner.">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -27,10 +28,6 @@
   --gold: #ffc93c;
   --arena: #182543;
   --arena-line: #24365e;
-  --r-biasa: #7d879e;
-  --r-langka: #2d86e0;
-  --r-epik: #9450dc;
-  --r-legendaris: #ef9a12;
   --display: "Kenney Future", "Arial Black", system-ui, sans-serif;
   --narrow: "Kenney Future Narrow", "Arial Narrow", system-ui, sans-serif;
   --body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -277,10 +274,6 @@ h2 {
   background: var(--rc);
   color: var(--white);
 }
-.r-biasa { --rc: var(--r-biasa); }
-.r-langka { --rc: var(--r-langka); }
-.r-epik { --rc: var(--r-epik); }
-.r-legendaris { --rc: var(--r-legendaris); }
 
 .sticky-cta {
   position: sticky;
@@ -385,7 +378,6 @@ h2 {
 .pull-card .nm { font-family: var(--narrow); font-size: 13px; }
 .pull-card .what { font-family: var(--narrow); font-size: 11px; color: var(--ink-soft); }
 .pull-card .what.new { color: #e0283f; }
-.pull-card.legend { box-shadow: 0 0 0 3px var(--r-legendaris), 0 0 22px var(--r-legendaris); }
 .note { font-family: var(--narrow); font-size: 13px; text-align: center; margin: 0; opacity: 0.95; }
 
 .detail { display: flex; flex-direction: column; align-items: center; gap: 8px; }
@@ -403,8 +395,9 @@ h2 {
 }
 .toast {
   position: fixed; left: 50%; z-index: 30;
-  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  top: calc(64px + env(safe-area-inset-top, 0px));
   transform: translateX(-50%);
+  width: max-content;
   padding: 4px 10px 2px;
   max-width: calc(100% - 32px);
   font-family: var(--narrow); font-size: 15px;
@@ -416,6 +409,110 @@ h2 {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
 }
+
+
+
+/* ---------- v4: role, rank, tower, taruhan, misi, banner ---------- */
+.chip { background: var(--rc, #7d879e); }
+.tickets {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 0 6px 0 4px; min-height: 40px;
+  font-family: var(--display); font-size: 16px; font-variant-numeric: tabular-nums;
+}
+.ticket-icon {
+  width: 22px; height: 15px; flex: none; border-radius: 3px;
+  background: linear-gradient(135deg, #b86bff, #7a3cff);
+  box-shadow: inset 0 0 0 2px #5a20c8, 0 1px 0 rgba(0,0,0,0.2);
+  -webkit-mask: radial-gradient(circle at 0 50%, transparent 4px, #000 4.5px) left / 51% 100% no-repeat,
+                radial-gradient(circle at 100% 50%, transparent 4px, #000 4.5px) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle at 0 50%, transparent 4px, #000 4.5px) left / 51% 100% no-repeat,
+                radial-gradient(circle at 100% 50%, transparent 4px, #000 4.5px) right / 51% 100% no-repeat;
+}
+.menu .btn { position: relative; }
+.menu .dot { top: -6px; right: -6px; }
+.menu .btn.small { min-height: 48px; font-size: 15px; }
+
+.card-tag {
+  position: absolute; top: -6px; right: -6px; z-index: 1;
+  font-family: var(--display); font-size: 12px; line-height: 1;
+  padding: 4px 6px 3px; border-radius: 8px;
+  background: var(--ink); color: var(--gold); box-shadow: 0 0 0 2px var(--white);
+}
+.ball-card.bet { border-image-source: url("assets/ui/card-blue.png"); color: var(--white); box-shadow: 0 0 0 3px var(--gold); border-radius: 12px; }
+.ball-card.mine-in { outline: 3px dashed var(--gold); outline-offset: -2px; border-radius: 12px; }
+
+.info-panel { padding: 8px 10px 6px; display: flex; flex-direction: column; gap: 6px; }
+.info-row { display: flex; align-items: center; gap: 10px; }
+.info-row canvas { flex: none; }
+.info-text { min-width: 0; color: var(--ink); font-size: 14px; line-height: 1.35; }
+.info-text b { font-family: var(--narrow); font-weight: 400; font-size: 15px; letter-spacing: 0.02em; }
+.muted { color: var(--ink-soft); }
+
+.tier { display: flex; align-items: center; gap: 12px; }
+.tier-badge {
+  width: 58px; height: 58px; flex: none; border-radius: 16px; transform: rotate(45deg);
+  background: linear-gradient(135deg, var(--tc2), var(--tc));
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,0.55), 0 3px 0 rgba(0,0,0,0.2);
+  display: grid; place-items: center;
+}
+.tier-badge span { transform: rotate(-45deg); font-family: var(--display); font-size: 20px; color: var(--white); text-shadow: 0 2px 0 rgba(0,0,0,0.3); }
+.tier-name { font-family: var(--display); font-size: 22px; color: var(--ink); line-height: 1.1; }
+.tier-stars { display: flex; gap: 2px; margin-top: 3px; }
+.tier-stars img { width: 18px; height: 18px; }
+.tier-stars img[src*="empty"], .stars img[src*="empty"] { filter: brightness(0.55) saturate(0); opacity: 0.6; }
+
+.floor-strip { display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: none; }
+.floor-strip::-webkit-scrollbar { display: none; }
+.floor {
+  flex: none; width: 44px; height: 44px; border-radius: 12px;
+  display: grid; place-items: center;
+  font-family: var(--display); font-size: 15px;
+  background: rgba(255,255,255,0.2); color: var(--white);
+}
+.floor.done { background: #22a75a; }
+.floor.now { background: var(--gold); color: #5a3b00; box-shadow: 0 0 0 3px var(--white); }
+.floor.boss:not(.done):not(.now) { background: rgba(240,40,63,0.55); }
+
+.bets { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.bet-chip {
+  min-width: 58px; min-height: 40px; padding: 4px 10px 2px; border-radius: 999px;
+  font-family: var(--display); font-size: 14px;
+  background: rgba(255,255,255,0.22); color: var(--white); border: 2px solid transparent;
+}
+.bet-chip[aria-pressed="true"] { background: var(--gold); color: #5a3b00; border-color: var(--white); }
+.bet-chip:disabled { opacity: 0.4; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.seg button {
+  min-height: 42px; border-radius: 12px; font-family: var(--display); font-size: 14px;
+  background: rgba(255,255,255,0.2); color: var(--white);
+}
+.seg button[aria-pressed="true"] { background: var(--white); color: var(--ink); }
+
+.mission { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; padding: 8px 10px 6px; }
+.mission .m-text { color: var(--ink); font-size: 14px; }
+.mission .m-reward { font-family: var(--narrow); font-size: 13px; color: #c98c00; }
+.mission .m-bar { grid-column: 1 / -1; height: 8px; border-radius: 5px; background: #d9dce8; overflow: hidden; }
+.mission .m-fill { height: 100%; background: #22a75a; border-radius: 5px; }
+.mission .btn { min-height: 44px; font-size: 13px; padding-inline: 10px; }
+.mission.claimed { opacity: 0.6; }
+
+.banner { padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 8px; text-align: center; color: var(--ink); }
+.banner-title { font-family: var(--display); font-size: 18px; }
+.banner-heroes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.banner-hero { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.banner-hero canvas { width: 72px; height: 72px; }
+.banner-hero .nm { font-family: var(--narrow); font-size: 13px; }
+.banner-sub { font-family: var(--narrow); font-size: 13px; color: var(--ink-soft); }
+.pull-card.featured { box-shadow: 0 0 0 3px var(--gold), 0 0 22px var(--gold); }
+
+.result-rank { font-family: var(--display); font-size: 18px; color: var(--ink); }
+.result-rank.up { color: #22a75a; }
+.result-rank.down { color: #e0283f; }
+.result-lines { display: flex; flex-direction: column; gap: 4px; font-family: var(--narrow); font-size: 15px; color: var(--ink); }
+.result-lines b { color: #c98c00; font-weight: 400; }
+.match-vs { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px; }
+.match-vs .side { min-width: 0; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--ink); font-family: var(--narrow); font-size: 14px; }
+.match-vs .vs-mid { font-family: var(--display); font-size: 22px; color: #e0283f; }
 </style>
 </head>
 <body>
@@ -425,34 +522,40 @@ h2 {
     <span id="top-spacer"></span>
     <div class="top-right">
       <button class="patch-btn panel-9" id="btn-patch" aria-label="Catatan patch">PATCH<span class="dot" id="patch-dot" hidden></span></button>
+      <div class="tickets panel-9" id="tickets" title="Tiket gacha"><span class="ticket-icon"></span><span id="ticket-val">0</span></div>
       <div class="coins panel-9" id="coins"><span class="coin-icon"></span><span id="coin-val">0</span></div>
     </div>
   </header>
 
-  <div class="loading" id="loading">Memuat bola...</div>
+  <div class="loading" id="loading">Memuat hero...</div>
 
   <!-- HOME -->
   <section class="screen" id="home" hidden>
     <h1 class="logo">WATCHS<span>BALL</span></h1>
-    <p class="tagline">Bola berskill saling hajar. Kamu jagoin, kamu koleksi.</p>
+    <p class="tagline">50 hero bola saling hajar. Kamu jagoin, kamu koleksi.</p>
     <div class="hero"><canvas id="demo"></canvas></div>
     <div class="menu">
-      <button class="btn wide" id="go-duel">DUEL<small>1 lawan 1, menang dapat koin</small></button>
-      <button class="btn blue" id="go-royale">ROYALE<small>8 bola, sisa 1</small></button>
-      <button class="btn gold" id="go-gacha">GACHA<small>Tarik bola baru</small></button>
-      <button class="btn green wide" id="go-koleksi">KOLEKSI<small id="koleksi-sub">3/30 bola</small></button>
+      <button class="btn wide" id="go-rank">RANK<small id="rank-sub">Perunggu</small></button>
+      <button class="btn blue" id="go-royale">ROYALE<small>8 hero, pasang taruhan</small></button>
+      <button class="btn green" id="go-tower">TOWER<small id="tower-sub">Lantai 1</small></button>
+      <button class="btn gold" id="go-gacha">GACHA<small>Banner minggu ini</small></button>
+      <button class="btn blue" id="go-misi">MISI<small id="misi-sub">0/3 selesai</small><span class="dot" id="misi-dot" hidden></span></button>
+      <button class="btn green small" id="go-koleksi">KOLEKSI<small id="koleksi-sub">3/50</small></button>
+      <button class="btn grey small" id="go-latihan">LATIHAN<small>Pilih lawan bebas</small></button>
     </div>
     <div class="stats-line"><span>Main <b id="st-battles">0</b></span><span>Menang <b id="st-wins">0</b></span><span>Tarikan <b id="st-pulls">0</b></span></div>
     <p class="version" id="version-line">UI dan suara oleh Kenney (CC0)</p>
   </section>
 
-  <!-- PILIH -->
+  <!-- PILIH HERO (Rank, Tower, Latihan) -->
   <section class="screen" id="pick" hidden>
     <div>
-      <h2 id="pick-title">Duel</h2>
+      <h2 id="pick-title">Rank</h2>
       <p class="sub" id="pick-sub"></p>
     </div>
+    <div id="pick-extra"></div>
     <p class="label">Jagoanmu</p>
+    <div class="filters" id="pick-filters"></div>
     <div class="ball-grid" id="grid-mine"></div>
     <p class="label" id="opp-label">Lawan</p>
     <div class="ball-grid" id="grid-opp"></div>
@@ -463,12 +566,39 @@ h2 {
     </div>
   </section>
 
+  <!-- ROYALE + TARUHAN -->
+  <section class="screen" id="royale" hidden>
+    <div>
+      <h2>Royale</h2>
+      <p class="sub">8 hero, sisa 1. Pasang koin ke hero yang kamu jagokan juara. Makin kecil peluangnya, makin besar pengalinya.</p>
+    </div>
+    <div class="seg" id="roy-seg">
+      <button id="roy-ikut" aria-pressed="true">IKUT MAIN</button>
+      <button id="roy-nonton" aria-pressed="false">NONTON SAJA</button>
+    </div>
+    <div id="roy-mine-wrap">
+      <p class="label">Jagoanmu masuk arena</p>
+      <div class="ball-grid" id="roy-mine"></div>
+    </div>
+    <div class="row" style="align-items:center">
+      <p class="label" style="flex:1">Peserta &middot; ketuk untuk taruhan</p>
+      <button class="btn grey small" id="roy-reroll" style="flex:none;min-height:40px;font-size:12px">ACAK ULANG</button>
+    </div>
+    <div class="ball-grid" id="roy-lineup"></div>
+    <p class="label">Taruhan</p>
+    <div class="bets" id="roy-bets"></div>
+    <div class="sticky-cta">
+      <p class="skill-info" id="roy-info"></p>
+      <button class="btn blue" id="roy-start">MULAI ROYALE</button>
+    </div>
+  </section>
+
   <!-- BATTLE -->
   <section class="screen" id="battle" hidden>
     <div class="hud" id="hud"></div>
     <div class="arena-wrap" id="arena-wrap"><canvas id="arena"></canvas></div>
     <div class="battle-ctrl">
-      <button class="btn grey" id="btn-speed">SPEED 1x</button>
+      <button class="btn grey" id="btn-speed">SPEED 1×</button>
       <button class="btn grey" id="btn-sound">SUARA ON</button>
       <button class="btn" id="btn-quit">KELUAR</button>
     </div>
@@ -476,17 +606,25 @@ h2 {
 
   <!-- GACHA -->
   <section class="screen" id="gacha" hidden>
+    <div class="banner panel-9" id="banner"></div>
     <div class="machine">
       <div class="orb-wrap"><canvas class="orb" id="orb" width="264" height="264"></canvas></div>
-      <h2>Tarik Bola</h2>
       <p class="pity" id="pity"></p>
     </div>
-    <div class="rates panel-9" id="rates"></div>
     <div class="row">
-      <button class="btn gold" id="pull-1">TARIK 1x<small>100 koin</small></button>
-      <button class="btn gold" id="pull-10">TARIK 10x<small>900 koin</small></button>
+      <button class="btn gold" id="pull-1">TARIK 1×<small id="pull-1-cost">100 koin</small></button>
+      <button class="btn gold" id="pull-10">TARIK 10×<small id="pull-10-cost">900 koin</small></button>
     </div>
-    <p class="note">Dapat bola yang sudah punya = +1 bintang (maks 5, tiap bintang +5 darah). Sudah bintang 5 = +40 koin.</p>
+    <p class="note">Semua hero setara, tidak ada rarity. Hero banner punya peluang 50% tiap tarikan. Dapat hero yang sudah punya = +1 bintang (maks 5, tiap bintang +5 darah). Sudah bintang 5 = +40 koin.</p>
+  </section>
+
+  <!-- MISI -->
+  <section class="screen" id="misi" hidden>
+    <div>
+      <h2>Misi Harian</h2>
+      <p class="sub" id="misi-reset"></p>
+    </div>
+    <div class="patch-list" id="misi-list"></div>
   </section>
 
   <!-- PATCH -->
@@ -505,6 +643,7 @@ h2 {
       <h2>Koleksi</h2>
       <p class="sub" id="koleksi-count"></p>
     </div>
+    <div class="filters" id="koleksi-filters"></div>
     <div class="ball-grid" id="grid-koleksi"></div>
   </section>
 </div>
@@ -514,17 +653,21 @@ h2 {
 <button class="update-bar btn green" id="update-bar" hidden>UPDATE TERSEDIA<small>Ketuk untuk pakai versi terbaru</small></button>
 
 <script src="engine.js"></script>
+<script src="odds.js"></script>
 <script src="patches.js"></script>
 <script src="render.js"></script>
 <script>
 (function () {
   "use strict";
   const E = window.Watchsball;
-  const TYPES = E.TYPES, RAR = E.RARITY;
+  const TYPES = E.TYPES, ROLES = E.ROLES;
   const ORDER = Object.keys(TYPES);
-  const RAR_ORDER = ["biasa", "langka", "epik", "legendaris"];
+  const ROLE_ORDER = Object.keys(ROLES);
+  const ODDS = window.WATCHSBALL_ODDS || {};
   const SPR_SCALE = 3; // lebar sprite = 3x radius bola
   const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const shuffle = (a, r) => { r = r || Math.random; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
   // ================= ASET =================
   const IMG = {};
@@ -538,21 +681,56 @@ h2 {
   }
   const assetsReady = Promise.all(
     ORDER.map((t) => loadImg(t, "assets/balls/" + t + ".webp"))
-      .concat([loadImg("blade", "assets/balls/pedang_blade.webp"), loadImg("star", "assets/ui/star.png"), loadImg("starEmpty", "assets/ui/star-empty.png")])
+      .concat([loadImg("blade", "assets/balls/samurai_blade.webp"), loadImg("star", "assets/ui/star.png"), loadImg("starEmpty", "assets/ui/star-empty.png")])
       .concat(Object.entries(window.WBRender.FX).map(([key, file]) => loadImg("fx_" + key, "assets/fx/" + file + ".webp")))
   );
 
+  // ================= DATA PROGRES =================
+  const STARTERS = ["ksatria", "samurai", "koboi"];
+  // Tangga rank ala ML. need = bintang untuk naik, opp = bintang lawan, hp = pengali darah lawan
+  const TIERS = [
+    { name: "Perunggu", short: "I", need: 3, opp: 0, hp: 1, c: "#b0703a", c2: "#e8a870", safe: true },
+    { name: "Perak", short: "II", need: 3, opp: 1, hp: 1, c: "#8a98ac", c2: "#dde4ee", safe: true },
+    { name: "Emas", short: "III", need: 4, opp: 2, hp: 1, c: "#d0960a", c2: "#ffe070" },
+    { name: "Platinum", short: "IV", need: 4, opp: 3, hp: 1.05, c: "#2a9a9a", c2: "#9af0e8" },
+    { name: "Berlian", short: "V", need: 5, opp: 4, hp: 1.1, c: "#3a6ae0", c2: "#a8c8ff" },
+    { name: "Master", short: "VI", need: 5, opp: 5, hp: 1.18, c: "#8a3ad0", c2: "#e0a8ff" },
+    { name: "Mythic", short: "M", need: Infinity, opp: 5, hp: 1.28, c: "#d02a4a", c2: "#ffb070" },
+  ];
+  const TOWER_FLOORS = 50;
+  const BET_CHIPS = [0, 50, 100, 250, 500];
+  const ROYALE_REWARD = [150, 80, 50];
+
   // ================= SAVE =================
-  const SAVE_KEY = "watchsball-v1";
+  const SAVE_KEY = "watchsball-v4";
   function defaultSave() {
-    return { coins: 300, owned: { karet: 0, es: 0, api: 0 }, pity: 0, pulls: 0, wins: 0, battles: 0, lastDaily: "", sound: true };
+    const owned = {};
+    for (const t of STARTERS) owned[t] = 0;
+    return {
+      coins: 300, tickets: 3, owned, pulls: 0, wins: 0, battles: 0, lastDaily: "", sound: true,
+      rank: { tier: 0, stars: 0, best: 0, streak: 0 }, tower: { floor: 1 }, bannerPity: 0,
+      missions: { date: "", list: [], bonus: false },
+    };
   }
+  let migratedTickets = 0;
   function load() {
     try {
-      const s = JSON.parse(localStorage.getItem(SAVE_KEY) || localStorage.getItem("adu-bola-v1")); // bawa progress versi lama
+      const s = JSON.parse(localStorage.getItem(SAVE_KEY));
       if (s && s.owned) {
         for (const k of Object.keys(s.owned)) if (!TYPES[k]) delete s.owned[k];
-        return Object.assign(defaultSave(), s);
+        const d = defaultSave();
+        return Object.assign(d, s, { rank: Object.assign(d.rank, s.rank), tower: Object.assign(d.tower, s.tower), missions: Object.assign(d.missions, s.missions) });
+      }
+      // versi 3 ke bawah: koin & statistik dibawa, koleksi bola lama ditukar jadi tiket gacha
+      const old = JSON.parse(localStorage.getItem("watchsball-v1") || localStorage.getItem("adu-bola-v1"));
+      if (old && old.owned) {
+        const d = defaultSave();
+        const stars = Object.values(old.owned).reduce((a, b) => a + (b || 0), 0);
+        migratedTickets = Object.keys(old.owned).length + Math.floor(stars / 2);
+        d.coins = old.coins || d.coins;
+        d.tickets += migratedTickets;
+        for (const k of ["pulls", "wins", "battles", "lastDaily", "sound", "music"]) if (k in old) d[k] = old[k];
+        return d;
       }
     } catch (e) {}
     return defaultSave();
@@ -561,18 +739,20 @@ h2 {
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) {}
   }
   let S = load();
+  if (migratedTickets) save();
 
   function addCoins(n) { S.coins += n; save(); renderCoins(true); }
   function renderCoins(bump) {
     $("coin-val").textContent = S.coins.toLocaleString("id-ID");
+    $("ticket-val").textContent = S.tickets;
     if (bump) { const c = $("coins"); c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); }
   }
   let toastT = 0;
-  function toast(msg) {
+  function toast(msg, ms) {
     const t = $("toast");
     t.textContent = msg; t.hidden = false;
     clearTimeout(toastT);
-    toastT = setTimeout(() => (t.hidden = true), 2600);
+    toastT = setTimeout(() => (t.hidden = true), ms || 2600);
   }
 
   // ================= AUDIO =================
@@ -605,10 +785,9 @@ h2 {
     src.buffer = buf; src.connect(f).connect(g).connect(a.destination); src.start();
   }
   // Suara asli dari paket Kenney (CC0), di-decode ke WebAudio supaya bisa tumpuk tanpa jeda.
-  // Kalau belum termuat / gagal, jatuh ke bunyi sintetis di bawah.
   const SND = {};
   const SND_VOL = { v3: 1, v2: 1, v1: 1, fight: 1, youwin: 1, youlose: 1, flawless: 1, suddendeath: 1, multikill: 1, winner: 1, callout: 0.5, coin: 0.7, sting: 0.4, heavy: 0.6, hit: 0.45, crit: 0.7, blade: 0.5, boom: 0.7, zap: 0.55, freeze: 0.5, shot: 0.6, laser: 0.5, portal: 0.55, hole: 0.5, ghost: 0.5, ko: 0.6, count: 0.6, go: 0.7, click: 0.45, pull: 0.6, reveal: 0.7, legend: 0.8, win: 0.75, lose: 0.7 };
-  const PITCHY = { hit: 1, crit: 1, blade: 1, freeze: 1, zap: 1 }; // nada sedikit diacak
+  const PITCHY = { hit: 1, crit: 1, blade: 1, freeze: 1, zap: 1 };
   let sndLoading = null;
   function loadSounds() {
     if (sndLoading) return sndLoading;
@@ -650,12 +829,11 @@ h2 {
     musicKey = key;
     music.src = "assets/music/" + key + ".mp3";
     music.volume = MUSIC_VOL;
-    music.play().catch(() => { musicKey = null; }); // browser menunggu sentuhan pertama
+    music.play().catch(() => { musicKey = null; });
   }
   document.addEventListener("pointerdown", () => playMusic(musicWant));
   document.addEventListener("visibilitychange", () => playMusic(musicWant));
 
-  // ---- announcer: suara lebih keras, musik diturunkan sebentar ----
   function voice(key) {
     if (!S.sound) return;
     loadSounds();
@@ -697,23 +875,55 @@ h2 {
   R.init({ E, IMG, sfx });
   const { makeView, consumeEvents, popParticles, updateView, drawArena, drawSprite, ballIcon } = R;
 
-  function starsEl(n) {
+  function starsEl(n, max) {
     const d = document.createElement("span");
     d.className = "stars";
-    for (let i = 0; i < n; i++) {
+    for (let i = 0; i < (max || n); i++) {
       const im = document.createElement("img");
-      im.src = "assets/ui/star.png"; im.alt = "";
+      im.src = i < n ? "assets/ui/star.png" : "assets/ui/star-empty.png"; im.alt = "";
       d.appendChild(im);
     }
     return d;
   }
-
   function fitCanvas(cv, cssPx) {
     const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
     const want = Math.round(cssPx * dpr);
     if (cv.width !== want) cv.width = cv.height = want;
     cv.style.width = cv.style.height = cssPx + "px";
     return dpr;
+  }
+  function roleChip(type) {
+    const r = ROLES[TYPES[type].role];
+    return '<span class="chip" style="--rc:' + r.color + '">' + r.name + "</span>";
+  }
+  function ballCard(type, opts) {
+    opts = opts || {};
+    const b = document.createElement("button");
+    b.className = "ball-card";
+    b.appendChild(ballIcon(type, 64));
+    const nm = document.createElement("span");
+    nm.className = "nm"; nm.textContent = TYPES[type].name;
+    b.appendChild(nm);
+    b.insertAdjacentHTML("beforeend", roleChip(type));
+    if (opts.stars != null) b.appendChild(starsEl(opts.stars));
+    if (opts.tag) { const t = document.createElement("span"); t.className = "card-tag"; t.textContent = opts.tag; b.appendChild(t); }
+    return b;
+  }
+  function sortedOwned() { return ORDER.filter((t) => t in S.owned); }
+  // tombol filter role (dipakai di koleksi dan pilih hero)
+  function roleFilters(el, current, onPick) {
+    el.textContent = "";
+    for (const r of ["semua"].concat(ROLE_ORDER)) {
+      const b = document.createElement("button");
+      b.className = "filter";
+      b.setAttribute("aria-pressed", String(current === r));
+      b.textContent = r === "semua" ? "Semua" : ROLES[r].name;
+      b.onclick = () => onPick(r);
+      el.appendChild(b);
+    }
+  }
+  function infoHtml(t, label) {
+    return "<b>" + (label ? label + ": " : "") + esc(TYPES[t].name.toUpperCase()) + "</b> &middot; " + esc(TYPES[t].skill);
   }
 
   // ================= NAVIGASI =================
@@ -729,71 +939,221 @@ h2 {
     if (id === "patch") renderPatch();
     if (id === "gacha") renderGacha();
     if (id === "koleksi") renderKoleksi();
+    if (id === "misi") renderMisi();
+    if (id === "royale") renderRoyale();
+    window.scrollTo(0, 0);
   }
   $("btn-back").onclick = () => show("home");
+
+  // ================= MISI HARIAN =================
+  const MISSIONS = [
+    { id: "rank_win", text: "Menang 3x di Rank", goal: 3, reward: 80, on: (k, d) => k === "battle" && d.mode === "rank" && d.win },
+    { id: "rank_play", text: "Main Rank 5x", goal: 5, reward: 60, on: (k, d) => k === "battle" && d.mode === "rank" },
+    { id: "royale_play", text: "Main Royale 2x", goal: 2, reward: 60, on: (k, d) => k === "battle" && d.mode === "royale" },
+    { id: "royale_top3", text: "Masuk 3 besar di Royale", goal: 1, reward: 90, on: (k, d) => k === "battle" && d.mode === "royale" && d.place && d.place <= 3 },
+    { id: "bet_place", text: "Pasang taruhan Royale 2x", goal: 2, reward: 50, on: (k) => k === "bet" },
+    { id: "bet_win", text: "Menang taruhan Royale", goal: 1, reward: 100, on: (k) => k === "betwin" },
+    { id: "tower", text: "Taklukkan 1 lantai Tower", goal: 1, reward: 80, on: (k) => k === "tower" },
+    { id: "pull", text: "Tarik gacha 3x", goal: 3, reward: 50, on: (k) => k === "pull" },
+    { id: "battles", text: "Main 6 battle apa saja", goal: 6, reward: 60, on: (k) => k === "battle" },
+    { id: "flawless", text: "Menang tanpa kena damage sedikit pun", goal: 1, reward: 120, on: (k, d) => k === "battle" && d.flawless },
+  ].concat(ROLE_ORDER.map((r) => ({
+    id: "role_" + r, text: "Menang 2x pakai hero " + ROLES[r].name, goal: 2, reward: 70,
+    on: (k, d) => k === "battle" && d.win && TYPES[d.hero] && TYPES[d.hero].role === r,
+  })));
+  const M_BY = Object.fromEntries(MISSIONS.map((m) => [m.id, m]));
+  function todayKey() { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+  function ensureMissions() {
+    const day = todayKey();
+    if (S.missions.date === day && S.missions.list.length) return;
+    const seed = day.split("-").reduce((a, x) => a * 37 + +x, 7);
+    const pick = shuffle(MISSIONS.map((m) => m.id), E.rng(seed));
+    // paling banyak satu misi role per hari
+    const out = [];
+    for (const id of pick) {
+      if (id.startsWith("role_") && out.some((x) => x.startsWith("role_"))) continue;
+      out.push(id);
+      if (out.length === 3) break;
+    }
+    S.missions = { date: day, list: out.map((id) => ({ id, prog: 0, claimed: false })), bonus: false };
+    save();
+  }
+  function track(kind, data, n) {
+    ensureMissions();
+    let changed = false;
+    for (const m of S.missions.list) {
+      const def = M_BY[m.id];
+      if (!def || m.prog >= def.goal || !def.on(kind, data || {})) continue;
+      m.prog = Math.min(def.goal, m.prog + (n || 1));
+      changed = true;
+      if (m.prog >= def.goal) toast("Misi selesai: " + def.text + ". Klaim hadiahnya di MISI.");
+    }
+    if (changed) save();
+  }
+  function missionClaimable() {
+    ensureMissions();
+    const L = S.missions.list;
+    return L.some((m) => !m.claimed && M_BY[m.id] && m.prog >= M_BY[m.id].goal) || (!S.missions.bonus && L.every((m) => m.claimed));
+  }
+  function renderMisi() {
+    ensureMissions();
+    const list = $("misi-list");
+    list.textContent = "";
+    const now = new Date(), mid = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const hrs = Math.max(0, Math.floor((mid - now) / 3600000)), mins = Math.floor(((mid - now) % 3600000) / 60000);
+    $("misi-reset").textContent = "Misi baru dalam " + hrs + " jam " + mins + " menit. Selesaikan ketiganya untuk bonus 1 tiket gacha.";
+    for (const m of S.missions.list) {
+      const def = M_BY[m.id];
+      if (!def) continue;
+      const done = m.prog >= def.goal;
+      const row = document.createElement("div");
+      row.className = "mission panel-9" + (m.claimed ? " claimed" : "");
+      row.innerHTML = '<div><div class="m-text">' + esc(def.text) + '</div><div class="m-reward">+' + def.reward + " koin &middot; " + m.prog + "/" + def.goal + "</div></div>" +
+        '<button class="btn ' + (done && !m.claimed ? "green" : "grey") + '"' + (done && !m.claimed ? "" : " disabled") + ">" + (m.claimed ? "SUDAH" : "KLAIM") + "</button>" +
+        '<div class="m-bar"><div class="m-fill" style="width:' + (m.prog / def.goal) * 100 + '%"></div></div>';
+      row.querySelector("button").onclick = () => {
+        m.claimed = true;
+        addCoins(def.reward);
+        sfx("coin");
+        save();
+        renderMisi();
+      };
+      list.appendChild(row);
+    }
+    const all = S.missions.list.every((m) => m.claimed);
+    const bonus = document.createElement("div");
+    bonus.className = "mission panel-9" + (S.missions.bonus ? " claimed" : "");
+    bonus.innerHTML = '<div><div class="m-text">Bonus: selesaikan semua misi hari ini</div><div class="m-reward">+1 tiket gacha</div></div>' +
+      '<button class="btn ' + (all && !S.missions.bonus ? "gold" : "grey") + '"' + (all && !S.missions.bonus ? "" : " disabled") + ">" + (S.missions.bonus ? "SUDAH" : "KLAIM") + "</button>";
+    bonus.querySelector("button").onclick = () => {
+      S.missions.bonus = true;
+      S.tickets++;
+      save();
+      renderCoins(true);
+      sfx("reveal");
+      renderMisi();
+    };
+    list.appendChild(bonus);
+  }
 
   // ================= HOME =================
   let demo = null;
   function newDemo() {
-    const pool = ORDER.slice().sort(() => Math.random() - 0.5).slice(0, 5);
+    const pool = shuffle(ORDER.slice()).slice(0, 5);
     demo = { w: E.createWorld(pool.map((t, i) => ({ type: t, team: i })), (Math.random() * 1e9) | 0), view: makeView(), wait: 0 };
   }
   function renderHome() {
-    $("koleksi-sub").textContent = Object.keys(S.owned).length + "/" + ORDER.length + " bola";
+    ensureMissions();
+    const T0 = TIERS[S.rank.tier];
+    $("rank-sub").textContent = T0.name + " · " + (T0.need === Infinity ? S.rank.stars + " bintang" : S.rank.stars + "/" + T0.need + " bintang");
+    $("tower-sub").textContent = S.tower.floor > TOWER_FLOORS ? "Tamat! 50/50" : "Lantai " + S.tower.floor + " dari " + TOWER_FLOORS;
+    $("koleksi-sub").textContent = Object.keys(S.owned).length + "/" + ORDER.length + " hero";
+    $("misi-sub").textContent = S.missions.list.filter((m) => m.claimed).length + "/3 diklaim";
+    $("misi-dot").hidden = !missionClaimable();
     $("st-battles").textContent = S.battles;
     $("st-wins").textContent = S.wins;
     $("st-pulls").textContent = S.pulls;
+    renderCoins();
     if (!demo) newDemo();
     resizeDemo();
   }
-  $("go-duel").onclick = () => openPick("duel");
-  $("go-royale").onclick = () => openPick("royale");
+  $("go-rank").onclick = () => openPick("rank");
+  $("go-tower").onclick = () => openPick("tower");
+  $("go-latihan").onclick = () => openPick("latihan");
+  $("go-royale").onclick = () => { roy.lineup = null; show("royale"); };
   $("go-gacha").onclick = () => show("gacha");
   $("go-koleksi").onclick = () => show("koleksi");
+  $("go-misi").onclick = () => show("misi");
 
-  // ================= PILIH =================
-  const pick = { mode: "duel", mine: null, opp: null };
-  function rewardFor(opp) { return Math.round(40 * RAR[TYPES[opp].rarity].reward); }
-  const ROYALE_REWARD = [150, 80, 50];
-
-  function ballCard(type, opts) {
-    const b = document.createElement("button");
-    b.className = "ball-card r-" + TYPES[type].rarity;
-    b.appendChild(ballIcon(type, 64));
-    const nm = document.createElement("span");
-    nm.className = "nm"; nm.textContent = TYPES[type].name;
-    b.appendChild(nm);
-    const chip = document.createElement("span");
-    chip.className = "chip"; chip.textContent = RAR[TYPES[type].rarity].name;
-    b.appendChild(chip);
-    if (opts && opts.stars != null) b.appendChild(starsEl(opts.stars));
-    return b;
+  // ================= RANK & TOWER =================
+  function tierBadge(tier, stars) {
+    const T0 = TIERS[tier];
+    const st = T0.need === Infinity ? '<span class="muted" style="font-family:var(--narrow)">' + stars + " bintang Mythic</span>"
+      : '<div class="tier-stars">' + Array.from({ length: T0.need }, (_, i) => '<img alt="" src="assets/ui/' + (i < stars ? "star" : "star-empty") + '.png">').join("") + "</div>";
+    return '<div class="tier"><div class="tier-badge" style="--tc:' + T0.c + ";--tc2:" + T0.c2 + '"><span>' + T0.short + '</span></div><div><div class="tier-name">' + T0.name + "</div>" + st + "</div></div>";
   }
-  function sortedOwned() { return ORDER.filter((t) => t in S.owned); }
+  function rankReward(win) { return win ? 30 + S.rank.tier * 10 : 8; }
+  function towerFloor(n) {
+    const r = E.rng(n * 7919 + 13);
+    const role = ROLE_ORDER[(n - 1) % ROLE_ORDER.length];
+    const boss = n % 5 === 0;
+    const count = !boss && n >= 12 && n % 3 === 0 ? 2 : 1;
+    const pool = ORDER.filter((t) => TYPES[t].role === role);
+    const enemies = [];
+    for (let i = 0; i < count; i++) {
+      const t = pool[Math.floor(r() * pool.length)];
+      enemies.push({
+        type: t, team: 1, stars: Math.min(5, Math.floor(n / 4)),
+        hpMul: boss ? 1.5 + n * 0.02 : count === 2 ? 0.62 + n * 0.008 : 1 + n * 0.012,
+        rMul: boss ? 1.3 : count === 2 ? 0.85 : 1,
+      });
+    }
+    return { n, role, boss, enemies, coins: boss ? 120 + n * 4 : 40 + n * 5, ticket: boss };
+  }
+  function floorStrip() {
+    const cur = Math.min(S.tower.floor, TOWER_FLOORS);
+    let h = '<div class="floor-strip" id="floor-strip">';
+    for (let i = 1; i <= TOWER_FLOORS; i++) {
+      const cls = i < S.tower.floor ? "done" : i === cur ? "now" : "";
+      h += '<div class="floor ' + cls + (i % 5 === 0 ? " boss" : "") + '"' + (i === cur ? ' id="floor-now"' : "") + ">" + (i % 5 === 0 ? "B" + i : i) + "</div>";
+    }
+    return h + "</div>";
+  }
 
+  // ================= PILIH HERO =================
+  const pick = { mode: "rank", mine: null, opp: null, filter: "semua" };
   function openPick(mode) {
     pick.mode = mode;
     if (!pick.mine || !(pick.mine in S.owned)) pick.mine = sortedOwned()[0];
-    $("pick-title").textContent = mode === "duel" ? "Duel" : "Royale";
-    $("pick-sub").textContent = mode === "duel"
-      ? "Pilih jagoanmu, lalu pilih lawannya. Makin langka lawannya, makin gede hadiahnya."
-      : "Jagoanmu masuk arena bareng 7 bola acak. Bertahan paling akhir untuk hadiah terbesar.";
-    $("opp-label").hidden = $("grid-opp").hidden = mode !== "duel";
+    if (mode === "tower" && S.tower.floor > TOWER_FLOORS) {
+      openOverlay('<h2>Tower Tamat!</h2><p class="sub">Kamu sudah menaklukkan ke-50 lantai. Tower baru menyusul di update berikutnya.</p><button class="btn grey" id="t-ok">OKE</button>');
+      $("t-ok").onclick = closeOverlay;
+      return;
+    }
+    $("pick-title").textContent = { rank: "Rank", tower: "Tower", latihan: "Latihan" }[mode];
+    $("pick-sub").textContent = {
+      rank: "Lawan dipilih sistem. Menang +1 bintang, kalah -1 bintang. Makin tinggi tier, makin kuat lawannya dan makin besar hadiahnya.",
+      tower: "Panjat 50 lantai. Tiap 5 lantai ada bos besar yang memberi tiket gacha.",
+      latihan: "Pilih jagoan dan lawan bebas. Hadiahnya kecil, cocok buat coba hero baru.",
+    }[mode];
+    $("opp-label").hidden = $("grid-opp").hidden = mode !== "latihan";
     renderPick();
     show("pick");
+    const fn = $("floor-now");
+    if (fn) fn.scrollIntoView({ inline: "center", block: "nearest" });
   }
-
   function renderPick() {
+    const ex = $("pick-extra");
+    if (pick.mode === "rank") {
+      ex.innerHTML = '<div class="info-panel panel-9">' + tierBadge(S.rank.tier, S.rank.stars) +
+        '<div class="info-text muted">Lawan tier ini: bintang ' + TIERS[S.rank.tier].opp + (TIERS[S.rank.tier].hp > 1 ? ", darah +" + Math.round((TIERS[S.rank.tier].hp - 1) * 100) + "%" : "") +
+        (S.rank.streak >= 2 ? " &middot; menang beruntun " + S.rank.streak + "x" : "") + "</div></div>";
+    } else if (pick.mode === "tower") {
+      const f = towerFloor(S.tower.floor);
+      ex.innerHTML = floorStrip() + '<div class="info-panel panel-9"><div class="info-text"><b>' + (f.boss ? "LANTAI BOS " : "LANTAI ") + f.n + "</b> &middot; Hero " + ROLES[f.role].name +
+        (f.enemies.length > 1 ? " &middot; 2 lawan sekaligus" : "") + '</div><div class="info-row" id="tower-enemies"></div></div>';
+      const te = $("tower-enemies");
+      for (const e of f.enemies) {
+        te.appendChild(ballIcon(e.type, 48));
+        const d = document.createElement("div");
+        d.className = "info-text";
+        d.innerHTML = "<b>" + esc(TYPES[e.type].name) + "</b><br><span class=muted>Bintang " + e.stars + ", darah " + Math.round(E.maxHpFor(e.stars) * e.hpMul) + "</span>";
+        te.appendChild(d);
+      }
+    } else ex.innerHTML = "";
+    roleFilters($("pick-filters"), pick.filter, (r) => { pick.filter = r; renderPick(); });
     const gm = $("grid-mine"), go = $("grid-opp");
     gm.textContent = "";
     for (const t of sortedOwned()) {
+      if (pick.filter !== "semua" && TYPES[t].role !== pick.filter) continue;
       const c = ballCard(t, { stars: S.owned[t] });
       if (t === pick.mine) c.classList.add("sel");
       c.onclick = () => { pick.mine = t; renderPick(); };
       gm.appendChild(c);
     }
+    if (!gm.children.length) gm.innerHTML = '<p class="note">Belum punya hero role ini. Tarik di Gacha!</p>';
     go.textContent = "";
-    if (pick.mode === "duel") {
+    if (pick.mode === "latihan") {
       for (const t of ORDER) {
         const c = ballCard(t);
         if (t === pick.opp) c.classList.add("sel-opp");
@@ -801,38 +1161,135 @@ h2 {
         go.appendChild(c);
       }
     }
-    $("btn-start").disabled = !(pick.mine && (pick.mode === "royale" || pick.opp));
-    // jelaskan skill bola yang dipilih supaya pemain tahu bolanya ngapain
-    const info = (t) => "<b>" + TYPES[t].name.toUpperCase() + "</b> &middot; " + TYPES[t].skill;
-    $("mine-info").innerHTML = pick.mine ? info(pick.mine) + (pick.mode === "duel" && pick.opp ? "<br><b>LAWAN: " + TYPES[pick.opp].name.toUpperCase() + "</b> &middot; " + TYPES[pick.opp].skill : "") : "";
-    $("reward-hint").innerHTML = pick.mode === "duel"
-      ? (pick.opp ? "Menang: <b>+" + rewardFor(pick.opp) + " koin</b> &middot; kalah: +10" : "Pilih lawan dulu")
-      : "Juara 1: <b>+150</b> &middot; juara 2: <b>+80</b> &middot; juara 3: <b>+50</b> &middot; lainnya: +15";
+    $("btn-start").disabled = !(pick.mine && (pick.mode !== "latihan" || pick.opp));
+    $("btn-start").textContent = pick.mode === "rank" ? "CARI LAWAN" : pick.mode === "tower" ? "NAIK LANTAI " + S.tower.floor : "MULAI";
+    $("mine-info").innerHTML = pick.mine ? infoHtml(pick.mine) + (pick.mode === "latihan" && pick.opp ? "<br>" + infoHtml(pick.opp, "LAWAN") : "") : "";
+    const f = pick.mode === "tower" ? towerFloor(S.tower.floor) : null;
+    $("reward-hint").innerHTML = pick.mode === "rank" ? "Menang: <b>+" + rankReward(true) + " koin</b> &middot; kalah: +" + rankReward(false)
+      : pick.mode === "tower" ? "Taklukkan: <b>+" + f.coins + " koin</b>" + (f.ticket ? " &middot; <b>+1 tiket</b>" : "")
+      : pick.opp ? "Menang: <b>+15 koin</b> &middot; kalah: +5" : "Pilih lawan dulu";
   }
-  $("btn-start").onclick = () => startBattle();
+  $("btn-start").onclick = () => {
+    if (pick.mode === "rank") return matchmake();
+    if (pick.mode === "tower") {
+      const f = towerFloor(S.tower.floor);
+      return startBattle({ mode: "tower", floor: f.n, entries: [{ type: pick.mine, team: 0, stars: S.owned[pick.mine] }].concat(f.enemies) });
+    }
+    startBattle({ mode: "latihan", entries: [{ type: pick.mine, team: 0, stars: S.owned[pick.mine] }, { type: pick.opp, team: 1, stars: 0 }] });
+  };
+
+  // matchmaking rank: putar ikon acak sebentar, lalu tampilkan lawan
+  function matchmake() {
+    const T0 = TIERS[S.rank.tier];
+    const opp = ORDER[Math.floor(Math.random() * ORDER.length)];
+    openOverlay('<h2>Mencari lawan...</h2><div class="match-vs"><div class="side" id="mm-me"></div><div class="vs-mid">VS</div><div class="side" id="mm-opp"></div></div>' +
+      '<p class="skill-info" id="mm-info" style="color:var(--ink);background:#e6e9f2;text-align:left">&nbsp;</p>' +
+      '<div class="row"><button class="btn grey" id="mm-no">BATAL</button><button class="btn" id="mm-go" disabled>MULAI</button></div>');
+    $("mm-me").appendChild(ballIcon(pick.mine, 84));
+    $("mm-me").insertAdjacentHTML("beforeend", "<span>" + esc(TYPES[pick.mine].name) + "</span>");
+    const box = $("mm-opp");
+    let n = 0, done = false;
+    const spin = setInterval(() => {
+      if (done) return;
+      box.textContent = "";
+      const t = n++ > 9 ? opp : ORDER[Math.floor(Math.random() * ORDER.length)];
+      box.appendChild(ballIcon(t, 84));
+      if (n > 10) {
+        done = true; clearInterval(spin);
+        box.insertAdjacentHTML("beforeend", "<span>" + esc(TYPES[opp].name) + "<br>Bintang " + T0.opp + "</span>");
+        $("mm-info").innerHTML = infoHtml(opp, "LAWAN");
+        document.querySelector(".panel h2").textContent = "Lawan ditemukan!";
+        $("mm-go").disabled = false;
+        sfx("reveal");
+      } else sfx("count");
+    }, 90);
+    $("mm-no").onclick = () => { done = true; clearInterval(spin); closeOverlay(); };
+    $("mm-go").onclick = () => {
+      closeOverlay();
+      startBattle({ mode: "rank", entries: [{ type: pick.mine, team: 0, stars: S.owned[pick.mine] }, { type: opp, team: 1, stars: T0.opp, hpMul: T0.hp }] });
+    };
+  }
+
+  // ================= ROYALE + TARUHAN =================
+  const roy = { ikut: true, mine: null, lineup: null, betOn: null, bet: 0 };
+  function rollLineup() {
+    const others = shuffle(ORDER.filter((t) => !(roy.ikut && t === roy.mine))).slice(0, roy.ikut ? 7 : 8);
+    roy.lineup = roy.ikut ? [roy.mine].concat(others) : others;
+    if (!roy.lineup.includes(roy.betOn)) roy.betOn = null;
+  }
+  function odds(t) { return ODDS[t] || 6; }
+  function renderRoyale() {
+    if (!roy.mine || !(roy.mine in S.owned)) roy.mine = pick.mine && pick.mine in S.owned ? pick.mine : sortedOwned()[0];
+    if (!roy.lineup || (roy.ikut && !roy.lineup.includes(roy.mine))) rollLineup();
+    $("roy-ikut").setAttribute("aria-pressed", String(roy.ikut));
+    $("roy-nonton").setAttribute("aria-pressed", String(!roy.ikut));
+    $("roy-mine-wrap").hidden = !roy.ikut;
+    const gm = $("roy-mine");
+    gm.textContent = "";
+    for (const t of sortedOwned()) {
+      const c = ballCard(t, { stars: S.owned[t] });
+      if (t === roy.mine) c.classList.add("sel");
+      c.onclick = () => { roy.mine = t; rollLineup(); renderRoyale(); };
+      gm.appendChild(c);
+    }
+    const gl = $("roy-lineup");
+    gl.textContent = "";
+    for (const t of roy.lineup) {
+      const c = ballCard(t, { tag: "×" + odds(t) });
+      if (roy.ikut && t === roy.mine) c.classList.add("mine-in");
+      if (t === roy.betOn) c.classList.add("bet");
+      c.onclick = () => { roy.betOn = roy.betOn === t ? null : t; if (roy.betOn && !roy.bet) roy.bet = BET_CHIPS.find((v) => v > 0 && v <= S.coins) || 0; renderRoyale(); };
+      gl.appendChild(c);
+    }
+    const bets = $("roy-bets");
+    bets.textContent = "";
+    if (roy.bet > S.coins) roy.bet = 0;
+    for (const v of BET_CHIPS) {
+      const b = document.createElement("button");
+      b.className = "bet-chip";
+      b.textContent = v === 0 ? "TANPA" : v;
+      b.disabled = v > S.coins;
+      b.setAttribute("aria-pressed", String(roy.bet === v));
+      b.onclick = () => { roy.bet = v; renderRoyale(); };
+      bets.appendChild(b);
+    }
+    const betting = roy.betOn && roy.bet > 0;
+    $("roy-info").innerHTML = betting
+      ? "<b>TARUHAN: " + roy.bet + " koin pada " + esc(TYPES[roy.betOn].name.toUpperCase()) + "</b> &middot; kalau juara dapat " + Math.round(roy.bet * odds(roy.betOn)) + " koin (×" + odds(roy.betOn) + ")."
+      : roy.ikut ? "Juara 1: +150 &middot; juara 2: +80 &middot; juara 3: +50 &middot; lainnya: +15. Ketuk peserta untuk pasang taruhan." : "Ketuk salah satu peserta dan pilih jumlah taruhan.";
+    $("roy-start").disabled = !roy.ikut && !betting;
+    $("roy-start").textContent = roy.ikut ? "MULAI ROYALE" : "MULAI NONTON";
+  }
+  $("roy-ikut").onclick = () => { roy.ikut = true; rollLineup(); renderRoyale(); };
+  $("roy-nonton").onclick = () => { roy.ikut = false; rollLineup(); renderRoyale(); };
+  $("roy-reroll").onclick = () => { rollLineup(); renderRoyale(); };
+  $("roy-start").onclick = () => {
+    const betting = roy.betOn && roy.bet > 0 && roy.bet <= S.coins;
+    if (betting) { S.coins -= roy.bet; save(); renderCoins(true); track("bet"); }
+    const entries = roy.lineup.map((t, i) => ({ type: t, team: i, stars: roy.ikut && i === 0 ? S.owned[t] : 0 }));
+    startBattle({ mode: "royale", ikut: roy.ikut, entries, bet: betting ? { on: roy.betOn, team: roy.lineup.indexOf(roy.betOn), amt: roy.bet, x: odds(roy.betOn) } : null });
+  };
 
   // ================= BATTLE =================
   let B = null, speedIdx = 0;
   const SPEEDS = [1, 2, 3];
 
-  function startBattle() {
-    let entries;
-    if (pick.mode === "duel") {
-      entries = [{ type: pick.mine, team: 0, stars: S.owned[pick.mine] }, { type: pick.opp, team: 1, stars: 0 }];
-    } else {
-      const others = ORDER.filter((t) => t !== pick.mine).sort(() => Math.random() - 0.5).slice(0, 7);
-      entries = [{ type: pick.mine, team: 0, stars: S.owned[pick.mine] }].concat(others.map((t, i) => ({ type: t, team: i + 1, stars: 0 })));
-    }
-    B = { w: E.createWorld(entries, (Math.random() * 1e9) | 0), mode: pick.mode, entries, view: makeView(), countdown: 3.0, lastCount: 4, out: [], teams: entries.map((e) => e.team), endT: 0, finished: false };
-    // Royale ramai: spanduk skill hanya untuk jagoanmu dan skill besar
-    B.view.calloutFilter = B.mode === "royale" ? (b, sk) => b.team === 0 || !!sk.big : null;
+  function startBattle(cfg) {
+    const entries = cfg.entries;
+    const w = E.createWorld(entries, (Math.random() * 1e9) | 0);
+    const teamMax = {};
+    for (const b of w.balls) teamMax[b.team] = (teamMax[b.team] || 0) + b.maxHp;
+    B = { w, cfg, mode: cfg.mode, entries, view: makeView(), countdown: 3.0, lastCount: 4, out: [], teams: [...new Set(entries.map((e) => e.team))], teamMax, endT: 0, finished: false };
+    const mine = cfg.mode === "royale" && !cfg.ikut ? -1 : 0;
+    B.mine = mine;
+    B.view.calloutFilter = cfg.mode === "royale" ? (b, sk) => b.team === mine || (cfg.bet && b.team === cfg.bet.team) || !!sk.big : null;
     let lastMulti = -9;
     B.view.onKo = (n) => {
       if (B.mode === "royale" && n >= 2 && B.view.time - lastMulti > 2) { lastMulti = B.view.time; voice("multikill"); }
     };
     audio();
     loadSounds();
-    playMusic(B.mode === "royale" ? "boss" : BATTLE_TRACKS[Math.floor(Math.random() * BATTLE_TRACKS.length)]);
+    playMusic(cfg.mode === "royale" || (cfg.mode === "tower" && cfg.floor % 5 === 0) ? "boss" : BATTLE_TRACKS[Math.floor(Math.random() * BATTLE_TRACKS.length)]);
     buildHud();
     show("battle");
     resizeArena();
@@ -851,17 +1308,25 @@ h2 {
       d.querySelector(".skill-name").textContent = (sk.label || TYPES[e.type].name).toUpperCase();
       if (!sk.every) d.querySelector(".skill-fill").classList.add("passive");
       d.querySelector(".hp-tag").textContent = tag;
-      d.querySelector(".hp-name").textContent = TYPES[e.type].name;
+      const others = B.entries.filter((x) => x.team === team).length;
+      d.querySelector(".hp-name").textContent = TYPES[e.type].name + (others > 1 ? " +" + (others - 1) : "");
       d.querySelector(".hp-fill").style.background = TYPES[e.type].color;
       d.dataset.team = team;
       return d;
     };
-    h.appendChild(card(0, false, "KAMU"));
+    const royale = B.mode === "royale";
+    if (royale && B.mine < 0) {
+      const d = document.createElement("div");
+      d.className = "hp-card";
+      d.innerHTML = '<span class="hp-tag">NONTON</span><span class="hp-name">Royale</span>';
+      h.appendChild(d);
+    } else h.appendChild(card(0, false, "KAMU"));
     const mid = document.createElement("div");
     mid.className = "vs";
-    mid.innerHTML = (B.mode === "duel" ? "VS" : '<span id="alive">8</span> SISA') + '<span class="clock" id="clock">0:00</span>';
+    mid.innerHTML = (royale ? '<span id="alive">8</span> SISA' : B.mode === "tower" ? "L" + B.cfg.floor : "VS") + '<span class="clock" id="clock">0:00</span>';
     h.appendChild(mid);
-    if (B.mode === "duel") h.appendChild(card(1, true, "LAWAN"));
+    if (!royale) h.appendChild(card(1, true, B.mode === "tower" ? (B.cfg.floor % 5 === 0 ? "BOS" : "LANTAI " + B.cfg.floor) : B.mode === "rank" ? TIERS[S.rank.tier].name.toUpperCase() : "LAWAN"));
+    else if (B.cfg.bet) h.appendChild(card(B.cfg.bet.team, true, "TARUHAN ×" + B.cfg.bet.x));
     else {
       const d = document.createElement("div");
       d.className = "hp-card right";
@@ -874,10 +1339,9 @@ h2 {
     const w = B.w;
     for (const el of document.querySelectorAll("#hud .hp-card[data-team]")) {
       const team = +el.dataset.team;
-      const mem = w.balls.filter((b) => b.team === team);
+      const mem = w.balls.filter((b) => b.team === team && !b.minion);
       const hp = mem.reduce((s, b) => s + Math.max(0, b.hp), 0);
-      el.querySelector(".hp-fill").style.width = Math.min(100, (hp / mem[0].maxHp) * 100) + "%";
-      // bar skill: terisi menuju skill berikutnya
+      el.querySelector(".hp-fill").style.width = Math.min(100, (hp / B.teamMax[team]) * 100) + "%";
       const lead = mem.find((b) => b.alive) || mem[0];
       const sk = R.SKILLS[lead.type] || {};
       if (sk.every) {
@@ -891,7 +1355,7 @@ h2 {
     ck.textContent = w.t >= E.OVERTIME_AT ? "OVERTIME" : Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0");
     ck.classList.toggle("ot", w.t >= E.OVERTIME_AT);
     const al = $("alive");
-    if (al) al.textContent = new Set(w.balls.filter((b) => b.alive).map((b) => b.team)).size;
+    if (al) al.textContent = new Set(w.balls.filter((b) => b.alive && !b.minion).map((b) => b.team)).size;
   }
 
   function resizeArena() {
@@ -904,7 +1368,7 @@ h2 {
   window.addEventListener("resize", () => { resizeArena(); resizeDemo(); });
 
   function trackOuts() {
-    const alive = new Set(B.w.balls.filter((b) => b.alive).map((b) => b.team));
+    const alive = new Set(B.w.balls.filter((b) => b.alive && !b.minion).map((b) => b.team));
     for (const t of B.teams) if (!alive.has(t) && !B.out.includes(t)) B.out.push(t);
   }
 
@@ -918,11 +1382,11 @@ h2 {
     if (B.countdown > 0) {
       // menunggu hitung mundur
     } else if (B.view.hitstop > 0) {
-      B.view.hitstop -= dt; // jeda sesaat biar pukulan berat kerasa
+      B.view.hitstop -= dt;
     } else if (!w.done) {
       E.step(w, dt * SPEEDS[speedIdx]);
       trackOuts();
-      if (!B.mineHurt && w.balls.some((b) => b.team === 0 && b.hp < b.maxHp - 0.01)) B.mineHurt = true;
+      if (!B.mineHurt && w.balls.some((b) => b.team === 0 && !b.minion && b.hp < b.maxHp - 0.01)) B.mineHurt = true;
       if (!B.otSaid && w.t >= E.OVERTIME_AT) {
         B.otSaid = true;
         voice("suddendeath");
@@ -939,7 +1403,7 @@ h2 {
 
     const ctx = $("arena").getContext("2d");
     ctx.setTransform(B.dpr, 0, 0, B.dpr, 0, 0);
-    drawArena(ctx, w, B.view, B.px, { mineTeam: 0, labels: B.mode === "royale" });
+    drawArena(ctx, w, B.view, B.px, { mineTeam: B.mine >= 0 ? B.mine : null, labels: B.mode === "royale" || B.entries.length > 2 });
     if (B.countdown > -0.6) {
       const n = Math.ceil(B.countdown);
       const txt = n > 0 ? String(n) : "MULAI!";
@@ -958,43 +1422,99 @@ h2 {
     updateHud();
   }
 
-  function finishBattle() {
-    const w = B.w, win = w.winner === 0;
-    let reward, title, line;
-    if (B.mode === "duel") {
-      reward = win ? rewardFor(B.entries[1].type) : 10;
-      title = win ? "MENANG!" : "KALAH";
-      line = win
-        ? TYPES[B.entries[0].type].name + " menghajar " + TYPES[B.entries[1].type].name + " dalam " + Math.round(w.t) + " detik."
-        : TYPES[B.entries[1].type].name + " terlalu kuat kali ini. Coba lagi atau ganti jagoan.";
+  // bintang rank: naik/turun tier
+  function applyRank(win) {
+    const r = S.rank, before = { tier: r.tier, stars: r.stars };
+    let msg = "";
+    if (win) {
+      r.streak++;
+      r.stars++;
+      if (r.stars >= TIERS[r.tier].need) { r.tier++; r.stars = 0; msg = "NAIK KE " + TIERS[r.tier].name.toUpperCase() + "!"; }
     } else {
-      const total = B.teams.length;
-      const place = win ? 1 : total - B.out.indexOf(0);
-      reward = ROYALE_REWARD[place - 1] || 15;
-      title = place === 1 ? "JUARA 1!" : "JUARA " + place;
-      const champ = w.winner != null ? TYPES[B.entries.find((e) => e.team === w.winner).type].name : "-";
-      line = place === 1 ? "Jagoanmu bertahan paling akhir dari " + total + " bola." : "Yang juara: " + champ + ". Jagoanmu finis di urutan " + place + " dari " + total + ".";
+      r.streak = 0;
+      if (TIERS[r.tier].safe && r.stars === 0) msg = "Tier " + TIERS[r.tier].name + " aman, bintang tidak berkurang.";
+      else if (r.stars > 0) r.stars--;
+      else if (r.tier > 0) { r.tier--; r.stars = TIERS[r.tier].need - 1; msg = "Turun ke " + TIERS[r.tier].name + "."; }
     }
-    S.battles++;
-    if (win) S.wins++;
-    addCoins(reward);
-    sfx(win ? "win" : "lose");
-    const flawless = win && B.mode === "duel" && !B.mineHurt;
-    setTimeout(() => voice(win ? (flawless ? "flawless" : B.mode === "royale" ? "winner" : "youwin") : "youlose"), 350);
-    setTimeout(() => sfx("coin"), 700);
-    if (flawless) title = "SEMPURNA!";
-    openOverlay(
-      '<p class="result-title ' + (win ? "win" : "lose") + '">' + title + "</p>" +
-      '<p class="sub">' + line + "</p>" +
-      '<div class="result-coins"><span class="coin-icon"></span>+' + reward + "</div>" +
-      '<div class="row"><button class="btn grey" id="r-menu">MENU</button><button class="btn" id="r-again">MAIN LAGI</button></div>'
-    );
-    $("r-menu").onclick = () => { closeOverlay(); B = null; show("home"); };
-    $("r-again").onclick = () => { closeOverlay(); startBattle(); };
+    r.best = Math.max(r.best || 0, r.tier);
+    return { before, msg, up: r.tier > before.tier, down: r.tier < before.tier };
   }
 
-  $("btn-speed").onclick = () => { speedIdx = (speedIdx + 1) % SPEEDS.length; $("btn-speed").textContent = "SPEED " + SPEEDS[speedIdx] + "x"; };
-  // tombol suara: SUARA ON -> MUSIK OFF (efek tetap) -> SUARA OFF
+  function finishBattle() {
+    const w = B.w, cfg = B.cfg, mode = B.mode;
+    const win = B.mine >= 0 && w.winner === B.mine;
+    const hero = B.mine >= 0 ? B.entries[0].type : null;
+    const flawless = win && mode !== "royale" && !B.mineHurt;
+    let reward = 0, title, line, extra = "", place = null, titleWin = win;
+    const lines = [];
+    if (mode === "rank") {
+      reward = rankReward(win);
+      if (win && S.rank.streak >= 2) { reward += 10; lines.push("Menang beruntun: <b>+10</b>"); }
+      const rk = applyRank(win);
+      title = win ? "MENANG!" : "KALAH";
+      line = win ? TYPES[hero].name + " menghajar " + TYPES[B.entries[1].type].name + " dalam " + Math.round(w.t) + " detik." : TYPES[B.entries[1].type].name + " terlalu kuat kali ini.";
+      extra = '<div class="result-rank ' + (rk.up ? "up" : rk.down ? "down" : "") + '">' + tierBadge(S.rank.tier, S.rank.stars) + "</div>" + (rk.msg ? '<p class="result-rank ' + (rk.up ? "up" : rk.down ? "down" : "") + '">' + esc(rk.msg) + "</p>" : "");
+      if (rk.up) setTimeout(() => sfx("legend"), 900);
+    } else if (mode === "tower") {
+      const f = towerFloor(cfg.floor);
+      title = win ? (f.boss ? "BOS KALAH!" : "LANTAI " + f.n + " BERES!") : "GAGAL";
+      line = win ? "Lanjut ke lantai " + (f.n + 1) + "." : "Coba lagi pakai hero lain. Lawan lantai ini tetap sama.";
+      if (win && S.tower.floor === f.n) {
+        reward = f.coins;
+        S.tower.floor++;
+        if (f.ticket) { S.tickets++; lines.push("Hadiah bos: <b>+1 tiket gacha</b>"); }
+        track("tower");
+      }
+    } else if (mode === "latihan") {
+      reward = win ? 15 : 5;
+      title = win ? "MENANG!" : "KALAH";
+      line = "Latihan selesai. Coba Rank buat hadiah lebih besar.";
+    } else {
+      const total = B.teams.length;
+      const champTeam = w.winner;
+      const champ = champTeam != null ? TYPES[B.entries.find((e) => e.team === champTeam).type].name : "-";
+      if (B.mine >= 0) {
+        place = win ? 1 : total - B.out.indexOf(0);
+        reward = ROYALE_REWARD[place - 1] || 15;
+        title = place === 1 ? "JUARA 1!" : "JUARA " + place;
+        line = place === 1 ? "Jagoanmu bertahan paling akhir dari " + total + " hero." : "Yang juara: " + champ + ". Jagoanmu finis di urutan " + place + " dari " + total + ".";
+      } else {
+        title = "JUARA: " + champ.toUpperCase();
+        line = "Royale selesai.";
+      }
+      if (cfg.bet) {
+        const betWin = champTeam === cfg.bet.team;
+        const pay = betWin ? Math.round(cfg.bet.amt * cfg.bet.x) : 0;
+        reward += pay;
+        lines.push(betWin ? "Taruhan " + esc(TYPES[cfg.bet.on].name) + " MENANG: <b>+" + pay + "</b>" : "Taruhan " + esc(TYPES[cfg.bet.on].name) + " kalah (-" + cfg.bet.amt + ")");
+        if (betWin) { track("betwin"); titleWin = true; if (B.mine < 0) title = "TARUHAN MENANG!"; }
+      }
+    }
+    if (B.mine >= 0) { S.battles++; if (win) S.wins++; }
+    if (hero) track("battle", { mode, win, hero, place, flawless });
+    addCoins(reward);
+    sfx(titleWin ? "win" : "lose");
+    setTimeout(() => voice(titleWin ? (flawless ? "flawless" : mode === "royale" ? "winner" : "youwin") : "youlose"), 350);
+    if (reward) setTimeout(() => sfx("coin"), 700);
+    if (flawless) { title = "SEMPURNA!"; lines.push("Menang tanpa kena damage!"); }
+    openOverlay(
+      '<p class="result-title ' + (titleWin ? "win" : "lose") + '">' + esc(title) + "</p>" +
+      '<p class="sub">' + esc(line) + "</p>" + extra +
+      (lines.length ? '<div class="result-lines">' + lines.join("<br>") + "</div>" : "") +
+      '<div class="result-coins"><span class="coin-icon"></span>+' + reward + "</div>" +
+      '<div class="row"><button class="btn grey" id="r-menu">MENU</button><button class="btn" id="r-again">' + (mode === "tower" && win && S.tower.floor <= TOWER_FLOORS ? "LANTAI BERIKUT" : "MAIN LAGI") + "</button></div>"
+    );
+    $("r-menu").onclick = () => { closeOverlay(); B = null; show("home"); };
+    $("r-again").onclick = () => {
+      closeOverlay(); B = null;
+      if (mode === "rank") { openPick("rank"); matchmake(); }
+      else if (mode === "tower") openPick("tower");
+      else if (mode === "royale") { roy.lineup = null; show("royale"); }
+      else startBattle(cfg);
+    };
+  }
+
+  $("btn-speed").onclick = () => { speedIdx = (speedIdx + 1) % SPEEDS.length; $("btn-speed").textContent = "SPEED " + SPEEDS[speedIdx] + "×"; };
   function renderSoundBtn() { $("btn-sound").textContent = !S.sound ? "SUARA OFF" : S.music === false ? "MUSIK OFF" : "SUARA ON"; }
   $("btn-sound").onclick = () => {
     if (S.sound && S.music !== false) S.music = false;
@@ -1007,7 +1527,7 @@ h2 {
   $("btn-quit").onclick = () => {
     if (!B || B.w.done) { B = null; show("home"); return; }
     openOverlay(
-      '<h2>Keluar dari battle?</h2><p class="sub">Battle ini nggak dihitung dan nggak dapat koin.</p>' +
+      '<h2>Keluar dari battle?</h2><p class="sub">Battle ini nggak dihitung dan nggak dapat koin' + (B.cfg.bet ? ", taruhanmu hangus" : "") + ".</p>" +
       '<div class="row"><button class="btn grey" id="q-no">LANJUT</button><button class="btn" id="q-yes">KELUAR</button></div>'
     );
     $("q-no").onclick = closeOverlay;
@@ -1019,86 +1539,97 @@ h2 {
   function openOverlay(html) { $("overlay-panel").innerHTML = html; $("overlay").hidden = false; overlayOpen = true; }
   function closeOverlay() { $("overlay").hidden = true; overlayOpen = false; }
 
-  // ================= GACHA =================
-  let orbType = "lubang";
+  // ================= GACHA: BANNER MINGGUAN =================
+  const FEATURED_RATE = 0.5, BANNER_PITY = 20;
+  function weekNo() { const d = new Date(); return Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000 + 3) / 7); }
+  function bannerHeroes() { return shuffle(ORDER.slice(), E.rng(weekNo() * 31 + 7)).slice(0, 3); }
+  function bannerEnds() { return new Date(((weekNo() + 1) * 7 - 3) * 86400000 + new Date().getTimezoneOffset() * 60000); }
+  let orbType = "peramal";
   function drawOrb() {
     const cv = $("orb"), ctx = cv.getContext("2d");
     ctx.clearRect(0, 0, cv.width, cv.height);
     drawSprite(ctx, orbType, cv.width / 2, cv.height / 2, cv.width / SPR_SCALE * 1.1, Math.floor(performance.now() / 70));
   }
   function renderGacha() {
-    $("pity").innerHTML = "Legendaris dijamin dalam <b>" + (40 - S.pity) + "</b> tarikan lagi";
-    const rates = $("rates");
-    rates.textContent = "";
-    const totalW = RAR_ORDER.reduce((s, r) => s + RAR[r].weight, 0);
-    for (const r of RAR_ORDER) {
-      const d = document.createElement("div");
-      d.className = "rate r-" + r;
-      d.innerHTML = "<b>" + Math.round((RAR[r].weight / totalW) * 100) + "%</b><span>" + RAR[r].name + "</span>";
-      rates.appendChild(d);
+    const fh = bannerHeroes();
+    const left = Math.max(0, bannerEnds() - new Date());
+    const days = Math.floor(left / 86400000), hrs = Math.floor((left % 86400000) / 3600000);
+    const bn = $("banner");
+    bn.innerHTML = '<div class="banner-title">Banner Minggu Ini</div><div class="banner-heroes" id="banner-heroes"></div>' +
+      '<div class="banner-sub">Berganti dalam ' + days + " hari " + hrs + " jam &middot; peluang hero banner " + FEATURED_RATE * 100 + "%</div>";
+    const bh = $("banner-heroes");
+    for (const t of fh) {
+      const d = document.createElement("button");
+      d.className = "banner-hero";
+      d.appendChild(ballIcon(t, 72));
+      d.insertAdjacentHTML("beforeend", '<span class="nm">' + esc(TYPES[t].name) + "</span>" + roleChip(t) + (t in S.owned ? starsEl(S.owned[t]).outerHTML : ""));
+      d.onclick = () => showDetail(t, t in S.owned);
+      bh.appendChild(d);
     }
-    $("pull-1").disabled = S.coins < 100;
-    $("pull-10").disabled = S.coins < 900;
+    $("pity").innerHTML = "Hero banner dijamin dalam <b>" + Math.max(1, BANNER_PITY - S.bannerPity) + "</b> tarikan lagi";
+    $("pull-1-cost").textContent = S.tickets > 0 ? "1 tiket (punya " + S.tickets + ")" : "100 koin";
+    $("pull-10-cost").textContent = S.tickets >= 10 ? "10 tiket" : "900 koin";
+    $("pull-1").disabled = !(S.tickets > 0 || S.coins >= 100);
+    $("pull-10").disabled = !(S.tickets >= 10 || S.coins >= 900);
     $("orb").className = "orb";
   }
-
-  function rollRarity() {
-    S.pity++;
-    if (S.pity >= 40) return "legendaris";
-    const totalW = RAR_ORDER.reduce((s, r) => s + RAR[r].weight, 0);
-    let x = Math.random() * totalW;
-    for (const r of RAR_ORDER) { x -= RAR[r].weight; if (x < 0) return r; }
-    return "biasa";
-  }
-  function rollOne() {
+  function rollOne(fh) {
     S.pulls++;
-    const rar = rollRarity();
-    if (rar === "legendaris") S.pity = 0;
-    const pool = ORDER.filter((t) => TYPES[t].rarity === rar);
-    const type = pool[Math.floor(Math.random() * pool.length)];
+    S.bannerPity++;
+    let type;
+    if (S.bannerPity >= BANNER_PITY || Math.random() < FEATURED_RATE) type = fh[Math.floor(Math.random() * fh.length)];
+    else type = ORDER[Math.floor(Math.random() * ORDER.length)];
+    const featured = fh.includes(type);
+    if (featured) S.bannerPity = 0;
     let what;
     if (!(type in S.owned)) { S.owned[type] = 0; what = "new"; }
     else if (S.owned[type] < 5) { S.owned[type]++; what = "star"; }
     else { S.coins += 40; what = "coin"; }
-    return { type, rar, what };
+    return { type, featured, what };
   }
-
   let pulling = false;
   function doPull(n) {
+    if (pulling) return;
+    const useTickets = S.tickets >= n;
     const cost = n === 10 ? 900 : 100;
-    if (pulling || S.coins < cost) return;
+    if (!useTickets && S.coins < cost) return;
     pulling = true;
-    S.coins -= cost;
+    if (useTickets) S.tickets -= n; else S.coins -= cost;
+    const fh = bannerHeroes();
     const res = [];
-    for (let i = 0; i < n; i++) res.push(rollOne());
+    for (let i = 0; i < n; i++) res.push(rollOne(fh));
     save();
     renderCoins(true);
-    const best = res.reduce((m, r) => (RAR_ORDER.indexOf(r.rar) > RAR_ORDER.indexOf(m.rar) ? r : m), res[0]);
+    track("pull", null, n);
+    const best = res.find((r) => r.featured && r.what === "new") || res.find((r) => r.featured) || res.find((r) => r.what === "new") || res[0];
     orbType = best.type;
     const orb = $("orb");
     orb.className = "orb shake";
     sfx("pull");
+    const big = res.some((r) => r.featured);
     setTimeout(() => {
       orb.className = "orb burst";
-      sfx(best.rar === "legendaris" ? "legend" : "reveal");
-      setTimeout(() => { pulling = false; showPullResults(res); renderGacha(); orbType = "lubang"; }, 380);
-    }, best.rar === "legendaris" ? 1600 : 1000);
+      sfx(big ? "legend" : "reveal");
+      setTimeout(() => { pulling = false; showPullResults(res); renderGacha(); orbType = "peramal"; }, 380);
+    }, big ? 1600 : 1000);
   }
   $("pull-1").onclick = () => doPull(1);
   $("pull-10").onclick = () => doPull(10);
-
   function showPullResults(res) {
-    const anyLeg = res.some((r) => r.rar === "legendaris");
+    const anyF = res.some((r) => r.featured);
+    const n = res.length;
+    const again = S.tickets >= n || S.coins >= (n === 10 ? 900 : 100);
     openOverlay(
-      "<h2>" + (anyLeg ? "LEGENDARIS!" : res.length === 1 ? "Hasil Tarikan" : "Hasil 10x Tarikan") + "</h2>" +
+      "<h2>" + (anyF ? "HERO BANNER!" : n === 1 ? "Hasil Tarikan" : "Hasil 10x Tarikan") + "</h2>" +
       '<div class="pull-results" id="pull-results"></div>' +
       '<div class="row"><button class="btn grey" id="p-close">OKE</button>' +
-      '<button class="btn gold" id="p-again"' + (S.coins < (res.length === 10 ? 900 : 100) ? " disabled" : "") + ">TARIK LAGI</button></div>"
+      '<button class="btn gold" id="p-again"' + (again ? "" : " disabled") + ">TARIK LAGI</button></div>"
     );
     const box = $("pull-results");
     res.forEach((r, i) => {
       const d = document.createElement("div");
-      d.className = "pull-card r-" + r.rar + (r.rar === "legendaris" ? " legend" : "");
+      d.className = "pull-card" + (r.featured ? " featured" : "");
+      d.style.setProperty("--rc", ROLES[TYPES[r.type].role].color);
       d.style.animationDelay = i * 0.08 + "s";
       d.appendChild(ballIcon(r.type, 54));
       const nm = document.createElement("span");
@@ -1110,15 +1641,18 @@ h2 {
       box.appendChild(d);
     });
     $("p-close").onclick = closeOverlay;
-    $("p-again").onclick = () => { closeOverlay(); doPull(res.length); };
+    $("p-again").onclick = () => { closeOverlay(); doPull(n); };
   }
 
   // ================= KOLEKSI =================
+  let kolFilter = "semua";
   function renderKoleksi() {
     const g = $("grid-koleksi");
     g.textContent = "";
-    $("koleksi-count").textContent = Object.keys(S.owned).length + " dari " + ORDER.length + " bola terkumpul. Ketuk bola untuk lihat skill-nya.";
+    $("koleksi-count").textContent = Object.keys(S.owned).length + " dari " + ORDER.length + " hero terkumpul. Ketuk hero untuk lihat skill-nya.";
+    roleFilters($("koleksi-filters"), kolFilter, (r) => { kolFilter = r; renderKoleksi(); });
     for (const t of ORDER) {
+      if (kolFilter !== "semua" && TYPES[t].role !== kolFilter) continue;
       const own = t in S.owned;
       const c = ballCard(t, { stars: own ? S.owned[t] : null });
       if (!own) { c.classList.add("locked"); c.querySelector(".nm").textContent = "???"; }
@@ -1129,15 +1663,14 @@ h2 {
   function showDetail(t, own) {
     const ty = TYPES[t], stars = own ? S.owned[t] : 0;
     openOverlay(
-      '<div class="detail r-' + ty.rarity + '"><div id="detail-icon"></div>' +
-      "<h2>" + (own ? ty.name : "???") + "</h2>" +
-      '<span class="chip">' + RAR[ty.rarity].name + "</span>" +
-      "<p>" + (own ? ty.skill : "Belum punya. Dapatkan dari Gacha.") + "</p>" +
-      (own ? '<div class="stat-row"><span>Darah <b>' + E.maxHpFor(stars) + "</b></span><span>Bintang <b>" + stars + "/5</b></span></div>" : "") +
+      '<div class="detail"><div id="detail-icon"></div>' +
+      "<h2>" + esc(own ? ty.name : ty.name + " (belum punya)") + "</h2>" + roleChip(t) +
+      "<p>" + esc(ty.skill) + "</p>" +
+      (own ? '<div class="stat-row"><span>Darah <b>' + E.maxHpFor(stars) + "</b></span><span>Bintang <b>" + stars + "/5</b></span></div>" : '<p class="muted">Dapatkan dari Gacha.</p>') +
       '</div><button class="btn grey" id="d-close">TUTUP</button>'
     );
     const ic = ballIcon(t, 130);
-    if (!own) ic.style.filter = "brightness(0) opacity(0.35)";
+    if (!own) ic.style.filter = "grayscale(0.85) opacity(0.6)";
     $("detail-icon").appendChild(ic);
     $("d-close").onclick = closeOverlay;
   }
@@ -1147,9 +1680,7 @@ h2 {
   const LATEST = PATCHES.length ? PATCHES[0].version : "";
   const TAG_NAME = { baru: "Baru", buff: "Buff", nerf: "Nerf", ubah: "Ubah", fix: "Fix" };
   let patchFilter = "semua";
-
   function renderPatchDot() { $("patch-dot").hidden = !LATEST || S.patchSeen === LATEST; }
-
   function renderPatch() {
     S.patchSeen = LATEST;
     save();
@@ -1242,26 +1773,26 @@ h2 {
   }
 
   function daily() {
-    const d = new Date();
-    const today = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    const today = todayKey();
     if (S.lastDaily !== today) {
       const first = !S.lastDaily;
       S.lastDaily = today;
-      if (!first) { S.coins += 100; toast("Bonus harian: +100 koin"); }
-      else toast("Selamat datang di Watchsball! Kamu dapat 3 bola dan 300 koin.");
+      if (migratedTickets) toast("Watchsball 4.0: bola jadi hero! Koleksi lamamu ditukar jadi " + migratedTickets + " tiket gacha.", 5000);
+      else if (!first) { S.coins += 100; toast("Bonus harian: +100 koin. Misi baru sudah ada!"); }
+      else toast("Selamat datang! Kamu dapat 3 hero, 300 koin, dan 3 tiket gacha.", 4000);
       save();
-    }
+    } else if (migratedTickets) toast("Watchsball 4.0: bola jadi hero! Koleksi lamamu ditukar jadi " + migratedTickets + " tiket gacha.", 5000);
+    ensureMissions();
   }
 
   // ================= LAYAR TETAP NYALA =================
-  // Screen Wake Lock: layar tidak mati selama game terbuka. Dilepas otomatis oleh browser saat pindah aplikasi.
   let wakeLock = null;
   async function keepAwake() {
     if (!("wakeLock" in navigator) || wakeLock || document.visibilityState !== "visible") return;
     try {
       wakeLock = await navigator.wakeLock.request("screen");
       wakeLock.addEventListener("release", () => { wakeLock = null; });
-    } catch (e) { /* ditolak (mis. mode hemat baterai): biarkan pengaturan HP yang berlaku */ }
+    } catch (e) { /* ditolak (mis. mode hemat baterai) */ }
   }
   document.addEventListener("visibilitychange", keepAwake);
   document.addEventListener("pointerdown", keepAwake);
@@ -1280,13 +1811,12 @@ h2 {
         reg.addEventListener("updatefound", () => {
           const sw = reg.installing;
           sw.addEventListener("statechange", () => {
-            // versi baru siap, tapi jangan reload sendiri supaya battle yang jalan tidak terputus
             if (sw.state === "installed" && navigator.serviceWorker.controller) offer(sw);
           });
         });
       }).catch(() => {});
       let reloaded = false;
-      const hadController = !!navigator.serviceWorker.controller; // kunjungan pertama: jangan reload
+      const hadController = !!navigator.serviceWorker.controller;
       navigator.serviceWorker.addEventListener("controllerchange", () => {
         if (reloaded || !hadController) return;
         reloaded = true;

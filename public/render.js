@@ -507,6 +507,7 @@
     const cv = document.createElement("canvas");
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
     cv.width = cv.height = Math.round(cssSize * dpr);
+    cv.style.width = cv.style.height = cssSize + "px";
     const ctx = cv.getContext("2d");
     ctx.scale(dpr, dpr);
     // ikon: bagian depan bola sedikit menghadap kanan-bawah supaya fitur 3D-nya kelihatan

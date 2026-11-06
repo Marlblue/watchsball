@@ -1,6 +1,8 @@
 // Simulasi balancing: duel semua pasangan hero + royale acak, lalu cetak win rate tiap hero.
-// Pakai: node tools/sim.mjs [ulangan_per_pasangan=6] [jumlah_royale=400]
+// Pakai: node tools/sim.mjs [ulangan_per_pasangan=6] [jumlah_royale=400] [--odds]
+// --odds: tulis public/odds.js (pengali taruhan Royale per hero, dari peluang juara di simulasi).
 import { createRequire } from "module";
+import { writeFileSync } from "fs";
 const require = createRequire(import.meta.url);
 const E = require("../public/engine.js");
 
@@ -39,9 +41,9 @@ for (let k = 0; k < ROY; k++) {
 
 const rows = ids.map((id) => ({
   id, role: E.TYPES[id].role,
-  duel: (duel[id].w / duel[id].g) * 100,
+  duel: duel[id].g ? (duel[id].w / duel[id].g) * 100 : 0,
   royale: roy[id].g ? (roy[id].w / roy[id].g) * 100 : 0,
-  t: dur[id] / duel[id].g,
+  t: duel[id].g ? dur[id] / duel[id].g : 0,
 })).sort((a, b) => b.duel - a.duel);
 console.log("hero        role      duel%  royale%  rata2 detik");
 for (const r of rows) console.log(r.id.padEnd(12), r.role.padEnd(9), r.duel.toFixed(0).padStart(5), r.royale.toFixed(0).padStart(7), r.t.toFixed(1).padStart(10));
@@ -49,3 +51,16 @@ const roles = {};
 for (const r of rows) (roles[r.role] = roles[r.role] || []).push(r.duel);
 console.log("\nrata-rata per role:", Object.entries(roles).map(([k, v]) => k + " " + (v.reduce((a, b) => a + b) / v.length).toFixed(0)).join(", "));
 console.log("royale ideal ~12.5%. duel ideal 50%.");
+
+if (process.argv.includes("--odds")) {
+  // pengali = 0.85 / peluang juara (rumah untung 15%), dibulatkan 0.5, dibatasi 2x..15x
+  const odds = {};
+  for (const id of ids) {
+    const p = roy[id].g ? (roy[id].w + 1) / (roy[id].g + 8) : 0.125;
+    odds[id] = Math.max(2, Math.min(15, Math.round((0.85 / p) * 2) / 2));
+  }
+  const out = "// Dibuat otomatis oleh tools/sim.mjs --odds dari " + ROY + " Royale simulasi. Jangan diedit manual.\n" +
+    "window.WATCHSBALL_ODDS = " + JSON.stringify(odds) + ";\n";
+  writeFileSync(new URL("../public/odds.js", import.meta.url), out);
+  console.log("odds.js ditulis:", Object.entries(odds).map(([k, v]) => k + " x" + v).join(", "));
+}

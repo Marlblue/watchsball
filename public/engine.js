@@ -217,7 +217,7 @@
     };
   }
 
-  // entries: [{ type, team, stars }]
+  // entries: [{ type, team, stars, hpMul, rMul }] (hpMul/rMul untuk lawan Rank tinggi dan bos Tower)
   function createWorld(entries, seed) {
     const w = { t: 0, balls: [], hazards: [], fx: [], events: [], pairCd: {}, nextId: 1, winner: null, done: false, overtime: 0 };
     w.rand = rng(seed || 1);
@@ -228,7 +228,10 @@
       const dist = n === 2 ? 110 : 150;
       const x = ARENA / 2 + Math.cos(a) * dist;
       const y = ARENA / 2 + Math.sin(a) * dist;
-      w.balls.push(makeBall(w, e.type, e.team, x, y, w.rand() * Math.PI * 2, e.stars));
+      const b = makeBall(w, e.type, e.team, x, y, w.rand() * Math.PI * 2, e.stars);
+      if (e.hpMul) b.hp = b.maxHp = Math.round(b.maxHp * e.hpMul);
+      if (e.rMul) b.r = Math.round(b.r * e.rMul);
+      w.balls.push(b);
     });
     return w;
   }

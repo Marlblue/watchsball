@@ -4,7 +4,7 @@ Pakai:
   blender --background --factory-startup --python tools/render_balls.py -- <folder_output> [tipe1,tipe2,...]
 
 Hasil per bola: <tipe>.webp = grid COLS kolom berisi FRAMES frame (SIZE x SIZE), bola diputar 360 derajat searah jarum jam dilihat dari atas (frame 0 = posisi awal model).
-Plus pedang_blade.png = sprite pedang tampak atas (mengarah ke +X).
+Plus samurai_blade.webp = sprite katana tampak atas (mengarah ke +X).
 Skala: bola radius 1 unit, ortho_scale = SCALE unit, jadi ukuran sprite = SCALE * radius bola di game.
 """
 import bpy
@@ -196,236 +196,7 @@ def new_root(name):
     return root
 
 
-# ---------------------------------------------------------------- bola
-def build_karet():
-    mat, nt, b = principled("MAT-karet", (1.0, 0.22, 0.5), rough=0.42, coat=0.35)
-    _, sep = obj_coords(nt)
-    bx = math_node(nt, "LESS_THAN", math_node(nt, "ABSOLUTE", sep.outputs["X"]), 0.11)
-    by = math_node(nt, "LESS_THAN", math_node(nt, "ABSOLUTE", sep.outputs["Y"]), 0.11)
-    band = math_node(nt, "MAXIMUM", bx, by)
-    mix_color(nt, band, (1.0, 0.22, 0.5), (0.42, 0.04, 0.2), b.inputs["Base Color"])
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 40
-    add_bump(nt, b, noise.outputs["Fac"], 0.06)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_es():
-    mat, nt, b = principled("MAT-es", (0.12, 0.6, 0.9), rough=0.15, coat=1.0)
-    vor = node(nt, "ShaderNodeTexVoronoi", feature="DISTANCE_TO_EDGE")
-    vor.inputs["Scale"].default_value = 1.8
-    crack = math_node(nt, "LESS_THAN", vor.outputs["Distance"], 0.018)
-    mix_color(nt, crack, (0.12, 0.6, 0.9), (0.85, 0.98, 1.0), b.inputs["Base Color"])
-    set_input(b, "Emission Color", (0.6, 0.95, 1.0, 1))
-    em = math_node(nt, "MULTIPLY", crack, 0.8)
-    nt.links.new(em, b.inputs["Emission Strength"])
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 6
-    add_bump(nt, b, noise.outputs["Fac"], 0.25)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    # serpihan kristal kecil
-    import mathutils
-    parts = [s]
-    shard = principled("MAT-es-shard", (0.75, 0.95, 1.0), rough=0.08, coat=1.0, emis=(0.5, 0.9, 1.0), emis_str=0.6)[0]
-    for i, (th, ph) in enumerate([(0.3, 0.5), (2.4, 0.7), (4.2, 0.6), (5.4, 1.0), (1.3, 1.1), (3.3, 0.25)]):
-        d = mathutils.Vector((math.cos(th) * math.sin(ph), math.sin(th) * math.sin(ph), math.cos(ph)))
-        c = cone("GEO-shard%d" % i, 0.16, 0.5, d * 0.95, d)
-        assign(c, shard)
-        parts.append(c)
-    return parts
-
-
-def build_api():
-    mat, nt, b = principled("MAT-api", (0.05, 0.02, 0.015), rough=0.85)
-    vor = node(nt, "ShaderNodeTexVoronoi", feature="DISTANCE_TO_EDGE")
-    vor.inputs["Scale"].default_value = 3.0
-    # retakan tipis yang terang di tengah, memudar ke batu
-    ramp = node(nt, "ShaderNodeValToRGB")
-    ramp.color_ramp.elements[0].position = 0.0
-    ramp.color_ramp.elements[0].color = (1, 1, 1, 1)
-    ramp.color_ramp.elements[1].position = 0.045
-    ramp.color_ramp.elements[1].color = (0, 0, 0, 1)
-    nt.links.new(vor.outputs["Distance"], ramp.inputs["Fac"])
-    set_input(b, "Emission Color", (1.0, 0.22, 0.02, 1))
-    em = math_node(nt, "MULTIPLY", ramp.outputs["Color"], 4.0)
-    nt.links.new(em, b.inputs["Emission Strength"])
-    mix_color(nt, ramp.outputs["Color"], (0.07, 0.025, 0.015), (1.0, 0.3, 0.03), b.inputs["Base Color"])
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 8
-    add_bump(nt, b, noise.outputs["Fac"], 0.5)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_pedang():
-    mat, nt, b = principled("MAT-pedang", (0.75, 0.06, 0.09), rough=0.28, metal=0.75, coat=0.4)
-    _, sep = obj_coords(nt)
-    band = math_node(nt, "LESS_THAN", math_node(nt, "ABSOLUTE", sep.outputs["X"]), 0.09)
-    mix_color(nt, band, (0.75, 0.06, 0.09), (1.0, 0.72, 0.22), b.inputs["Base Color"])
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 30
-    add_bump(nt, b, noise.outputs["Fac"], 0.05)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_petir():
-    mat, nt, b = principled("MAT-petir", (1.0, 0.72, 0.04), rough=0.3, metal=0.35, coat=0.6)
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 2.2
-    noise.inputs["Detail"].default_value = 6
-    ramp = node(nt, "ShaderNodeValToRGB")
-    els = ramp.color_ramp.elements
-    els[0].position = 0.47
-    els[0].color = (0, 0, 0, 1)
-    els[1].position = 0.5
-    els[1].color = (1, 1, 1, 1)
-    e3 = els.new(0.53)
-    e3.color = (0, 0, 0, 1)
-    nt.links.new(noise.outputs["Fac"], ramp.inputs["Fac"])
-    set_input(b, "Emission Color", (1.0, 1.0, 0.75, 1))
-    em = math_node(nt, "MULTIPLY", ramp.outputs["Color"], 7.0)
-    nt.links.new(em, b.inputs["Emission Strength"])
-    mix_color(nt, ramp.outputs["Color"], (0.95, 0.62, 0.02), (1, 1, 0.85), b.inputs["Base Color"])
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_vampir():
-    mat, nt, b = principled("MAT-vampir", (0.32, 0.0, 0.06), rough=0.32, coat=1.0)
-    set_input(b, "Subsurface Weight", 0.25)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    parts = [s]
-    fang = principled("MAT-fang", (0.97, 0.95, 0.9), rough=0.25, coat=0.5)[0]
-    eye = principled("MAT-eye", (1, 0.1, 0.1), rough=0.3, emis=(1.0, 0.1, 0.05), emis_str=14)[0]
-    brow = principled("MAT-brow", (0.08, 0.0, 0.02), rough=0.5)[0]
-    import mathutils
-    # wajah menghadap kamera yang miring dari atas: posisinya di lintang atas
-    face = mathutils.Vector((0, -0.62, 0.78)).normalized()
-    for sx in (-1, 1):
-        ed = mathutils.Vector((sx * 0.32, -0.55, 0.77)).normalized()
-        e = sphere("GEO-eye", 0.15, tuple(ed * 0.95), 24, 12)
-        e.scale = (1.0, 0.75, 0.55)
-        e.rotation_euler = ed.to_track_quat("Z", "Y").to_euler()
-        assign(e, eye)
-        # alis miring, bikin kelihatan galak
-        bpy.ops.mesh.primitive_cube_add(size=1, location=tuple(mathutils.Vector((sx * 0.3, -0.42, 0.86)).normalized() * 1.0))
-        br = bpy.context.active_object
-        br.scale = (0.26, 0.05, 0.05)
-        br.rotation_euler = (math.radians(-30), 0, math.radians(-22 * sx))
-        assign(br, brow)
-        fd = mathutils.Vector((sx * 0.17, -0.86, 0.4)).normalized()
-        f = cone("GEO-fang", 0.08, 0.34, fd * 0.98, (fd + mathutils.Vector((0, 0, -1.4))).normalized())
-        assign(f, fang)
-        parts += [f, e, br]
-    return parts
-
-
-def build_raksasa():
-    mat, nt, b = principled("MAT-raksasa", (0.2, 0.55, 0.18), rough=0.9)
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 3.0
-    noise.inputs["Detail"].default_value = 8
-    ramp = node(nt, "ShaderNodeValToRGB")
-    ramp.color_ramp.elements[0].position = 0.45
-    ramp.color_ramp.elements[1].position = 0.6
-    nt.links.new(noise.outputs["Fac"], ramp.inputs["Fac"])
-    mix_color(nt, ramp.outputs["Color"], (0.16, 0.14, 0.12), (0.08, 0.38, 0.06), b.inputs["Base Color"])
-    detail = node(nt, "ShaderNodeTexNoise")
-    detail.inputs["Scale"].default_value = 9
-    detail.inputs["Detail"].default_value = 10
-    add_bump(nt, b, detail.outputs["Fac"], 0.9)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_bom():
-    mat, nt, b = principled("MAT-bom", (0.06, 0.06, 0.07), rough=0.3, metal=0.8, coat=0.5)
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 25
-    add_bump(nt, b, noise.outputs["Fac"], 0.08)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    capm = principled("MAT-cap", (0.55, 0.55, 0.58), rough=0.35, metal=1.0)[0]
-    bpy.ops.mesh.primitive_cylinder_add(vertices=32, radius=0.3, depth=0.25, location=(0, 0, 1.0))
-    cap = bpy.context.active_object
-    cap.name = "GEO-cap"
-    assign(cap, capm)
-    # sumbu
-    cu = bpy.data.curves.new("CRV-fuse", "CURVE")
-    cu.dimensions = "3D"
-    cu.bevel_depth = 0.055
-    sp = cu.splines.new("BEZIER")
-    sp.bezier_points.add(2)
-    pts = [(0, 0, 1.1), (0.12, 0.05, 1.4), (0.38, 0.12, 1.5)]
-    for bp, p in zip(sp.bezier_points, pts):
-        bp.co = p
-        bp.handle_left_type = bp.handle_right_type = "AUTO"
-    fuse = bpy.data.objects.new("GEO-fuse", cu)
-    bpy.context.scene.collection.objects.link(fuse)
-    fuse.data.materials.append(principled("MAT-fuse", (0.6, 0.45, 0.25), rough=0.9)[0])
-    spark = sphere("GEO-spark", 0.17, (0.4, 0.12, 1.5), 16, 8)
-    assign(spark, principled("MAT-spark", (1, 0.6, 0.1), emis=(1.0, 0.45, 0.05), emis_str=8)[0])
-    return [s, cap, fuse, spark]
-
-
-def build_duri():
-    mat, nt, b = principled("MAT-duri", (0.5, 0.8, 0.18), rough=0.45, coat=0.3)
-    s = sphere("GEO-ball", 0.88)
-    assign(s, mat)
-    spike = principled("MAT-spike", (0.2, 0.35, 0.05), rough=0.35, coat=0.6)[0]
-    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1, radius=1.0)
-    ico = bpy.context.active_object
-    dirs = [v.co.normalized() for v in ico.data.vertices]
-    bpy.data.objects.remove(ico, do_unlink=True)
-    parts = [s]
-    for i, d in enumerate(dirs):
-        c = cone("GEO-spike%d" % i, 0.14, 0.42, d * 0.98, d)
-        assign(c, spike)
-        parts.append(c)
-    return parts
-
-
-def build_kembar():
-    mat, nt, b = principled("MAT-kembar", (0.6, 0.4, 1.0), rough=0.25, coat=0.8)
-    _, sep = obj_coords(nt)
-    wave = math_node(nt, "MULTIPLY", math_node(nt, "SINE", math_node(nt, "MULTIPLY", sep.outputs["X"], math.pi)), 0.4)
-    side = math_node(nt, "GREATER_THAN", math_node(nt, "SUBTRACT", sep.outputs["Y"], wave), 0.0)
-    mix_color(nt, side, (0.3, 0.1, 0.62), (0.86, 0.76, 1.0), b.inputs["Base Color"])
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_racun():
-    mat, nt, b = principled("MAT-racun", (0.42, 0.85, 0.1), rough=0.25, coat=0.8)
-    vor = node(nt, "ShaderNodeTexVoronoi")
-    vor.inputs["Scale"].default_value = 4.0
-    spot = math_node(nt, "LESS_THAN", vor.outputs["Distance"], 0.22)
-    mix_color(nt, spot, (0.42, 0.85, 0.1), (0.35, 0.08, 0.45), b.inputs["Base Color"])
-    set_input(b, "Emission Color", (0.5, 1.0, 0.2, 1))
-    set_input(b, "Emission Strength", 0.25)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    bub = principled("MAT-bubble", (0.6, 1.0, 0.3), rough=0.05, coat=1.0, emis=(0.5, 1.0, 0.2), emis_str=1.2)[0]
-    import mathutils
-    parts = [s]
-    for i, (d, r) in enumerate([((0.3, -0.2, 0.93), 0.17), ((-0.35, 0.25, 0.9), 0.12), ((0.1, 0.45, 0.88), 0.09), ((-0.55, -0.35, 0.76), 0.1)]):
-        v = mathutils.Vector(d).normalized()
-        o = sphere("GEO-bub%d" % i, r, tuple(v * 1.0), 24, 12)
-        assign(o, bub)
-        parts.append(o)
-    return parts
-
-
+# ---------------------------------------------------------------- bahan dari versi lama (dipakai Golem & Penyihir Kosmos)
 def build_batu():
     mat, nt, b = principled("MAT-batu", (0.5, 0.44, 0.38), rough=0.95)
     vor = node(nt, "ShaderNodeTexVoronoi", feature="DISTANCE_TO_EDGE")
@@ -442,137 +213,6 @@ def build_batu():
     disp = s.modifiers.new("DSP-rock", "DISPLACE")
     disp.texture = tex
     disp.strength = 0.12
-    assign(s, mat)
-    return [s]
-
-
-def build_jamur():
-    mat, nt, b = principled("MAT-jamur", (0.86, 0.1, 0.08), rough=0.35, coat=0.6)
-    vor = node(nt, "ShaderNodeTexVoronoi")
-    vor.inputs["Scale"].default_value = 3.2
-    spot = math_node(nt, "LESS_THAN", vor.outputs["Distance"], 0.2)
-    mix_color(nt, spot, (0.86, 0.1, 0.08), (0.98, 0.95, 0.88), b.inputs["Base Color"])
-    add_bump(nt, b, spot, 0.15)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_magnet():
-    mat, nt, b = principled("MAT-magnet", (0.85, 0.1, 0.12), rough=0.3, metal=0.35, coat=0.6)
-    _, sep = obj_coords(nt)
-    side = math_node(nt, "GREATER_THAN", sep.outputs["X"], 0.0)
-    band = math_node(nt, "LESS_THAN", math_node(nt, "ABSOLUTE", sep.outputs["X"]), 0.12)
-    mx = mix_color(nt, side, (0.12, 0.3, 0.9), (0.88, 0.1, 0.12), b.inputs["Base Color"])
-    mx2 = node(nt, "ShaderNodeMix", data_type="RGBA")
-    nt.links.new(band, mx2.inputs["Factor"])
-    nt.links.new(mx.outputs["Result"], mx2.inputs["A"])
-    mx2.inputs["B"].default_value = (0.85, 0.86, 0.9, 1)
-    nt.links.new(mx2.outputs["Result"], b.inputs["Base Color"])
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    return [s]
-
-
-def build_meriam():
-    mat, nt, b = principled("MAT-meriam", (0.22, 0.26, 0.3), rough=0.35, metal=0.85)
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 20
-    add_bump(nt, b, noise.outputs["Fac"], 0.1)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    brass = principled("MAT-brass", (0.85, 0.6, 0.25), rough=0.3, metal=1.0)[0]
-    bpy.ops.mesh.primitive_cylinder_add(vertices=32, radius=0.24, depth=0.9, location=(1.0, 0, 0.35), rotation=(0, math.pi / 2, 0))
-    barrel = bpy.context.active_object
-    barrel.name = "GEO-barrel"
-    bpy.ops.object.shade_smooth()
-    assign(barrel, mat)
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.25, minor_radius=0.06, location=(1.43, 0, 0.35), rotation=(0, math.pi / 2, 0))
-    rim = bpy.context.active_object
-    assign(rim, brass)
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.98, minor_radius=0.06, location=(0, 0, 0.18))
-    ring = bpy.context.active_object
-    assign(ring, brass)
-    return [s, barrel, rim, ring]
-
-
-def build_tawon():
-    mat, nt, b = principled("MAT-tawon", (1.0, 0.72, 0.02), rough=0.35, coat=0.5)
-    _, sep = obj_coords(nt)
-    stripe = math_node(nt, "GREATER_THAN", math_node(nt, "SINE", math_node(nt, "MULTIPLY", sep.outputs["X"], 9.0)), 0.25)
-    mix_color(nt, stripe, (1.0, 0.72, 0.02), (0.05, 0.04, 0.03), b.inputs["Base Color"])
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 60
-    add_bump(nt, b, noise.outputs["Fac"], 0.12)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    wing = principled("MAT-wing", (0.55, 0.7, 0.85), rough=0.15, transmission=0.4, emis=(0.6, 0.8, 1.0), emis_str=0.08)[0]
-    parts = [s]
-    for sy in (-1, 1):
-        w = sphere("GEO-wing", 0.36, (-0.25, sy * 0.38, 0.98), 24, 12)
-        w.scale = (0.5, 1.0, 0.1)
-        w.rotation_euler = (sy * math.radians(-20), 0, 0)
-        assign(w, wing)
-        parts.append(w)
-    return parts
-
-
-def build_hantu():
-    mat, nt, b = principled("MAT-hantu", (0.62, 0.66, 0.85), rough=0.5, emis=(0.55, 0.6, 1.0), emis_str=0.15)
-    set_input(b, "Subsurface Weight", 0.5)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    dark = principled("MAT-hantu-eye", (0.03, 0.03, 0.08), rough=0.2, coat=1.0)[0]
-    import mathutils
-    parts = [s]
-    for sx in (-1, 1):
-        d = mathutils.Vector((sx * 0.3, -0.5, 0.81)).normalized()
-        e = sphere("GEO-eye", 0.22, tuple(d * 0.95), 24, 12)
-        e.scale = (0.8, 0.6, 1.3)
-        e.rotation_euler = d.to_track_quat("Z", "Y").to_euler()
-        assign(e, dark)
-        parts.append(e)
-    m = mathutils.Vector((0, -0.8, 0.6)).normalized()
-    mouth = sphere("GEO-mouth", 0.12, tuple(m * 0.97), 24, 12)
-    mouth.scale = (1.0, 0.5, 1.3)
-    mouth.rotation_euler = m.to_track_quat("Z", "Y").to_euler()
-    assign(mouth, dark)
-    parts.append(mouth)
-    return parts
-
-
-def build_laser():
-    mat, nt, b = principled("MAT-laser", (0.04, 0.03, 0.06), rough=0.15, metal=0.6, coat=1.0)
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    glow = principled("MAT-laser-glow", (1, 0.15, 0.5), emis=(1.0, 0.08, 0.45), emis_str=3)[0]
-    bpy.ops.mesh.primitive_torus_add(major_radius=1.0, minor_radius=0.08, location=(0, 0, 0))
-    ring = bpy.context.active_object
-    assign(ring, glow)
-    bpy.ops.mesh.primitive_cylinder_add(vertices=32, radius=0.28, depth=0.14, location=(0.96, 0, 0.25), rotation=(0, math.pi / 2, 0))
-    lens = bpy.context.active_object
-    assign(lens, glow)
-    bpy.ops.mesh.primitive_torus_add(major_radius=0.32, minor_radius=0.05, location=(0.98, 0, 0.25), rotation=(0, math.pi / 2, 0))
-    lens_rim = bpy.context.active_object
-    assign(lens_rim, principled("MAT-chrome", (0.9, 0.9, 0.95), rough=0.1, metal=1.0)[0])
-    return [s, ring, lens, lens_rim]
-
-
-def build_portal():
-    mat, nt, b = principled("MAT-portal", (0.03, 0.18, 0.2), rough=0.2, coat=1.0)
-    wave = node(nt, "ShaderNodeTexWave", wave_type="RINGS")
-    wave.inputs["Scale"].default_value = 2.2
-    wave.inputs["Distortion"].default_value = 6.0
-    wave.inputs["Detail"].default_value = 3.0
-    ramp = node(nt, "ShaderNodeValToRGB")
-    ramp.color_ramp.elements[0].position = 0.55
-    ramp.color_ramp.elements[1].position = 0.85
-    nt.links.new(wave.outputs["Fac"], ramp.inputs["Fac"])
-    set_input(b, "Emission Color", (0.2, 1.0, 0.85, 1))
-    em = math_node(nt, "MULTIPLY", ramp.outputs["Color"], 5.0)
-    nt.links.new(em, b.inputs["Emission Strength"])
-    mix_color(nt, ramp.outputs["Color"], (0.03, 0.18, 0.2), (0.4, 1.0, 0.9), b.inputs["Base Color"])
-    s = sphere("GEO-ball")
     assign(s, mat)
     return [s]
 
@@ -600,217 +240,622 @@ def build_lubang():
     return [s, ring]
 
 
-def build_bunga():
-    import mathutils
-    mat, nt, b = principled("MAT-bunga", (0.95, 0.45, 0.7), rough=0.4, coat=0.5)
-    s = sphere("GEO-ball", 0.92)
-    assign(s, mat)
-    petal = principled("MAT-petal", (1.0, 0.72, 0.86), rough=0.35, coat=0.6, emis=(1.0, 0.6, 0.8), emis_str=0.15)[0]
-    core = principled("MAT-core", (1.0, 0.8, 0.15), rough=0.5)[0]
-    parts = [s]
-    for i in range(8):
-        a = i / 8 * math.pi * 2
-        d = mathutils.Vector((math.cos(a) * 0.62, math.sin(a) * 0.62, 0.72))
-        p = sphere("GEO-petal%d" % i, 0.42, tuple(d), 24, 12)
-        p.scale = (1.0, 0.55, 0.16)
-        p.rotation_euler = (0, -math.radians(38), a)
-        assign(p, petal)
-        parts.append(p)
-    c = sphere("GEO-core", 0.32, (0, 0, 0.88), 24, 12)
-    c.scale = (1, 1, 0.55)
-    assign(c, core)
-    parts.append(c)
-    return parts
+# ---------------------------------------------------------------- hero
+# Aturan: bola = kepala/badan hero, "depan" (wajah) di +X dan wajahnya digambar 2D di game.
+# Topi/helm di atas-belakang (-X, +Z), senjata di samping (+Y/-Y) atau punggung, supaya tidak menabrak wajah.
+# Semua bagian di dalam radius ~1.45 (bingkai sprite = 3 unit).
+import mathutils
+
+V = mathutils.Vector
+_MATS = {}
 
 
-def build_angin():
-    mat, nt, b = principled("MAT-angin", (0.7, 0.9, 0.95), rough=0.2, coat=1.0)
-    wave = node(nt, "ShaderNodeTexWave")
-    wave.inputs["Scale"].default_value = 1.6
-    wave.inputs["Distortion"].default_value = 8.0
-    band = math_node(nt, "GREATER_THAN", wave.outputs["Fac"], 0.62)
-    mix_color(nt, band, (0.55, 0.82, 0.92), (1, 1, 1), b.inputs["Base Color"])
+def M(name, color, rough=0.5, metal=0.0, coat=0.0, emis=None, es=0.0):
+    """Material sederhana, di-cache per nama."""
+    key = "MAT-" + name
+    if key in _MATS and _MATS[key].name in bpy.data.materials:
+        return _MATS[key]
+    m = principled(key, color, rough, metal, coat, emis, es)[0]
+    _MATS[key] = m
+    return m
+
+
+def _fin(o, name, mat, smooth=True):
+    o.name = name
+    if smooth:
+        bpy.ops.object.shade_smooth()
+    assign(o, mat)
+    return o
+
+
+def sph(name, r, loc, mat, scale=(1, 1, 1), rot=(0, 0, 0), seg=32):
+    bpy.ops.mesh.primitive_uv_sphere_add(segments=seg, ring_count=seg // 2, radius=r, location=loc, rotation=rot)
+    o = bpy.context.active_object
+    o.scale = scale
+    return _fin(o, name, mat)
+
+
+def cyl(name, r, depth, loc, mat, rot=(0, 0, 0), scale=(1, 1, 1), verts=24):
+    bpy.ops.mesh.primitive_cylinder_add(vertices=verts, radius=r, depth=depth, location=loc, rotation=rot)
+    o = bpy.context.active_object
+    o.scale = scale
+    return _fin(o, name, mat)
+
+
+def cn(name, r1, r2, depth, loc, mat, rot=(0, 0, 0), scale=(1, 1, 1), verts=16):
+    bpy.ops.mesh.primitive_cone_add(vertices=verts, radius1=r1, radius2=r2, depth=depth, location=loc, rotation=rot)
+    o = bpy.context.active_object
+    o.scale = scale
+    return _fin(o, name, mat)
+
+
+def tor(name, R, r, loc, mat, rot=(0, 0, 0), scale=(1, 1, 1)):
+    bpy.ops.mesh.primitive_torus_add(major_radius=R, minor_radius=r, location=loc, rotation=rot, major_segments=40, minor_segments=12)
+    o = bpy.context.active_object
+    o.scale = scale
+    return _fin(o, name, mat)
+
+
+def box(name, size, loc, mat, rot=(0, 0, 0), bevel=0.02):
+    bpy.ops.mesh.primitive_cube_add(size=1, location=loc, rotation=rot)
+    o = bpy.context.active_object
+    o.scale = size
+    if bevel:
+        mod = o.modifiers.new("BEV", "BEVEL")
+        mod.width = bevel / max(size)
+        mod.segments = 2
+    return _fin(o, name, mat, smooth=False)
+
+
+def aim(direction):
+    """Rotasi supaya sumbu Z lokal menghadap arah tertentu."""
+    return V(direction).normalized().to_track_quat("Z", "Y").to_euler()
+
+
+def on(d, dist=1.0):
+    return tuple(V(d).normalized() * dist)
+
+
+R_ = math.radians
+
+
+def body(name, color, rough=0.45, metal=0.0, coat=0.35, pattern=None, c2=None, bump=0.05):
+    """Bola dasar warna hero. pattern: None | 'belt' (sabuk di pinggang) | 'stripe' | 'noise'."""
+    mat, nt, b = principled("MAT-" + name, color, rough, metal, coat)
+    if pattern in ("belt", "stripe") and c2:
+        _, sep = obj_coords(nt)
+        if pattern == "belt":
+            f = math_node(nt, "LESS_THAN", math_node(nt, "ABSOLUTE", math_node(nt, "ADD", sep.outputs["Z"], 0.25)), 0.12)
+        else:
+            f = math_node(nt, "LESS_THAN", math_node(nt, "ABSOLUTE", sep.outputs["Y"]), 0.12)
+        mix_color(nt, f, color, c2, b.inputs["Base Color"])
+    if pattern == "noise" and c2:
+        noise = node(nt, "ShaderNodeTexNoise")
+        noise.inputs["Scale"].default_value = 3.0
+        noise.inputs["Detail"].default_value = 6
+        ramp = node(nt, "ShaderNodeValToRGB")
+        ramp.color_ramp.elements[0].position = 0.45
+        ramp.color_ramp.elements[1].position = 0.6
+        nt.links.new(noise.outputs["Fac"], ramp.inputs["Fac"])
+        mix_color(nt, ramp.outputs["Color"], color, c2, b.inputs["Base Color"])
+    n = node(nt, "ShaderNodeTexNoise")
+    n.inputs["Scale"].default_value = 30
+    add_bump(nt, b, n.outputs["Fac"], bump)
     s = sphere("GEO-ball")
     assign(s, mat)
-    ring = principled("MAT-gust", (1, 1, 1), rough=0.2, emis=(0.85, 0.95, 1.0), emis_str=0.8)[0]
-    parts = [s]
-    for i, (rx, rz) in enumerate([(25, 0), (-35, 60), (70, 120)]):
-        bpy.ops.mesh.primitive_torus_add(major_radius=1.08, minor_radius=0.035, location=(0, 0, 0))
-        t = bpy.context.active_object
-        t.rotation_euler = (math.radians(rx), 0, math.radians(rz))
-        assign(t, ring)
-        parts.append(t)
+    return s
+
+
+# ---- potongan umum
+BACK = (-0.5, 0, 0.86)  # arah atas-belakang kepala
+
+
+def helmet(color, metal=0.8, r=0.97, tilt=0.55, name="helm"):
+    """Helm bundar menutup ubun-ubun dan belakang kepala."""
+    m = M(name, color, 0.3, metal, 0.4)
+    return sph("GEO-" + name, r, on(BACK, tilt), m, scale=(1, 1.04, 0.74))
+
+
+def hood(color, name="hood"):
+    m = M(name, color, 0.75)
+    return sph("GEO-" + name, 1.0, (-0.34, 0, 0.2), m, scale=(1, 1.06, 1.0))
+
+
+def headband(color, z=0.5, name="band", tails=True):
+    m = M(name, color, 0.6)
+    parts = [tor("GEO-" + name, 0.86, 0.07, (-0.05, 0, z), m, rot=(0, R_(-12), 0))]
+    if tails:
+        for sy in (-1, 1):
+            parts.append(box("GEO-" + name + "t", (0.34, 0.08, 0.03), (-0.98, sy * 0.1, z - 0.18), m, rot=(R_(sy * 20), R_(35), 0)))
     return parts
 
 
-def build_gelembung():
-    core_m = principled("MAT-gel-core", (0.15, 0.5, 0.95), rough=0.2, coat=1.0, emis=(0.3, 0.7, 1.0), emis_str=0.3)[0]
-    s = sphere("GEO-ball", 0.9)
-    assign(s, core_m)
-    mat, nt, b = principled("MAT-bubble", (0.75, 0.95, 1.0), rough=0.03, coat=1.0)
-    set_input(b, "Alpha", 0.28)
-    lw = node(nt, "ShaderNodeLayerWeight")
-    lw.inputs["Blend"].default_value = 0.25
-    set_input(b, "Emission Color", (0.7, 0.85, 1.0, 1))
-    nt.links.new(math_node(nt, "MULTIPLY", lw.outputs["Fresnel"], 1.4), b.inputs["Emission Strength"])
-    for attr, val in (("surface_render_method", "BLENDED"), ("blend_method", "BLEND")):
-        try:
-            setattr(mat, attr, val)
-        except (AttributeError, TypeError):
-            pass
-    return [s]  # perisai gelembung digambar di game (bisa pecah & tumbuh lagi)
+def hair_spikes(color, n=7, length=0.5, name="hair", spread=1.0):
+    m = M(name, color, 0.55, coat=0.2)
+    parts = [sph("GEO-" + name + "cap", 1.0, (-0.3, 0, 0.18), m, scale=(1, 1.03, 1))]
+    for i in range(n):
+        a = -math.pi * 0.85 * spread + (i / max(1, n - 1)) * math.pi * 1.7 * spread
+        d = V((-0.55 + 0.25 * math.cos(a), 0.55 * math.sin(a), 0.75)).normalized()
+        parts.append(cn("GEO-" + name + "%d" % i, 0.22, 0.0, length, tuple(d * (1.0 + length * 0.45)), m, rot=aim(d + V((-0.3, 0, 0.3)))))
+    return parts
 
 
-def build_cermin():
-    mat, nt, b = principled("MAT-cermin", (0.78, 0.84, 0.95), rough=0.18, metal=0.55, coat=1.0)
-    bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=2, radius=1.0)
-    s = bpy.context.active_object
-    s.name = "GEO-ball"
-    bpy.ops.object.shade_flat()  # bidang-bidang kaca yang memantulkan cahaya
-    assign(s, mat)
-    return [s]
+def brim_hat(color, brim=1.05, crown_h=0.45, crown_r=0.55, tilt=-26, z=0.8, band=None, name="hat"):
+    m = M(name, color, 0.6)
+    rot = (0, R_(tilt), 0)
+    brim = min(brim, 1.1)
+    parts = [cyl("GEO-" + name + "b", brim, 0.06, (-0.38, 0, z), m, rot=rot),
+             cyl("GEO-" + name + "c", crown_r, crown_h, (-0.5, 0, z + crown_h / 2), m, rot=rot)]
+    if band:
+        parts.append(cyl("GEO-" + name + "bd", crown_r * 1.02, 0.1, (-0.5, 0, z + 0.07), M(name + "band", band, 0.5), rot=rot))
+    return parts
 
 
-def build_bintang():
-    import mathutils
-    mat, nt, b = principled("MAT-bintang", (1.0, 0.78, 0.15), rough=0.25, metal=0.4, coat=0.8, emis=(1.0, 0.7, 0.1), emis_str=0.25)
-    s = sphere("GEO-ball", 0.85)
-    assign(s, mat)
-    tip = principled("MAT-star-tip", (1.0, 0.92, 0.5), rough=0.2, metal=0.3, emis=(1.0, 0.85, 0.3), emis_str=0.8)[0]
-    parts = [s]
+def wizard_hat(color, tip=None, name="wiz"):
+    m = M(name, color, 0.6)
+    parts = [cyl("GEO-" + name + "b", 1.18, 0.06, (-0.15, 0, 0.8), m, rot=(0, R_(-16), 0)),
+             cn("GEO-" + name + "c", 0.62, 0.05, 1.0, (-0.45, 0, 1.2), m, rot=(0, R_(-38), 0))]
+    if tip:
+        parts.append(sph("GEO-" + name + "tip", 0.13, (-0.82, 0, 1.55), M(name + "tip", tip, 0.3, emis=tip, es=3)))
+    return parts
+
+
+def side_blade(color=(0.85, 0.88, 0.92), handle=(0.3, 0.15, 0.08), length=1.05, side=1, angle=35, width=0.09, name="blade"):
+    """Pedang/golok di samping, ujung mengarah ke atas-belakang."""
+    st = M(name, color, 0.25, 0.85)
+    hd = M(name + "h", handle, 0.6)
+    y = side * 1.02
+    a = R_(angle)
+    parts = [box("GEO-" + name, (width, 0.035, length), (-0.25 - math.sin(a) * length * 0.35, y, 0.15 + math.cos(a) * length * 0.3), st, rot=(0, -a, 0)),
+             box("GEO-" + name + "g", (0.28, 0.08, 0.06), (-0.1, y, -0.12), hd, rot=(0, -a, 0)),
+             cyl("GEO-" + name + "hd", 0.05, 0.3, (0.0, y, -0.3), hd, rot=(0, -a, 0))]
+    return parts
+
+
+def staff(color=(0.45, 0.28, 0.12), orb=None, side=1, name="staff"):
+    m = M(name, color, 0.7)
+    parts = [cyl("GEO-" + name, 0.05, 2.0, (-0.2, side * 1.08, 0.2), m, rot=(R_(side * -8), R_(-10), 0))]
+    if orb:
+        parts.append(sph("GEO-" + name + "o", 0.2, (-0.38, side * 1.18, 1.2), M(name + "o", orb, 0.2, emis=orb, es=4)))
+    return parts
+
+
+def gun(color=(0.25, 0.25, 0.3), length=0.9, side=1, barrels=1, name="gun"):
+    m = M(name, color, 0.35, 0.7)
+    wood = M(name + "w", (0.45, 0.25, 0.1), 0.6)
+    y = side * 1.0
+    parts = [box("GEO-" + name + "s", (0.4, 0.14, 0.2), (-0.15, y, -0.1), wood)]
+    for i in range(barrels):
+        parts.append(cyl("GEO-" + name + "%d" % i, 0.055, length, (0.25, y + (i - (barrels - 1) / 2) * 0.12, 0.0), m, rot=(0, R_(90), 0)))
+    return parts
+
+
+def shield_disc(face, rim, side=1, r=0.62, name="shield"):
+    y = side * 1.05
+    return [cyl("GEO-" + name, r, 0.1, (0.05, y, 0.05), M(name, face, 0.35, 0.5, 0.4), rot=(R_(90), 0, 0)),
+            tor("GEO-" + name + "r", r, 0.06, (0.05, y + side * 0.02, 0.05), M(name + "r", rim, 0.3, 0.9), rot=(R_(90), 0, 0))]
+
+
+def horns(color, size=0.8, name="horn"):
+    m = M(name, color, 0.4, coat=0.5)
+    parts = []
+    for sy in (-1, 1):
+        d = V((-0.25, sy * 0.8, 0.55)).normalized()
+        parts.append(cn("GEO-" + name + "%d" % sy, 0.2, 0.0, size, tuple(d * 1.25), m, rot=aim(d + V((0, 0, 0.7)))))
+    return parts
+
+
+def wings(color, name="wing"):
+    m = M(name, color, 0.5)
+    parts = []
+    for sy in (-1, 1):
+        parts.append(sph("GEO-" + name + "%d" % sy, 0.42, (-0.35, sy * 0.95, 0.65), m, scale=(1.2, 0.12, 0.55), rot=(R_(sy * -25), R_(-25), 0)))
+    return parts
+
+
+def floater(name, r, loc, color, es=3.0, glass=False):
+    m = M(name, color, 0.1 if glass else 0.3, coat=1.0 if glass else 0.0, emis=color, es=es)
+    return sph("GEO-" + name, r, loc, m)
+
+
+# ---- 50 hero
+def h_ksatria():
+    return [body("ksatria", (0.2, 0.4, 0.85), 0.35, 0.3, pattern="stripe", c2=(0.9, 0.75, 0.25)),
+            helmet((0.78, 0.8, 0.86)), cn("GEO-plume", 0.18, 0.05, 0.6, (-0.55, 0, 1.32), M("plume", (0.9, 0.12, 0.15), 0.7), rot=(0, R_(-45), 0))] + shield_disc((0.2, 0.4, 0.85), (0.95, 0.78, 0.3))
+
+
+def h_viking():
+    return [body("viking", (0.85, 0.5, 0.18), 0.6), helmet((0.42, 0.36, 0.3), metal=0.6, name="vhelm")] + horns((0.95, 0.92, 0.82)) + \
+        [cyl("GEO-axe", 0.04, 1.2, (-0.3, -1.05, 0.2), M("axeh", (0.4, 0.22, 0.1), 0.7), rot=(0, R_(-20), 0)),
+         box("GEO-axeb", (0.4, 0.05, 0.32), (-0.48, -1.07, 0.72), M("axeb", (0.8, 0.82, 0.86), 0.25, 0.9), rot=(0, R_(-20), 0))]
+
+
+def h_gladiator():
+    gold = M("gladhelm", (0.95, 0.72, 0.25), 0.3, 0.9)
+    return [body("gladiator", (0.75, 0.2, 0.15), 0.5, pattern="belt", c2=(0.4, 0.25, 0.1)),
+            sph("GEO-gladhelm", 0.97, on(BACK, 0.55), gold, scale=(1, 1.04, 0.74)),
+            box("GEO-crest", (0.95, 0.12, 0.3), (-0.3, 0, 1.15), M("crest", (0.9, 0.12, 0.12), 0.8), rot=(0, R_(-22), 0)),
+            cyl("GEO-tri", 0.04, 1.9, (-0.1, 1.07, 0.3), M("trih", (0.5, 0.35, 0.15), 0.6), rot=(0, R_(-15), 0))] + \
+        [cn("GEO-trip%d" % i, 0.05, 0.0, 0.3, (-0.33 + i * 0.12, 1.07, 1.35), M("trip", (0.85, 0.87, 0.9), 0.25, 0.9), rot=(0, R_(-15), 0)) for i in (-1, 0, 1)]
+
+
+def h_sumo():
+    black = M("sumohair", (0.06, 0.06, 0.08), 0.4, coat=0.3)
+    return [body("sumo", (0.98, 0.72, 0.62), 0.6, pattern="belt", c2=(0.85, 0.2, 0.35)),
+            sph("GEO-sumocap", 1.0, (-0.3, 0, 0.18), black, scale=(1, 1.03, 1)),
+            sph("GEO-sumoknot", 0.22, (-0.35, 0, 1.12), black, scale=(1.4, 0.8, 0.8))]
+
+
+def h_samurai():
+    dark = M("kabuto", (0.12, 0.1, 0.14), 0.3, 0.6)
+    gold = M("kabutog", (1.0, 0.78, 0.25), 0.25, 1.0)
+    parts = [body("samurai", (0.85, 0.15, 0.2), 0.45, pattern="stripe", c2=(0.15, 0.1, 0.12)),
+             sph("GEO-kabuto", 0.97, on(BACK, 0.55), dark, scale=(1, 1.08, 0.74))]
+    for sy in (-1, 1):
+        parts.append(cn("GEO-kuwa%d" % sy, 0.08, 0.0, 0.7, (0.1, sy * 0.32, 1.05), gold, rot=aim((0.3, sy * 0.6, 1.0))))
+    return parts + side_blade(length=1.15, side=-1, width=0.07)
+
+
+def h_silat():
+    return [body("silat", (0.2, 0.65, 0.45), 0.6, pattern="belt", c2=(0.85, 0.65, 0.2))] + \
+        [sph("GEO-iket", 0.98, (-0.32, 0, 0.36), M("iket", (0.55, 0.3, 0.12), 0.7), scale=(1, 1, 0.75)),
+         cn("GEO-iketk", 0.18, 0.0, 0.45, (-0.75, 0, 0.95), M("iket", (0.55, 0.3, 0.12), 0.7), rot=(0, R_(-60), 0))]
+
+
+def h_berserker():
+    return [body("berserker", (0.65, 0.12, 0.1), 0.55)] + hair_spikes((1.0, 0.45, 0.1), n=8, length=0.6) + \
+        [cyl("GEO-baxe", 0.045, 1.3, (-0.2, 1.05, 0.3), M("baxeh", (0.3, 0.18, 0.08), 0.7), rot=(0, R_(-25), 0)),
+         sph("GEO-baxeb", 0.35, (-0.48, 1.07, 0.88), M("baxeb", (0.55, 0.57, 0.62), 0.3, 0.9), scale=(1.1, 0.15, 0.8), rot=(0, R_(-25), 0))]
+
+
+def h_biksu():
+    parts = [body("biksu", (0.98, 0.6, 0.15), 0.55, pattern="stripe", c2=(0.8, 0.25, 0.1))]
+    bead = M("bead", (0.45, 0.22, 0.08), 0.4, coat=0.6)
+    for i in range(14):
+        a = i / 14 * math.pi * 2
+        parts.append(sph("GEO-bead%d" % i, 0.1, (math.cos(a) * 0.98, math.sin(a) * 0.98, -0.25 + 0.05 * math.sin(a)), bead))
+    for i, d in enumerate([(-0.3, -0.18, 0.95), (-0.3, 0.18, 0.95), (-0.5, 0, 0.88)]):
+        parts.append(sph("GEO-dot%d" % i, 0.07, on(d, 1.0), M("dot", (0.6, 0.3, 0.1), 0.6)))
+    return parts
+
+
+def h_valkyrie():
+    return [body("valkyrie", (0.95, 0.8, 0.3), 0.4, 0.3), helmet((0.85, 0.87, 0.92), metal=0.85, name="valhelm")] + wings((0.98, 0.98, 1.0)) + \
+        [cyl("GEO-vspear", 0.04, 2.0, (-0.1, -1.08, 0.3), M("vsp", (0.6, 0.45, 0.2), 0.6), rot=(0, R_(-12), 0)),
+         cn("GEO-vspt", 0.1, 0.0, 0.35, (-0.3, -1.08, 1.4), M("vspt", (1.0, 0.95, 0.7), 0.2, 0.9, emis=(1, 0.9, 0.5), es=1.5), rot=(0, R_(-12), 0))]
+
+
+def h_ninja():
+    return [body("ninja", (0.35, 0.25, 0.7), 0.6), hood((0.15, 0.12, 0.25), "ninjahood")] + headband((0.85, 0.1, 0.15), z=0.42) + \
+        [box("GEO-nplate", (0.3, 0.2, 0.06), (0.62, 0, 0.62), M("nplate", (0.8, 0.82, 0.86), 0.25, 0.9), rot=(0, R_(50), 0))]
+
+
+def h_bayangan():
+    parts = [body("bayangan", (0.12, 0.1, 0.2), 0.7), hood((0.06, 0.05, 0.1), "shadowhood")]
     for i in range(5):
         a = i / 5 * math.pi * 2
-        d = mathutils.Vector((math.cos(a), math.sin(a), 0.15)).normalized()
-        c = cone("GEO-point%d" % i, 0.3, 0.6, d * 0.85, d)
-        assign(c, tip)
-        parts.append(c)
+        parts.append(floater("wisp%d" % i, 0.11, (math.cos(a) * 1.25, math.sin(a) * 1.25, 0.2 + 0.2 * math.sin(a * 2)), (0.55, 0.2, 1.0), es=1.2))
     return parts
 
 
-def build_naga():
-    import mathutils
-    mat, nt, b = principled("MAT-naga", (0.12, 0.62, 0.32), rough=0.35, coat=0.6)
-    vor = node(nt, "ShaderNodeTexVoronoi")
-    vor.inputs["Scale"].default_value = 9
-    add_bump(nt, b, vor.outputs["Distance"], 0.5)
-    mix_color(nt, vor.outputs["Distance"], (0.05, 0.4, 0.2), (0.35, 0.85, 0.4), b.inputs["Base Color"])
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    horn = principled("MAT-horn", (0.95, 0.85, 0.6), rough=0.4)[0]
-    eye = principled("MAT-naga-eye", (1, 0.85, 0.1), emis=(1.0, 0.75, 0.05), emis_str=6)[0]
-    parts = [s]
-    # moncong menghadap +X
-    snout = sphere("GEO-snout", 0.42, (0.95, 0, 0.12), 32, 16)
-    snout.scale = (1.0, 0.8, 0.6)
-    assign(snout, mat)
-    parts.append(snout)
+def h_pencuri():
+    sack = M("sack", (0.65, 0.5, 0.3), 0.9)
+    return [body("pencuri", (0.55, 0.42, 0.28), 0.6)] + headband((0.2, 0.55, 0.3), z=0.35) + \
+        [sph("GEO-sack", 0.6, (-0.95, 0, 0.35), sack, scale=(0.8, 1, 1)),
+         cn("GEO-sackk", 0.22, 0.05, 0.3, (-1.05, 0, 0.98), sack)]
+
+
+def h_pemburu():
+    return [body("pemburu", (0.5, 0.55, 0.65), 0.5)] + brim_hat((0.18, 0.15, 0.2), brim=1.4, crown_h=0.4, band=(0.7, 0.6, 0.3)) + \
+        [box("GEO-xbow", (0.7, 0.1, 0.1), (0.15, 1.02, 0.0), M("xbow", (0.35, 0.2, 0.1), 0.6)),
+         tor("GEO-xbowb", 0.4, 0.035, (0.4, 1.02, 0.0), M("xbowb", (0.7, 0.72, 0.76), 0.3, 0.8), rot=(0, R_(90), 0), scale=(1, 0.5, 1))]
+
+
+def h_penari():
+    gold = M("siger", (1.0, 0.78, 0.25), 0.25, 1.0)
+    parts = [body("penari", (1.0, 0.4, 0.62), 0.45, pattern="belt", c2=(0.95, 0.75, 0.25))]
+    for i in range(5):
+        a = (i - 2) * 0.38
+        d = V((-0.5, math.sin(a) * 0.8, 0.85)).normalized()
+        parts.append(cn("GEO-siger%d" % i, 0.16, 0.02, 0.55, tuple(d * 1.0 + V((0, 0, 0.12))), gold, rot=aim(d + V((0, 0, 1))), scale=(1, 0.35, 1)))
+    parts.append(tor("GEO-selendang", 1.12, 0.06, (0, 0, -0.1), M("selendang", (1.0, 0.85, 0.3), 0.6), rot=(R_(15), R_(-10), 0)))
+    return parts
+
+
+def h_sihirapi():
+    return [body("sihirapi", (1.0, 0.45, 0.15), 0.5)] + wizard_hat((0.75, 0.1, 0.1), tip=(1.0, 0.55, 0.1))
+
+
+def h_sihires():
+    parts = [body("sihires", (0.4, 0.85, 1.0), 0.15, coat=1.0)]
+    m = M("icecrown", (0.8, 0.97, 1.0), 0.08, coat=1.0, emis=(0.5, 0.9, 1.0), es=0.8)
+    for i in range(5):
+        a = (i - 2) * 0.42
+        d = V((-0.45, math.sin(a) * 0.8, 0.85)).normalized()
+        parts.append(cn("GEO-ice%d" % i, 0.18, 0.0, 0.7 if i == 2 else 0.5, tuple(d * 1.22), m, rot=aim(d + V((0, 0, 0.6)))))
+    return parts
+
+
+def h_dukun():
+    batik = M("blangkon", (0.4, 0.22, 0.1), 0.7)
+    parts = [body("dukun", (0.55, 0.3, 0.65), 0.6),
+             sph("GEO-blangkon", 1.02, (-0.32, 0, 0.36), batik, scale=(0.95, 1, 0.7)),
+             sph("GEO-mondol", 0.25, (-0.95, 0, 0.62), batik)]
+    bead = M("dbead", (0.95, 0.85, 0.5), 0.3, coat=0.6)
+    for i in range(10):
+        a = math.pi * (0.25 + i / 9 * 1.5)
+        parts.append(sph("GEO-dbead%d" % i, 0.07, (math.cos(a) * 0.95, math.sin(a) * 0.95, -0.4), bead))
+    return parts
+
+
+def h_necro():
+    return [body("necro", (0.25, 0.55, 0.35), 0.6), hood((0.08, 0.1, 0.08), "necrohood"),
+            sph("GEO-skull", 0.26, (-0.1, 1.2, 0.55), M("bone", (0.93, 0.93, 0.85), 0.5)),
+            floater("necroeye", 0.06, (0.08, 1.38, 0.6), (0.4, 1.0, 0.6), es=6)]
+
+
+def h_ahlipetir():
+    rod = M("rod", (0.7, 0.72, 0.78), 0.25, 0.9)
+    return [body("ahlipetir", (1.0, 0.82, 0.2), 0.35, 0.3)] + hair_spikes((1.0, 0.95, 0.4), n=7, length=0.55, name="phair") + \
+        [cyl("GEO-rod", 0.04, 0.8, (-0.2, -0.9, 0.9), rod, rot=(R_(25), 0, 0)),
+         floater("rodball", 0.12, (-0.2, -1.07, 1.28), (0.9, 0.95, 1.0), es=6)]
+
+
+def h_pemanah():
+    green = M("robincap", (0.25, 0.5, 0.15), 0.7)
+    return [body("pemanah", (0.5, 0.75, 0.3), 0.6),
+            cn("GEO-robin", 0.85, 0.05, 0.75, (-0.35, 0, 0.98), green, rot=(0, R_(-55), 0), scale=(1, 0.75, 1)),
+            cn("GEO-feather", 0.06, 0.0, 0.6, (-0.45, 0.3, 1.25), M("feather", (0.9, 0.15, 0.1), 0.6), rot=(R_(-20), R_(-50), 0)),
+            tor("GEO-bow", 0.75, 0.04, (-0.1, 1.05, 0.15), M("bow", (0.55, 0.32, 0.12), 0.5), rot=(R_(90), 0, 0), scale=(0.45, 1, 1))]
+
+
+def h_koboi():
+    return [body("koboi", (0.8, 0.55, 0.3), 0.6)] + brim_hat((0.45, 0.28, 0.12), brim=1.38, crown_h=0.5, band=(0.2, 0.12, 0.06)) + gun(length=0.7)
+
+
+def h_sniper():
+    beret = M("beret", (0.15, 0.15, 0.2), 0.8)
+    return [body("sniper", (0.95, 0.3, 0.55), 0.5),
+            sph("GEO-beret", 0.82, (-0.35, 0, 0.82), beret, scale=(1, 1, 0.35), rot=(0, R_(-25), 0)),
+            cyl("GEO-scope", 0.12, 0.4, (0.35, -0.72, 0.65), M("scope", (0.2, 0.2, 0.24), 0.3, 0.7), rot=(0, R_(90), 0)),
+            floater("lens", 0.09, (0.56, -0.72, 0.65), (1.0, 0.2, 0.4), es=4)] + gun(length=1.25, side=1)
+
+
+def h_bajaklaut():
+    black = M("tricorn", (0.08, 0.08, 0.1), 0.7)
+    return [body("bajaklaut", (0.25, 0.45, 0.75), 0.55, pattern="stripe", c2=(0.95, 0.95, 0.95)),
+            sph("GEO-tricorn", 1.15, (-0.25, 0, 0.82), black, scale=(1, 1.1, 0.28), rot=(0, R_(-18), 0)),
+            sph("GEO-tricornc", 0.6, (-0.3, 0, 0.98), black, scale=(1, 1, 0.6)),
+            sph("GEO-skullemb", 0.13, (0.25, 0, 1.08), M("bone", (0.93, 0.93, 0.85), 0.5), scale=(1, 1, 0.5))]
+
+
+def h_grenadier():
+    olive = M("armyhelm", (0.3, 0.38, 0.18), 0.7)
+    parts = [body("grenadier", (0.42, 0.55, 0.25), 0.65, pattern="belt", c2=(0.3, 0.22, 0.12)),
+             sph("GEO-armyhelm", 0.98, on(BACK, 0.5), olive, scale=(1, 1.05, 0.72)),
+             tor("GEO-goggle", 0.86, 0.06, (-0.1, 0, 0.55), M("strap", (0.2, 0.15, 0.1), 0.7), rot=(0, R_(-15), 0))]
+    for i in range(3):
+        parts.append(sph("GEO-gren%d" % i, 0.14, (-0.3 + i * 0.3, 1.0, -0.25), M("gren", (0.25, 0.35, 0.15), 0.5)))
+    return parts
+
+
+def h_pendeta():
+    return [body("pendeta", (1.0, 0.88, 0.5), 0.45, pattern="stripe", c2=(1.0, 1.0, 1.0)),
+            hood((0.97, 0.97, 1.0), "pendetahood"),
+            tor("GEO-halo", 0.6, 0.06, (-0.25, 0, 1.35), M("halo", (1.0, 0.9, 0.4), 0.2, emis=(1.0, 0.85, 0.3), es=5), rot=(0, R_(-15), 0))]
+
+
+def h_bard():
+    beret = M("bardcap", (0.35, 0.1, 0.45), 0.7)
+    wood = M("lute", (0.75, 0.45, 0.15), 0.4, coat=0.6)
+    return [body("bard", (0.88, 0.35, 0.82), 0.5),
+            sph("GEO-bardcap", 0.85, (-0.35, 0, 0.8), beret, scale=(1.1, 1, 0.35), rot=(0, R_(-25), 0)),
+            cn("GEO-bfeather", 0.07, 0.0, 0.8, (-0.7, 0.25, 1.2), M("bfeather", (1.0, 0.85, 0.2), 0.6), rot=(R_(-15), R_(-60), 0)),
+            sph("GEO-lute", 0.42, (0.1, 1.05, -0.2), wood, scale=(1, 0.35, 0.8)),
+            box("GEO-luten", (0.12, 0.06, 0.8), (-0.1, 1.05, 0.45), M("luten", (0.35, 0.2, 0.08), 0.6), rot=(0, R_(-20), 0))]
+
+
+def h_druid():
+    leaf = M("leaf", (0.3, 0.7, 0.2), 0.6)
+    antler = M("antler", (0.55, 0.38, 0.2), 0.7)
+    parts = [body("druid", (0.55, 0.85, 0.3), 0.6)]
+    for i in range(7):
+        a = math.pi * (0.35 + i / 6 * 1.3)
+        d = V((math.cos(a) * 0.75 - 0.1, math.sin(a) * 0.75, 0.6)).normalized()
+        parts.append(sph("GEO-leaf%d" % i, 0.22, tuple(d * 1.02), leaf, scale=(1, 0.5, 0.25), rot=aim(d)))
     for sy in (-1, 1):
-        h = cone("GEO-horn", 0.12, 0.5, mathutils.Vector((-0.2, sy * 0.4, 0.9)), mathutils.Vector((-0.6, sy * 0.3, 1)).normalized())
-        assign(h, horn)
-        parts.append(h)
+        parts.append(cn("GEO-antler%d" % sy, 0.07, 0.01, 0.65, (-0.35, sy * 0.45, 1.05), antler, rot=aim((-0.3, sy * 0.5, 1))))
     return parts
 
 
-def build_bayangan():
-    mat, nt, b = principled("MAT-bayangan", (0.02, 0.015, 0.04), rough=0.45, coat=0.2)
-    lw = node(nt, "ShaderNodeLayerWeight")
-    lw.inputs["Blend"].default_value = 0.4
-    set_input(b, "Emission Color", (0.55, 0.25, 1.0, 1))
-    nt.links.new(math_node(nt, "MULTIPLY", math_node(nt, "POWER", lw.outputs["Fresnel"], 3.0), 2.5), b.inputs["Emission Strength"])
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    eye = principled("MAT-shadow-eye", (1, 0.3, 1), emis=(1.0, 0.35, 1.0), emis_str=10)[0]
-    parts = [s]
-    for sy in (-1, 1):  # mata menghadap +X
-        e = sphere("GEO-eye", 0.14, (0.82, sy * 0.3, 0.45), 16, 8)
-        e.scale = (0.5, 1.0, 0.6)
-        assign(e, eye)
-        parts.append(e)
+def h_mekanik():
+    metal = M("goggle", (0.6, 0.45, 0.2), 0.3, 0.8)
+    parts = [body("mekanik", (0.6, 0.63, 0.72), 0.45, 0.4, pattern="belt", c2=(0.95, 0.55, 0.1))]
+    parts.append(tor("GEO-mstrap", 0.87, 0.05, (-0.1, 0, 0.6), M("mstrap", (0.2, 0.15, 0.1), 0.7), rot=(0, R_(-20), 0)))
+    for sy in (-1, 1):
+        parts.append(cyl("GEO-mgog%d" % sy, 0.17, 0.12, (0.2, sy * 0.28, 0.92), metal, rot=aim((0.3, 0, 1))))
+    parts += [cyl("GEO-wrench", 0.05, 0.9, (-0.15, 1.05, 0.2), M("wrench", (0.75, 0.77, 0.82), 0.3, 0.9), rot=(0, R_(-30), 0)),
+              tor("GEO-wrenchh", 0.13, 0.05, (-0.38, 1.05, 0.62), M("wrench", (0.75, 0.77, 0.82), 0.3, 0.9), rot=(R_(90), 0, 0))]
     return parts
 
 
-def build_petasan():
-    mat, nt, b = principled("MAT-petasan", (0.9, 0.12, 0.08), rough=0.3, coat=0.8)
-    tc, sep = obj_coords(nt)
-    ang = node(nt, "ShaderNodeMath", operation="ARCTAN2")
-    nt.links.new(sep.outputs["Y"], ang.inputs[0])
-    nt.links.new(sep.outputs["X"], ang.inputs[1])
-    swirl = math_node(nt, "SINE", math_node(nt, "ADD", math_node(nt, "MULTIPLY", sep.outputs["Z"], 7.0), math_node(nt, "MULTIPLY", ang.outputs[0], 3.0)))
-    stripe = math_node(nt, "GREATER_THAN", swirl, 0.2)
-    mix_color(nt, stripe, (0.92, 0.12, 0.08), (1.0, 0.92, 0.6), b.inputs["Base Color"])
-    s = sphere("GEO-ball")
-    assign(s, mat)
-    cu = bpy.data.curves.new("CRV-fuse2", "CURVE")
-    cu.dimensions = "3D"
-    cu.bevel_depth = 0.05
-    sp = cu.splines.new("BEZIER")
-    sp.bezier_points.add(1)
-    for bp, p in zip(sp.bezier_points, [(0, 0, 0.95), (0.1, -0.15, 1.35)]):
-        bp.co = p
-        bp.handle_left_type = bp.handle_right_type = "AUTO"
-    fuse = bpy.data.objects.new("GEO-fuse", cu)
-    bpy.context.scene.collection.objects.link(fuse)
-    fuse.data.materials.append(principled("MAT-fuse2", (0.3, 0.25, 0.2), rough=0.9)[0])
-    spark = sphere("GEO-spark", 0.14, (0.1, -0.15, 1.38), 16, 8)
-    assign(spark, principled("MAT-spark2", (1, 0.7, 0.2), emis=(1.0, 0.6, 0.15), emis_str=8)[0])
-    return [s, fuse, spark]
+def h_peramal():
+    cloth = M("turban", (0.6, 0.3, 0.85), 0.6)
+    return [body("peramal", (0.72, 0.55, 1.0), 0.45),
+            tor("GEO-turban1", 0.72, 0.2, (-0.2, 0, 0.72), cloth, rot=(0, R_(-20), 0)),
+            sph("GEO-turban2", 0.6, (-0.25, 0, 0.92), cloth, scale=(1, 1, 0.6)),
+            floater("tgem", 0.1, (0.45, 0, 0.9), (0.3, 1.0, 0.6), es=5),
+            sph("GEO-orb", 0.3, (0.1, 1.18, 0.1), M("crystal", (0.75, 0.6, 1.0), 0.05, coat=1.0, emis=(0.6, 0.4, 1.0), es=1.5))]
 
 
-def build_meteor():
-    mat, nt, b = principled("MAT-meteor", (0.18, 0.13, 0.1), rough=0.9)
-    vor = node(nt, "ShaderNodeTexVoronoi")
-    vor.inputs["Scale"].default_value = 3.5
-    crater = math_node(nt, "LESS_THAN", vor.outputs["Distance"], 0.25)
-    add_bump(nt, b, math_node(nt, "MULTIPLY", crater, -1.0), 0.6)
-    _, sep = obj_coords(nt)
-    # sisi depan (+X) membara karena gesekan
-    heat = node(nt, "ShaderNodeMapRange")
-    nt.links.new(sep.outputs["X"], heat.inputs["Value"])
-    heat.inputs["From Min"].default_value = -0.3
-    heat.inputs["From Max"].default_value = 1.0
-    set_input(b, "Emission Color", (1.0, 0.35, 0.05, 1))
-    nt.links.new(math_node(nt, "MULTIPLY", math_node(nt, "POWER", heat.outputs["Result"], 2.0), 3.0), b.inputs["Emission Strength"])
-    heat.interpolation_type = "SMOOTHERSTEP"
-    mix_color(nt, heat.outputs["Result"], (0.12, 0.09, 0.07), (0.9, 0.3, 0.05), b.inputs["Base Color"])
-    s = sphere("GEO-ball", 0.95)
-    tex = bpy.data.textures.new("TEX-meteor", "VORONOI")
-    tex.noise_scale = 0.6
-    disp = s.modifiers.new("DSP-meteor", "DISPLACE")
-    disp.texture = tex
-    disp.strength = 0.1
-    assign(s, mat)
-    return [s]
+def h_paladin():
+    return [body("paladin", (0.95, 0.75, 0.25), 0.4, 0.4, pattern="stripe", c2=(1.0, 1.0, 1.0)), helmet((0.98, 0.95, 0.88), metal=0.5, name="palhelm")] + \
+        [box("GEO-cross1", (0.08, 0.4, 0.06), (-0.25, 0, 1.25), M("pcross", (1.0, 0.85, 0.3), 0.3, 0.8), rot=(0, R_(-25), 0)),
+         cyl("GEO-hammer", 0.045, 1.1, (-0.2, 1.05, 0.2), M("hamh", (0.45, 0.3, 0.15), 0.6), rot=(0, R_(-25), 0)),
+         box("GEO-hamb", (0.5, 0.3, 0.3), (-0.43, 1.05, 0.72), M("hamb", (0.8, 0.82, 0.86), 0.3, 0.9), rot=(0, R_(-25), 0))]
 
 
-def build_matahari():
-    import mathutils
-    mat, nt, b = principled("MAT-matahari", (1.0, 0.5, 0.02), rough=0.6, emis=(1.0, 0.35, 0.02), emis_str=0.6)
-    noise = node(nt, "ShaderNodeTexNoise")
-    noise.inputs["Scale"].default_value = 7
-    noise.inputs["Detail"].default_value = 6
-    mix_color(nt, noise.outputs["Fac"], (0.95, 0.25, 0.02), (1.0, 0.75, 0.15), b.inputs["Base Color"])
-    nt.links.new(math_node(nt, "MULTIPLY", noise.outputs["Fac"], 0.9), b.inputs["Emission Strength"])
-    s = sphere("GEO-ball", 0.85)
-    assign(s, mat)
-    ray = principled("MAT-ray", (1.0, 0.6, 0.1), emis=(1.0, 0.45, 0.05), emis_str=0.8)[0]
-    parts = [s]
-    for i in range(12):
-        a = i / 12 * math.pi * 2
-        d = mathutils.Vector((math.cos(a), math.sin(a), 0.25)).normalized()
-        c = cone("GEO-ray%d" % i, 0.13, 0.42 if i % 2 else 0.3, d * 0.86, d)
-        assign(c, ray)
-        parts.append(c)
+def h_barong():
+    mane = M("mane", (1.0, 0.75, 0.2), 0.5, 0.4)
+    parts = [body("barong", (0.85, 0.2, 0.15), 0.5, pattern="noise", c2=(0.95, 0.75, 0.2))]
+    for i in range(11):
+        a = math.pi * (0.3 + i / 10 * 1.4)
+        d = V((math.cos(a) * 0.85, math.sin(a) * 0.85, 0.45)).normalized()
+        parts.append(cn("GEO-mane%d" % i, 0.18, 0.0, 0.5, tuple(d * 1.0), mane, rot=aim(d)))
+    for sy in (-1, 1):
+        parts.append(floater("barongeye%d" % sy, 0.06, on((-0.2, sy * 0.55, 0.85), 1.02), (1.0, 0.85, 0.2), es=2))
     return parts
 
 
-BUILDERS = {
-    "karet": build_karet, "es": build_es, "api": build_api, "pedang": build_pedang, "petir": build_petir,
-    "vampir": build_vampir, "raksasa": build_raksasa, "bom": build_bom, "duri": build_duri, "kembar": build_kembar,
-    "racun": build_racun, "batu": build_batu, "jamur": build_jamur, "magnet": build_magnet, "meriam": build_meriam,
-    "tawon": build_tawon, "hantu": build_hantu, "laser": build_laser, "portal": build_portal, "lubang": build_lubang,
-    "bunga": build_bunga, "angin": build_angin, "gelembung": build_gelembung, "cermin": build_cermin, "bintang": build_bintang,
-    "naga": build_naga, "bayangan": build_bayangan, "petasan": build_petasan, "meteor": build_meteor, "matahari": build_matahari,
-}
+def h_juggernaut():
+    steel = M("jughelm", (0.45, 0.48, 0.55), 0.3, 0.9)
+    parts = [body("juggernaut", (0.42, 0.48, 0.56), 0.35, 0.7, pattern="belt", c2=(0.85, 0.35, 0.1)),
+             sph("GEO-jughelm", 0.99, on(BACK, 0.45), steel, scale=(1, 1.05, 0.78))]
+    for sy in (-1, 1):
+        d = V((-0.3, sy * 1, 0.2)).normalized()
+        parts.append(cn("GEO-jspike%d" % sy, 0.2, 0.0, 0.5, tuple(d * 1.05), M("jspike", (0.85, 0.87, 0.9), 0.25, 0.9), rot=aim(d)))
+    return parts
+
+
+def h_petinju():
+    glove = M("glove", (0.9, 0.1, 0.1), 0.35, coat=0.7)
+    return [body("petinju", (0.95, 0.5, 0.3), 0.55)] + headband((0.95, 0.95, 0.95), z=0.5, name="pband", tails=False) + \
+        [sph("GEO-glove%d" % sy, 0.36, (0.55, sy * 0.95, -0.1), glove) for sy in (-1, 1)]
+
+
+def h_jawara():
+    black = M("peci", (0.06, 0.06, 0.08), 0.6)
+    return [body("jawara", (0.62, 0.32, 0.18), 0.6, pattern="belt", c2=(0.85, 0.15, 0.15)),
+            cyl("GEO-peci", 0.62, 0.42, (-0.3, 0, 0.98), black, rot=(0, R_(-25), 0), scale=(1, 0.95, 1))] + \
+        side_blade(color=(0.82, 0.84, 0.88), handle=(0.25, 0.12, 0.05), length=0.85, side=1, angle=25, width=0.14, name="golok")
+
+
+def h_ronin():
+    straw = M("straw", (0.85, 0.72, 0.42), 0.9)
+    return [body("ronin", (0.35, 0.42, 0.7), 0.6),
+            cn("GEO-kasa", 1.1, 0.08, 0.4, (-0.4, 0, 0.95), straw, rot=(0, R_(-28), 0))] + side_blade(length=1.1, side=-1, width=0.07, name="rblade")
+
+
+def h_pembunuh():
+    parts = [body("pembunuh", (0.32, 0.25, 0.4), 0.65), hood((0.12, 0.1, 0.16), "phood"),
+             cn("GEO-hoodtip", 0.35, 0.0, 0.5, (-0.6, 0, 1.0), M("phood", (0.12, 0.1, 0.16), 0.75), rot=(0, R_(-55), 0))]
+    for sy in (-1, 1):
+        parts.append(box("GEO-dagger%d" % sy, (0.5, 0.05, 0.08), (0.35, sy * 1.0, -0.2), M("dagger", (0.85, 0.87, 0.92), 0.2, 0.9), rot=(0, R_(15), 0)))
+    return parts
+
+
+def h_kunoichi():
+    hair = M("khair", (0.12, 0.08, 0.15), 0.4, coat=0.4)
+    return [body("kunoichi", (0.85, 0.3, 0.5), 0.5),
+            sph("GEO-khaircap", 1.0, (-0.3, 0, 0.18), hair, scale=(1, 1.03, 1)),
+            sph("GEO-kpony", 0.3, (-0.95, 0, 0.75), hair, scale=(1, 0.8, 1.4), rot=(0, R_(-30), 0)),
+            box("GEO-kmask", (0.35, 1.3, 0.25), (0.7, 0, -0.15), M("kmask", (0.15, 0.12, 0.18), 0.7), bevel=0.08)] + \
+        headband((0.95, 0.85, 0.3), z=0.5, name="kband")
+
+
+def h_penjebak():
+    return [body("penjebak", (0.6, 0.55, 0.3), 0.7, pattern="belt", c2=(0.3, 0.25, 0.15))] + \
+        brim_hat((0.4, 0.38, 0.2), brim=1.1, crown_h=0.35, crown_r=0.6, name="boonie") + \
+        [cyl("GEO-mine%d" % i, 0.16, 0.08, (-0.25 + i * 0.35, 1.02, -0.3), M("mine", (0.3, 0.3, 0.2), 0.6), rot=(R_(90), 0, 0)) for i in range(2)]
+
+
+def h_waktu():
+    gold = M("hgold", (1.0, 0.78, 0.25), 0.25, 1.0)
+    sand = M("sand", (0.95, 0.85, 0.5), 0.3, emis=(1.0, 0.85, 0.4), es=1)
+    return [body("waktu", (0.25, 0.7, 0.78), 0.35, coat=0.8), hood((0.12, 0.3, 0.4), "whood"),
+            cn("GEO-hg1", 0.22, 0.02, 0.3, (-0.2, 1.18, 0.55), sand, rot=(R_(180), 0, 0)),
+            cn("GEO-hg2", 0.22, 0.02, 0.3, (-0.2, 1.18, 0.25), sand),
+            cyl("GEO-hgt", 0.26, 0.04, (-0.2, 1.18, 0.72), gold), cyl("GEO-hgb", 0.26, 0.04, (-0.2, 1.18, 0.08), gold)]
+
+
+def h_alkemis():
+    glass = M("flask", (0.7, 1.0, 0.3), 0.05, coat=1.0, emis=(0.6, 1.0, 0.2), es=2)
+    return [body("alkemis", (0.62, 0.8, 0.2), 0.55, pattern="belt", c2=(0.45, 0.3, 0.15))] + \
+        [tor("GEO-astrap", 0.87, 0.05, (-0.1, 0, 0.6), M("astrap", (0.25, 0.18, 0.1), 0.7), rot=(0, R_(-20), 0))] + \
+        [cyl("GEO-agog%d" % sy, 0.16, 0.12, (0.2, sy * 0.28, 0.92), M("agog", (0.3, 0.8, 0.9), 0.1, coat=1.0), rot=aim((0.3, 0, 1))) for sy in (-1, 1)] + \
+        [sph("GEO-flask", 0.3, (0.0, 1.12, -0.1), glass), cyl("GEO-flaskn", 0.08, 0.3, (0.0, 1.12, 0.28), M("cork", (0.6, 0.45, 0.3), 0.8))]
+
+
+def h_pawang():
+    cloud = M("rcloud", (0.75, 0.8, 0.9), 0.8)
+    parts = [body("pawang", (0.3, 0.55, 0.85), 0.5)] + headband((0.95, 0.95, 0.95), z=0.5, name="pwband", tails=False)
+    for i, (dx, dy, r) in enumerate([(-0.7, -0.25, 0.3), (-0.7, 0.2, 0.35), (-0.5, 0.0, 0.32), (-0.9, 0.0, 0.25)]):
+        parts.append(sph("GEO-rc%d" % i, r, (dx, dy, 1.25), cloud))
+    for i in range(3):
+        parts.append(cyl("GEO-drop%d" % i, 0.03, 0.18, (-0.7 + (i - 1) * 0.05, -0.2 + i * 0.2, 0.92), M("drop", (0.5, 0.75, 1.0), 0.2, emis=(0.5, 0.8, 1.0), es=1)))
+    return parts
+
+
+def h_nelayan():
+    straw = M("caping", (0.88, 0.75, 0.45), 0.9)
+    return [body("nelayan", (0.25, 0.65, 0.85), 0.55, pattern="stripe", c2=(0.95, 0.95, 0.95)),
+            cn("GEO-caping", 1.1, 0.05, 0.5, (-0.4, 0, 0.98), straw, rot=(0, R_(-28), 0)),
+            cyl("GEO-rod2", 0.03, 2.2, (-0.3, 1.05, 0.5), M("frod", (0.4, 0.25, 0.12), 0.6), rot=(0, R_(-40), 0))]
+
+
+def h_gunner():
+    return [body("gunner", (0.6, 0.45, 0.25), 0.65)] + headband((0.85, 0.2, 0.15), z=0.5, name="gband") + gun(length=0.85, barrels=2)
+
+
+def h_sumpit():
+    parts = [body("sumpit", (0.4, 0.65, 0.25), 0.6, pattern="belt", c2=(0.85, 0.2, 0.15))] + headband((0.85, 0.75, 0.3), z=0.5, name="dband", tails=False)
+    for i, c in enumerate([(0.1, 0.1, 0.1), (0.95, 0.95, 0.95), (0.1, 0.1, 0.1)]):
+        parts.append(cn("GEO-dfeather%d" % i, 0.07, 0.0, 0.6, (-0.75, (i - 1) * 0.18, 1.05), M("dfeather%d" % i, c, 0.6), rot=(0, R_(-30), 0)))
+    parts.append(cyl("GEO-blowpipe", 0.045, 2.2, (0.0, 1.02, 0.2), M("pipe", (0.5, 0.35, 0.15), 0.6), rot=(0, R_(80), 0)))
+    return parts
+
+
+def h_tabib():
+    return [body("tabib", (0.85, 0.68, 0.45), 0.6)] + headband((0.2, 0.55, 0.3), z=0.5, name="tband") + \
+        [cyl("GEO-jamu", 0.2, 0.5, (0.0, 1.1, -0.1), M("jamub", (0.45, 0.25, 0.1), 0.4, coat=0.6)),
+         cyl("GEO-jamuc", 0.12, 0.12, (0.0, 1.1, 0.22), M("cork", (0.6, 0.45, 0.3), 0.8))]
+
+
+def h_dalang():
+    batik = M("dblangkon", (0.25, 0.15, 0.08), 0.7)
+    gold = M("wgold", (1.0, 0.75, 0.25), 0.3, 0.9)
+    return [body("dalang", (0.75, 0.55, 0.3), 0.6, pattern="stripe", c2=(0.3, 0.18, 0.08)),
+            sph("GEO-dblangkon", 1.02, (-0.32, 0, 0.36), batik, scale=(0.95, 1, 0.7)),
+            box("GEO-wayang", (0.35, 0.04, 0.7), (-0.1, 1.08, 0.35), gold, rot=(0, R_(-15), 0)),
+            cyl("GEO-wstick", 0.025, 0.9, (0.02, 1.08, -0.3), M("wstick", (0.3, 0.2, 0.1), 0.6), rot=(0, R_(-15), 0))]
+
+
+def h_totem():
+    parts = [body("totem", (0.78, 0.4, 0.22), 0.6, pattern="belt", c2=(0.2, 0.55, 0.45))]
+    cols = [(0.9, 0.2, 0.15), (1.0, 0.8, 0.2), (0.2, 0.5, 0.9), (0.95, 0.95, 0.95)]
+    for i in range(9):
+        a = math.pi * (0.4 + i / 8 * 1.2)
+        d = V((math.cos(a) * 0.7 - 0.2, math.sin(a) * 0.7, 0.75)).normalized()
+        parts.append(cn("GEO-tfeather%d" % i, 0.09, 0.0, 0.6, tuple(d * 1.0), M("tfeather%d" % (i % 4), cols[i % 4], 0.6), rot=aim(d + V((-0.3, 0, 0.5)))))
+    parts.append(box("GEO-tpole", (0.22, 0.22, 0.9), (-0.2, 1.08, 0.15), M("tpole", (0.6, 0.35, 0.15), 0.7)))
+    return parts
+
+
+def h_gong():
+    gold = M("gongm", (1.0, 0.75, 0.25), 0.25, 1.0)
+    return [body("gong", (0.85, 0.65, 0.2), 0.45, 0.3)] + headband((0.6, 0.15, 0.1), z=0.5, name="goband", tails=False) + \
+        [cyl("GEO-gong", 0.55, 0.08, (-0.1, 1.1, 0.25), gold, rot=(R_(90), 0, 0)),
+         sph("GEO-gongk", 0.14, (-0.1, 1.16, 0.25), gold),
+         cyl("GEO-mallet", 0.035, 0.7, (0.45, -1.0, 0.2), M("mallet", (0.4, 0.25, 0.1), 0.6), rot=(0, R_(-30), 0)),
+         sph("GEO-malleth", 0.13, (0.28, -1.0, 0.5), M("malleth", (0.9, 0.85, 0.75), 0.8))]
+
+
+def h_golem():
+    parts = build_batu()
+    parts.append(cn("GEO-gcrystal", 0.2, 0.0, 0.55, (-0.5, 0, 0.95), M("gcrystal", (0.4, 0.9, 1.0), 0.1, coat=1.0, emis=(0.3, 0.8, 1.0), es=2), rot=(0, R_(-30), 0)))
+    moss = M("moss", (0.3, 0.6, 0.2), 0.9)
+    for i, d in enumerate([(-0.3, 0.5, 0.8), (-0.6, -0.4, 0.7), (0.1, -0.7, 0.7)]):
+        parts.append(sph("GEO-moss%d" % i, 0.25, on(d, 0.98), moss, scale=(1, 1, 0.35), rot=aim(d)))
+    return parts
+
+
+def h_kosmos():
+    parts = build_lubang()
+    parts += wizard_hat((0.2, 0.1, 0.45), tip=(1.0, 0.9, 0.5), name="cwiz")
+    return parts
+
+
+BUILDERS = {k[2:]: v for k, v in list(globals().items()) if k.startswith("h_") and callable(v)}
 
 
 def clear_geometry():
@@ -860,34 +905,8 @@ def to_webp(png_path, quality=88):
 
 # ---------------------------------------------------------------- gaya anime
 # Wajah: (ekspresi, warna iris, radius permukaan bola, tinggi mata). Wajah selalu menghadap +X (arah gerak di game).
-FACES = {
-    "karet": ("happy", (0.85, 0.15, 0.45), 1.0, 0.6),
-    "es": ("cute", (0.1, 0.45, 0.9), 1.0, 0.6),
-    "api": ("fierce", (1.0, 0.45, 0.0), 1.0, 0.6),
-    "pedang": ("fierce", (0.85, 0.1, 0.1), 1.0, 0.6),
-    "petir": ("fierce", (0.95, 0.6, 0.0), 1.0, 0.6),
-    "raksasa": ("grumpy", (0.2, 0.55, 0.1), 1.0, 0.6),
-    "bom": ("cute", (0.9, 0.2, 0.1), 1.0, 0.52),
-    "duri": ("angry", (0.3, 0.55, 0.0), 0.88, 0.6),
-    "kembar": ("cute", (0.55, 0.25, 1.0), 1.0, 0.6),
-    "racun": ("sly", (0.6, 0.1, 0.8), 1.0, 0.6),
-    "batu": ("sleepy", (0.4, 0.3, 0.2), 1.08, 0.6),
-    "jamur": ("sleepy", (0.75, 0.1, 0.1), 1.0, 0.52),
-    "magnet": ("normal", (0.15, 0.3, 0.9), 1.0, 0.6),
-    "meriam": ("angry", (0.95, 0.5, 0.1), 1.0, 0.75),
-    "tawon": ("angry", (0.15, 0.1, 0.05), 1.0, 0.52),
-    "bunga": ("cute", (0.85, 0.25, 0.55), 0.92, 0.35),
-    "angin": ("happy", (0.15, 0.55, 0.8), 1.0, 0.6),
-    "gelembung": ("cute", (0.1, 0.4, 0.95), 0.9, 0.6),
-    "cermin": ("cool", (0.35, 0.45, 0.7), 1.0, 0.6),
-    "bintang": ("excited", (1.0, 0.55, 0.0), 0.85, 0.6),
-    "petasan": ("excited", (0.9, 0.1, 0.1), 1.0, 0.52),
-    "meteor": ("angry", (1.0, 0.3, 0.0), 1.0, 0.6),
-    "matahari": ("happy", (1.0, 0.35, 0.0), 0.85, 0.6),
-    "naga": ("fierce", (1.0, 0.75, 0.0), 1.0, 0.62),
-}
-# bola yang wajah lamanya dibuat menghadap -Y: diputar 90 derajat supaya ikut aturan "wajah di +X"
-ROT_FACE = {"vampir": math.pi / 2, "hantu": math.pi / 2}
+FACES = {}  # wajah digambar 2D di game (drawFace di render.js)
+ROT_FACE = {}
 
 EYE_SHAPE = {  # (lebar, tinggi, besar iris, sudut alis atau None)
     "normal": (0.8, 1.15, 0.62, None),
@@ -1167,7 +1186,7 @@ def render_blade(scene):
     bpy.ops.mesh.primitive_cube_add(size=1, location=(0.55, 0, 0))
     blade = bpy.context.active_object
     blade.name = "GEO-blade"
-    blade.scale = (2.6, 0.22, 0.05)
+    blade.scale = (2.6, 0.13, 0.04)  # katana: bilah ramping
     bpy.ops.object.transform_apply(scale=True)
     for v in blade.data.vertices:
         if v.co.x > 1.0:
@@ -1178,13 +1197,14 @@ def render_blade(scene):
     assign(blade, steel)
     bpy.ops.mesh.primitive_cube_add(size=1, location=(-0.78, 0, 0))
     guard = bpy.context.active_object
-    guard.scale = (0.1, 0.62, 0.1)
+    guard.scale = (0.08, 0.36, 0.36)  # tsuba
     assign(guard, gold)
-    bpy.ops.mesh.primitive_cylinder_add(vertices=16, radius=0.07, depth=0.55, location=(-1.1, 0, 0), rotation=(0, math.pi / 2, 0))
+    bpy.ops.mesh.primitive_cylinder_add(vertices=16, radius=0.07, depth=0.7, location=(-1.18, 0, 0), rotation=(0, math.pi / 2, 0))
     grip = bpy.context.active_object
+    leather = principled("MAT-tsuka", (0.08, 0.06, 0.1), rough=0.8)[0]
     assign(grip, leather)
-    sphere("GEO-pommel", 0.1, (-1.42, 0, 0), 16, 8).data.materials.append(gold)
-    p = os.path.join(OUT, "pedang_blade.png")
+    sphere("GEO-pommel", 0.08, (-1.55, 0, 0), 16, 8).data.materials.append(gold)
+    p = os.path.join(OUT, "samurai_blade.png")
     scene.render.filepath = p
     bpy.ops.render.render(write_still=True)
     p = to_webp(p)
