@@ -1,0 +1,165 @@
+{
+  "hit": [
+    "hit-0.mp3",
+    "hit-1.mp3",
+    "hit-2.mp3",
+    "hit-3.mp3"
+  ],
+  "crit": [
+    "crit-0.mp3",
+    "crit-1.mp3"
+  ],
+  "heavy": [
+    "heavy-0.mp3",
+    "heavy-1.mp3"
+  ],
+  "boom": [
+    "boom-0.mp3",
+    "boom-1.mp3"
+  ],
+  "ko": [
+    "ko.mp3"
+  ],
+  "blade": [
+    "blade-0.mp3",
+    "blade-1.mp3"
+  ],
+  "zap": [
+    "zap-0.mp3",
+    "zap-1.mp3"
+  ],
+  "freeze": [
+    "freeze-0.mp3",
+    "freeze-1.mp3"
+  ],
+  "shot": [
+    "shot.mp3"
+  ],
+  "laser": [
+    "laser-0.mp3",
+    "laser-1.mp3"
+  ],
+  "charge": [
+    "charge.mp3"
+  ],
+  "portal": [
+    "portal-0.mp3",
+    "portal-1.mp3"
+  ],
+  "hole": [
+    "hole.mp3"
+  ],
+  "ghost": [
+    "ghost.mp3"
+  ],
+  "whoosh": [
+    "whoosh-0.mp3",
+    "whoosh-1.mp3"
+  ],
+  "dash": [
+    "dash-0.mp3",
+    "dash-1.mp3"
+  ],
+  "flame": [
+    "flame.mp3"
+  ],
+  "launch": [
+    "launch.mp3"
+  ],
+  "pop": [
+    "pop-0.mp3",
+    "pop-1.mp3"
+  ],
+  "shieldup": [
+    "shieldup.mp3"
+  ],
+  "petal": [
+    "petal-0.mp3",
+    "petal-1.mp3"
+  ],
+  "sting": [
+    "sting-0.mp3",
+    "sting-1.mp3"
+  ],
+  "nova": [
+    "nova.mp3"
+  ],
+  "meteorfall": [
+    "meteorfall.mp3"
+  ],
+  "meteorhit": [
+    "meteorhit-0.mp3",
+    "meteorhit-1.mp3"
+  ],
+  "reflect": [
+    "reflect-0.mp3",
+    "reflect-1.mp3"
+  ],
+  "heal": [
+    "heal.mp3"
+  ],
+  "split": [
+    "split.mp3"
+  ],
+  "callout": [
+    "callout.mp3"
+  ],
+  "count": [
+    "count.mp3"
+  ],
+  "go": [
+    "go.mp3"
+  ],
+  "click": [
+    "click.mp3"
+  ],
+  "coin": [
+    "coin-0.mp3",
+    "coin-1.mp3"
+  ],
+  "pull": [
+    "pull.mp3"
+  ],
+  "reveal": [
+    "reveal.mp3"
+  ],
+  "legend": [
+    "legend.mp3"
+  ],
+  "win": [
+    "win.mp3"
+  ],
+  "lose": [
+    "lose.mp3"
+  ],
+  "v3": [
+    "v3.mp3"
+  ],
+  "v2": [
+    "v2.mp3"
+  ],
+  "v1": [
+    "v1.mp3"
+  ],
+  "fight": [
+    "fight.mp3"
+  ],
+  "youwin": [
+    "youwin.mp3"
+  ],
+  "youlose": [
+    "youlose.mp3"
+  ],
+  "flawless": [
+    "flawless.mp3"
+  ],
+  "suddendeath": [
+    "suddendeath.mp3"
+  ],
+  "multikill": [
+    "multikill.mp3"
+  ],
+  "winner": [
+    "winner.mp3"
+  ]
+}
