@@ -18,67 +18,105 @@
   // Semua model 3D punya "depan" (wajah/laras/moncong) di arah +X Blender, jadi FEATURE = 0.
   const FEATURE = {};
   // cara bola menghadap: "aim" = ke target skill, "move" = ke arah gerak, "spin" = berputar terus
-  const MODE = { meriam: "aim", laser: "aim", naga: "aim", lubang: "spin", portal: "spin" };
+  const MODE = { koboi: "aim", sniper: "aim", sihirapi: "aim", gunner: "aim" };
 
   // teriakan nama skill ala anime + kapan skill berikutnya siap (nama field di E.T)
   const SKILLS = {
-    karet: { call: "KECEPATAN MAKSIMAL!", label: "Tali Ketapel" },
-    karetTali: { call: null },
-    es: { call: "BOLA SALJU!", label: "Bola Salju", every: "snowEvery", cd: 4 },
-    api: { call: "ERUPSI!", label: "Erupsi Api", every: "eruptEvery", cd: 4 },
-    pedang: { call: null, label: "Pedang Bumerang", every: "throwEvery" },
-    pedangUp: { call: "PEDANG MAKIN TAJAM!" },
-    pedangLempar: { call: "LEMPAR PEDANG!", cd: 4 },
-    petir: { call: "AWAN BADAI!", label: "Awan Badai", every: "cloudEvery" },
-    vampir: { call: "KELELAWAR!", label: "Kelelawar", every: "batEvery", cd: 5 },
-    raksasa: { call: "WUJUD RAKSASA!", label: "Lompat Injak", every: "leapEvery" },
-    raksasaLompat: { call: "INJAKAN RAKSASA!", cd: 4 },
-    raksasaInjak: { call: null },
-    bom: { call: "BOM PANAS!", label: "Bom Panas", every: "bombEvery", cd: 4 },
-    bomTempel: { call: null },
-    bomPindah: { call: "OPER BOM!", cd: 1.5 },
-    duri: { call: "DURI BALASAN!", label: "Kebun Kaktus", every: "cactusEvery", cd: 4 },
-    duriTanam: { call: "TANAM KAKTUS!", cd: 5 },
-    kembar: { call: "PEMBELAHAN!", label: "Benang Kembar", big: true },
-    kembarBenang: { call: null },
-    racun: { call: "KENTUT BERACUN!", label: "Kabut Kentut", every: "gasEvery", cd: 5 },
-    racunMax: { call: "RACUN MEMATIKAN!", cd: 4 },
-    batu: { call: "PILAR BATU!", label: "Pilar Batu", every: "pillarEvery", cd: 5 },
-    jamur: { call: null, label: "Kebun Jamur", every: "shroomEvery" },
-    jamurTanam: { call: null },
-    jamurMakan: { call: "NYAM NYAM!", cd: 3 },
-    magnet: { call: "LEDAKAN MAGNET!", label: "Ganti Kutub", every: "poleTime", cd: 4 },
-    magnetTarik: { call: null },
-    magnetCuri: { call: "CURI PELURU!", cd: 3 },
-    meriam: { call: "TEMBAKAN MERIAM!", label: "Peluru Pantul", every: "shotEvery" },
-    tawon: { call: "SERBU!", label: "Sarang Tawon", every: "beeLaunchEvery", cd: 4 },
-    tawonTambah: { call: null },
-    hantu: { call: "KERASUKAN!", label: "Kerasukan", every: "ghostEvery", big: true },
-    hantuTembus: { call: "WUJUD HANTU!" },
-    hantuKeluar: { call: null },
-    laser: { call: "SINAR LASER!", label: "Laser Pantul", every: "laserEvery" },
-    portal: { call: "LUBANG JEBAKAN!", label: "Lubang Jebakan", every: "trapEvery" },
-    portalJatuh: { call: "JATUH DARI LANGIT!", big: true, cd: 3 },
-    lubang: { call: "LUBANG HITAM!", label: "Lubang Hitam", every: "holeEvery", big: true },
-    lubangMakan: { call: "NYAM!", cd: 3 },
-    bunga: { call: "SPIRAL KELOPAK!", label: "Serbuk Tidur", every: "flowerEvery" },
-    bungaTidur: { call: "TIDUR PULAS!", cd: 3 },
-    angin: { call: "TORNADO!", label: "Tornado", every: "tornadoEvery" },
-    anginTangkap: { call: null },
-    anginLempar: { call: "TERBANG KE TEMBOK!", cd: 3 },
-    gelembung: { call: "PERISAI GELEMBUNG!", label: "Penjara Gelembung", every: "prisonEvery" },
-    gelembungTiup: { call: null },
-    gelembungPenjara: { call: "TERKURUNG!", cd: 3 },
-    cermin: { call: "PANTULAN CERMIN!", label: "Pecahan Kaca", every: "shardEvery", cd: 3 },
-    bintang: { call: null, label: "Rasi Bintang", every: "dashEvery" },
-    bintangTaruh: { call: null },
-    bintangRasi: { call: "RASI BINTANG!", big: true, cd: 3 },
-    naga: { call: "SEMBURAN NAGA!", label: "Semburan Naga", every: "breathEvery", big: true },
+    ksatria: { call: "PERISAI PULIH!", label: "Hantaman Perisai", every: "bashEvery", cd: 5 },
+    ksatriaHantam: { call: "HANTAMAN PERISAI!", cd: 4 },
+    ksatriaTangkis: { call: "TANGKIS!", cd: 3 },
+    golem: { call: "PILAR BATU!", label: "Pilar Batu", every: "pillarEvery", cd: 5 },
+    viking: { call: "AMARAH VIKING!", label: "Lompatan Kapak", every: "leapEvery" },
+    vikingLompat: { call: "LOMPATAN KAPAK!", cd: 4 },
+    vikingInjak: { call: null },
+    gladiator: { call: null, label: "Jaring Arena", every: "prisonEvery" },
+    gladiatorTiup: { call: null },
+    gladiatorPenjara: { call: "TERJERAT!", cd: 3 },
+    sumo: { call: "DORONGAN PERUT!", label: "Tarik & Dorong", every: "poleTime", cd: 4 },
+    sumoTarik: { call: null },
+    sumoCuri: { call: "REBUT PELURU!", cd: 3 },
+    samurai: { call: null, label: "Katana Bumerang", every: "throwEvery" },
+    samuraiUp: { call: "KATANA MAKIN TAJAM!" },
+    samuraiLempar: { call: "LEMPAR KATANA!", cd: 4 },
+    silat: { call: null, label: "Jurus Segitiga", every: "dashEvery" },
+    silatTaruh: { call: null },
+    silatRasi: { call: "JURUS SEGITIGA!", big: true, cd: 3 },
+    berserker: { call: "LEDAKAN AMARAH!", label: "Jejak Amarah", every: "eruptEvery", cd: 4 },
+    biksu: { call: "TENDANGAN PUYUH!", label: "Tendangan Puyuh", every: "tornadoEvery" },
+    biksuTangkap: { call: null },
+    biksuLempar: { call: "TERBANG KE TEMBOK!", cd: 3 },
+    valkyrie: { call: "TOMBAK LANGIT!", label: "Tombak Langit", every: "meteorEvery", big: true },
+    ninja: { call: "KAGE BUNSHIN!", label: "Kawat Kloning", big: true },
+    ninjaBenang: { call: null },
     bayangan: { call: "SERANGAN BAYANGAN!", label: "Curi Bayangan", every: "shadowEvery" },
     bayanganCuri: { call: "SKILL TERKUNCI!", cd: 3 },
-    petasan: { call: "KEMBANG API!", label: "Kembang Api", every: "rocketEvery" },
-    meteor: { call: "HUJAN METEOR!", label: "Hujan Meteor", every: "meteorEvery", big: true },
-    matahari: { call: "SUAR SURYA!", label: "Suar Surya", every: "sunNovaEvery", big: true },
+    pencuri: { call: "MASUK KARUNG!", label: "Karung Culik", every: "trapEvery" },
+    pencuriJatuh: { call: "JATUH DARI LANGIT!", big: true, cd: 3 },
+    pemburu: { call: "ELANG PERAK!", label: "Elang Perak", every: "batEvery", cd: 5 },
+    pemburuDarah: { call: "SERAP DARAH!", cd: 4 },
+    penari: { call: "TARIAN KILAT!", label: "Selendang" },
+    penariTali: { call: null },
+    sihirapi: { call: "SEMBURAN API!", label: "Semburan Api", every: "breathEvery", big: true },
+    sihires: { call: "BOLA SALJU!", label: "Bola Salju", every: "snowEvery", cd: 4 },
+    dukun: { call: "SANTET!", label: "Santet", every: "ghostEvery", big: true },
+    dukunTembus: { call: "WUJUD GAIB!" },
+    dukunKeluar: { call: null },
+    necro: { call: "SERBU, TENGKORAK!", label: "Pasukan Tengkorak", every: "beeLaunchEvery", cd: 4 },
+    necroTambah: { call: null },
+    ahlipetir: { call: "AWAN BADAI!", label: "Awan Badai", every: "cloudEvery" },
+    pemanah: { call: "HUJAN PANAH!", label: "Hujan Panah", every: "flowerEvery" },
+    pemanahPaku: { call: "TERPAKU!", cd: 3 },
+    koboi: { call: "DOR!", label: "Peluru Pantul", every: "shotEvery", cd: 3 },
+    sniper: { call: "TEMBAKAN JITU!", label: "Sinar Jitu", every: "laserEvery" },
+    bajaklaut: { call: "TONG MESIU!", label: "Tong Mesiu", every: "bombEvery", cd: 4 },
+    bajaklautTempel: { call: null },
+    bajaklautPindah: { call: "OPER TONG!", cd: 1.5 },
+    grenadier: { call: "GRANAT!", label: "Granat", every: "rocketEvery" },
+    pendeta: { call: "CAHAYA SUCI!", label: "Cahaya Suci", every: "sunNovaEvery", big: true },
+    bard: { call: "LAGU SUMBANG!", label: "Lagu Sumbang", every: "gasEvery", cd: 5 },
+    bardMax: { call: "JOGET MAUT!", cd: 4 },
+    druid: { call: null, label: "Kebun Jamur", every: "shroomEvery" },
+    druidTanam: { call: null },
+    druidMakan: { call: "NYAM NYAM!", cd: 3 },
+    mekanik: { call: null, label: "Menara Tembak", every: "cactusEvery" },
+    mekanikTanam: { call: "PASANG MENARA!", cd: 5 },
+    paladin: { call: "PALU SUCI!", label: "Palu Suci", every: "hammerEvery", cd: 3 },
+    barong: { call: "RAUNGAN BARONG!", label: "Raungan", every: "roarEvery", big: true },
+    juggernaut: { call: "SERUDUK!", label: "Seruduk", every: "chargeEvery", cd: 3 },
+    juggernautTabrak: { call: null },
+    petinju: { call: "UPPERCUT!", label: "Combo Tinju", cd: 2.5 },
+    petinjuJab: { call: null },
+    jawara: { call: "GOLOK BERPUTAR!", label: "Panas Jawara", big: true },
+    ronin: { call: "TEBASAN KILAT!", label: "Tebasan Kilat", every: "roninEvery", cd: 3 },
+    roninTebas: { call: null },
+    pembunuh: { call: null, label: "Tikaman Gaib", every: "stealthEvery" },
+    pembunuhTikam: { call: "TIKAMAN MAUT!", big: true, cd: 3 },
+    kunoichi: { call: "KUNAI BERACUN!", label: "Kunai Beracun", every: "kunaiEvery", cd: 4 },
+    penjebak: { call: null, label: "Ranjau", every: "mineEvery" },
+    penjebakTanam: { call: null },
+    waktu: { call: "WAKTU MELAMBAT!", label: "Zona Waktu", every: "slowFieldEvery", cd: 4 },
+    waktuMundur: { call: "PUTAR BALIK WAKTU!", big: true, cd: 4 },
+    kosmos: { call: "LUBANG HITAM!", label: "Lubang Hitam", every: "holeEvery", big: true },
+    kosmosMakan: { call: "NYAM!", cd: 3 },
+    alkemis: { call: "RAMUAN ASAM!", label: "Ramuan Asam", every: "potionEvery", cd: 4 },
+    pawang: { call: "HUJAN DERAS!", label: "Hujan Deras", every: "rainEvery", cd: 4 },
+    nelayan: { call: null, label: "Kail Penarik", every: "hookEvery" },
+    nelayanTarik: { call: "KENA KAIL!", cd: 3 },
+    gunner: { call: "DOR DOR!", label: "Senapan Tabur", every: "pelletEvery", cd: 4 },
+    sumpitTiup: { call: null },
+    sumpit: { call: null, label: "Sumpit Tidur", every: "dartEvery" },
+    sumpitTidur: { call: "TIDUR PULAS!", cd: 3 },
+    tabib: { call: null, label: "Jamu Pahit", every: "bitterEvery" },
+    tabibJamu: { call: "MINUM JAMU!", cd: 4 },
+    dalang: { call: "WAYANG MAJU!", label: "Panggil Wayang", every: "puppetEvery", cd: 4 },
+    totem: { call: "TOTEM TANCAP!", label: "Totem", every: "totemEvery", cd: 5 },
+    gong: { call: "GONG!", label: "Gelombang Gong", every: "gongEvery", cd: 4 },
+    peramal: { call: "KARTU MERAH!", label: "Kartu Takdir", every: "cardEvery", cd: 2 },
+    peramalEmas: { call: "KARTU EMAS!", big: true, cd: 3 },
+    peramalBiru: { call: "KARTU BIRU!", cd: 2 },
+    peramalUngu: { call: "KARTU UNGU!", cd: 2 },
+    peramalHijau: { call: "KARTU HIJAU!", cd: 2 },
+    peramalKunci: { call: "SKILL TERKUNCI!", cd: 3 },
   };
 
   function init(opts) {
@@ -138,36 +176,56 @@
   // ---------------- wajah anime (digambar 2D di atas sprite) ----------------
   // eye: bentuk mata, iris: warna iris, mouth: bentuk mulut, pupil: bentuk pupil, blush: pipi merah
   const FACE = {
-    karet: { eye: "round", iris: "#ff3d8b", mouth: "cat", blush: true },
-    es: { eye: "round", iris: "#2f8cff", mouth: "small", blush: true, pupil: "snow" },
-    api: { eye: "sharp", iris: "#ff6a00", mouth: "grin", brow: 0.5 },
-    pedang: { eye: "sharp", iris: "#e01e2e", mouth: "flat", brow: 0.6 },
-    petir: { eye: "sharp", iris: "#ffcc00", mouth: "grin", brow: 0.4, pupil: "bolt" },
-    vampir: { eye: "sly", iris: "#ff1f4b", mouth: "fang", brow: 0.35, pupil: "slit" },
-    raksasa: { eye: "sleepy", iris: "#3c9a2a", mouth: "flat", brow: 0.2 },
-    bom: { eye: "round", iris: "#ff3b2f", mouth: "o", blush: true },
-    duri: { eye: "sharp", iris: "#6aa000", mouth: "flat", brow: 0.7 },
-    kembar: { eye: "round", iris: "#9a5cff", mouth: "cat", blush: true, pupil: "heart" },
-    racun: { eye: "sly", iris: "#a020d0", mouth: "smirk", brow: 0.3, pupil: "slit" },
-    batu: { eye: "sleepy", iris: "#6b4a2a", mouth: "flat" },
-    jamur: { eye: "sleepy", iris: "#c0201a", mouth: "smile", blush: true },
-    magnet: { eye: "normal", iris: "#2a4cff", mouth: "smile", pupil: "heart" },
-    meriam: { eye: "sharp", iris: "#ff8a1a", mouth: "grin", brow: 0.6 },
-    tawon: { eye: "sharp", iris: "#2a1a08", mouth: "fang", brow: 0.5 },
-    hantu: { eye: "ghost", iris: "#0a0a1a", mouth: "o", blush: true },
-    laser: { eye: "cool", iris: "#ff2e88", mouth: "smirk", pupil: "ring" },
-    portal: { eye: "round", iris: "#18b3a5", mouth: "o", pupil: "spiral" },
-    lubang: { eye: "round", iris: "#c9a8ff", mouth: "o", pupil: "spiral" },
-    bunga: { eye: "round", iris: "#ff4f9a", mouth: "smile", blush: true, pupil: "heart" },
-    angin: { eye: "happy", iris: "#2a9ad0", mouth: "cat", blush: true },
-    gelembung: { eye: "round", iris: "#1a7cff", mouth: "o", blush: true },
-    cermin: { eye: "cool", iris: "#7a8cb8", mouth: "smirk", pupil: "star" },
-    bintang: { eye: "round", iris: "#ff9a00", mouth: "grin", blush: true, pupil: "star" },
-    naga: { eye: "sharp", iris: "#ffcc00", mouth: "fang", brow: 0.55, pupil: "slit" },
+    ksatria: { eye: "normal", iris: "#2a5cc8", mouth: "smile", brow: 0.3 },
+    golem: { eye: "sleepy", iris: "#6b4a2a", mouth: "flat" },
+    viking: { eye: "sharp", iris: "#3a6aa8", mouth: "grin", brow: 0.6 },
+    gladiator: { eye: "sharp", iris: "#b02020", mouth: "grin", brow: 0.6 },
+    sumo: { eye: "happy", iris: "#c04060", mouth: "grin", blush: true },
+    samurai: { eye: "sharp", iris: "#e01e2e", mouth: "flat", brow: 0.6 },
+    silat: { eye: "sharp", iris: "#1a8a5a", mouth: "flat", brow: 0.5 },
+    berserker: { eye: "sharp", iris: "#ff3a1a", mouth: "fang", brow: 0.8 },
+    biksu: { eye: "happy", iris: "#c07a10", mouth: "smile" },
+    valkyrie: { eye: "round", iris: "#2a7cff", mouth: "smile", brow: 0.3, pupil: "star" },
+    ninja: { eye: "cool", iris: "#4a2ab8", mouth: "none", brow: 0.4 },
     bayangan: { eye: "glow", iris: "#ff5aff", mouth: "none" },
-    petasan: { eye: "round", iris: "#ff2a1a", mouth: "grin", blush: true, pupil: "star" },
-    meteor: { eye: "sharp", iris: "#ff5a00", mouth: "grin", brow: 0.6 },
-    matahari: { eye: "happy", iris: "#ff7a00", mouth: "smile", blush: true },
+    pencuri: { eye: "sly", iris: "#c08a2a", mouth: "cat" },
+    pemburu: { eye: "sharp", iris: "#c0a030", mouth: "flat", brow: 0.5, pupil: "slit" },
+    penari: { eye: "round", iris: "#ff3d8b", mouth: "cat", blush: true, pupil: "heart" },
+    sihirapi: { eye: "sharp", iris: "#ffcc00", mouth: "grin", brow: 0.55, pupil: "slit" },
+    sihires: { eye: "round", iris: "#2f8cff", mouth: "small", blush: true, pupil: "snow" },
+    dukun: { eye: "sly", iris: "#7a2a9a", mouth: "smirk", brow: 0.3, pupil: "spiral" },
+    necro: { eye: "glow", iris: "#5fff9a", mouth: "fang" },
+    ahlipetir: { eye: "sharp", iris: "#ffcc00", mouth: "grin", brow: 0.4, pupil: "bolt" },
+    pemanah: { eye: "cool", iris: "#3a8a20", mouth: "smirk" },
+    koboi: { eye: "sharp", iris: "#ff8a1a", mouth: "grin", brow: 0.6 },
+    sniper: { eye: "cool", iris: "#ff2e88", mouth: "smirk", pupil: "ring" },
+    bajaklaut: { eye: "sharp", iris: "#1a4a8a", mouth: "grin", brow: 0.4 },
+    grenadier: { eye: "sharp", iris: "#4a6a1a", mouth: "grin", brow: 0.5 },
+    pendeta: { eye: "happy", iris: "#ff9a00", mouth: "smile", blush: true },
+    bard: { eye: "happy", iris: "#c03ab0", mouth: "cat", blush: true },
+    druid: { eye: "sleepy", iris: "#3a9a2a", mouth: "smile", blush: true },
+    mekanik: { eye: "round", iris: "#ff8a1a", mouth: "grin", pupil: "ring" },
+    peramal: { eye: "sly", iris: "#9a5cff", mouth: "smirk", pupil: "star" },
+    paladin: { eye: "normal", iris: "#c08a1a", mouth: "smile", brow: 0.35 },
+    barong: { eye: "sharp", iris: "#ffcc00", mouth: "fang", brow: 0.7, pupil: "slit" },
+    juggernaut: { eye: "sharp", iris: "#ff3a1a", mouth: "flat", brow: 0.8 },
+    petinju: { eye: "sharp", iris: "#c02a1a", mouth: "grin", brow: 0.6 },
+    jawara: { eye: "sharp", iris: "#2a1a0a", mouth: "smirk", brow: 0.6 },
+    ronin: { eye: "cool", iris: "#3a4a8a", mouth: "flat", brow: 0.5 },
+    pembunuh: { eye: "glow", iris: "#ff3a5a", mouth: "none" },
+    kunoichi: { eye: "sly", iris: "#d0205a", mouth: "none", pupil: "slit" },
+    penjebak: { eye: "sly", iris: "#6a5a1a", mouth: "smirk" },
+    waktu: { eye: "round", iris: "#1a9aa8", mouth: "small", pupil: "ring" },
+    kosmos: { eye: "round", iris: "#c9a8ff", mouth: "o", pupil: "spiral" },
+    alkemis: { eye: "round", iris: "#6aa010", mouth: "grin", pupil: "spiral" },
+    pawang: { eye: "sleepy", iris: "#2a6ab0", mouth: "smile" },
+    nelayan: { eye: "happy", iris: "#1a7ab0", mouth: "grin", blush: true },
+    gunner: { eye: "sharp", iris: "#6a4a1a", mouth: "smirk", brow: 0.5 },
+    sumpit: { eye: "sharp", iris: "#3a7a1a", mouth: "flat", brow: 0.4 },
+    tabib: { eye: "happy", iris: "#9a6a2a", mouth: "smile", blush: true },
+    dalang: { eye: "sly", iris: "#8a5a1a", mouth: "smile", brow: 0.3 },
+    totem: { eye: "sharp", iris: "#a0401a", mouth: "flat", brow: 0.4 },
+    gong: { eye: "happy", iris: "#b0800a", mouth: "grin", blush: true },
   };
 
   function faceState(view, b, t) {
@@ -411,6 +469,40 @@
     ctx.closePath();
   }
 
+
+  // tong mesiu bajak laut
+  function drawBarrel(ctx, x, y, r, t) {
+    ctx.save(); ctx.translate(x, y);
+    ctx.fillStyle = "#7a4a22"; ctx.strokeStyle = "#2a160a"; ctx.lineWidth = 1.5;
+    roundRect(ctx, -r * 0.8, -r, r * 1.6, r * 2, r * 0.45); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#3a3a42";
+    ctx.fillRect(-r * 0.8, -r * 0.55, r * 1.6, r * 0.22); ctx.fillRect(-r * 0.8, r * 0.33, r * 1.6, r * 0.22);
+    ctx.strokeStyle = "#e8d0a0"; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(0, -r); ctx.quadraticCurveTo(r * 0.5, -r * 1.5, r * 0.3, -r * 1.8); ctx.stroke();
+    ctx.restore();
+    if (t != null) drawTex(ctx, "sparkle", "#ffcf66", x + r * 0.3, y - r * 1.8, 16, t * 10, 0.9, true);
+  }
+  // tombak cahaya valkyrie
+  function drawSpear(ctx, x, y, ang, len) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(ang);
+    ctx.strokeStyle = "#8a6a3a"; ctx.lineWidth = 4; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(-len, 0); ctx.lineTo(0, 0); ctx.stroke();
+    ctx.fillStyle = "#fff4c0"; ctx.strokeStyle = "#c8a030"; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(-4, -6); ctx.lineTo(-1, 0); ctx.lineTo(-4, 6); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+  // tengkorak necromancer
+  function drawSkull(ctx, x, y, s, ang) {
+    ctx.save(); ctx.translate(x, y); if (ang) ctx.rotate(ang + Math.PI / 2);
+    ctx.fillStyle = "#eef0e0"; ctx.strokeStyle = "#2a3020"; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.arc(0, -s * 0.1, s, Math.PI * 0.9, Math.PI * 2.1); ctx.lineTo(s * 0.55, s * 0.75); ctx.lineTo(-s * 0.55, s * 0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#1a2a1a";
+    ctx.beginPath(); ctx.arc(-s * 0.38, 0, s * 0.27, 0, TAU); ctx.arc(s * 0.38, 0, s * 0.27, 0, TAU); ctx.fill();
+    ctx.fillStyle = "#5fff9a";
+    ctx.beginPath(); ctx.arc(-s * 0.38, 0, s * 0.1, 0, TAU); ctx.arc(s * 0.38, 0, s * 0.1, 0, TAU); ctx.fill();
+    ctx.restore();
+  }
+
   function ballIcon(type, cssSize) {
     const cv = document.createElement("canvas");
     const dpr = Math.min(window.devicePixelRatio || 1, 3);
@@ -477,14 +569,21 @@
 
   // ---------------- event dari mesin -> efek ----------------
   const SKILL_SFX = {
-    karet: "dash", karetTali: "petal", es: "freeze", api: "flame", pedangLempar: "blade", pedangUp: "charge", petir: "zap",
-    vampir: "whoosh", raksasa: "heavy", raksasaLompat: "whoosh", raksasaInjak: "heavy", bom: "launch", bomTempel: "charge", bomPindah: "pop",
-    duriTanam: "petal", kembar: "split", racun: "sting", racunMax: "sting", batu: "heavy", jamurTanam: "pop", jamurMakan: "heal",
-    magnet: "nova", magnetTarik: "charge", magnetCuri: "zap", meriam: "shot", tawon: "sting", tawonTambah: "charge",
-    hantu: "ghost", hantuTembus: "ghost", hantuKeluar: "ghost", laser: "laser", portal: "portal", portalJatuh: "portal",
-    lubang: "hole", lubangMakan: "pop", bunga: "petal", bungaTidur: "shieldup", angin: "whoosh", anginLempar: "whoosh",
-    gelembung: "shieldup", gelembungTiup: "pop", gelembungPenjara: "shieldup", bintang: "dash", bintangTaruh: "charge", bintangRasi: "zap",
-    naga: "flame", bayangan: "ghost", bayanganCuri: "ghost", petasan: "launch", meteor: "meteorfall", matahari: "nova",
+    ksatria: "shieldup", ksatriaHantam: "heavy", golem: "heavy", viking: "heavy", vikingLompat: "whoosh", vikingInjak: "heavy",
+    gladiatorTiup: "whoosh", gladiatorPenjara: "shieldup", sumo: "nova", sumoTarik: "charge", sumoCuri: "zap",
+    samuraiLempar: "blade", samuraiUp: "charge", silat: "dash", silatTaruh: "charge", silatRasi: "zap", berserker: "flame",
+    biksu: "whoosh", biksuLempar: "whoosh", valkyrie: "meteorfall", ninja: "split", bayangan: "ghost", bayanganCuri: "ghost",
+    pencuri: "portal", pencuriJatuh: "portal", pemburu: "whoosh", penari: "dash", penariTali: "petal",
+    sihirapi: "flame", sihires: "freeze", dukun: "ghost", dukunTembus: "ghost", dukunKeluar: "ghost", necro: "sting", necroTambah: "charge",
+    ahlipetir: "zap", pemanah: "petal", pemanahPaku: "blade", koboi: "shot", sniper: "laser", bajaklaut: "launch",
+    bajaklautTempel: "charge", bajaklautPindah: "pop", grenadier: "launch", pendeta: "nova", bard: "sting", bardMax: "sting",
+    druidTanam: "pop", druidMakan: "heal", mekanikTanam: "charge", peramal: "petal", peramalEmas: "legend", peramalBiru: "freeze",
+    peramalUngu: "ghost", peramalHijau: "heal", peramalKunci: "ghost",
+    paladin: "heavy", barong: "nova", juggernaut: "dash", juggernautTabrak: "heavy", petinju: "heavy", petinjuJab: "hit", jawara: "blade",
+    ronin: "blade", roninTebas: "blade", pembunuh: "ghost", pembunuhTikam: "crit", kunoichi: "blade", penjebakTanam: "charge",
+    waktu: "portal", waktuMundur: "portal", kosmos: "hole", kosmosMakan: "pop", alkemis: "launch", pawang: "freeze",
+    nelayan: "whoosh", nelayanTarik: "whoosh", gunner: "shot", sumpitTiup: "petal", sumpitTidur: "shieldup", tabib: "launch",
+    tabibJamu: "heal", dalang: "split", totem: "heavy", gong: "nova",
   };
 
   function consumeEvents(w, view, withSound) {
@@ -558,7 +657,7 @@
           S("heavy");
           break;
         case "trapClose":
-          P(view, { key: "swirl", color: "#4ff0dc", x: ev.x, y: ev.y, s0: 100, s1: 10, life: 0.35, vr: -14 });
+          P(view, { key: "swirl", color: "#e0b070", x: ev.x, y: ev.y, s0: 100, s1: 10, life: 0.35, vr: -14 });
           break;
         case "spore":
           burstParts(view, ev.x, ev.y, 7, { key: "cloud", color: "#d86a5a", add: false, s0: 20, s1: 60, life: 0.8, a0: 0.55, spd: 90 });
@@ -574,11 +673,11 @@
           } else if (ev.skin === "star") {
             P(view, { key: "star", color: "#ffe066", x: ev.x, y: ev.y, s0: 70, s1: 20, life: 0.25 });
             burstParts(view, ev.x, ev.y, 4, { key: "sparkle", color: "#fff1a0", s0: 16, s1: 3, life: 0.4, spd: 200 });
-          } else if (ev.skin === "bubble") {
+          } else if (ev.skin === "net") {
             P(view, { key: "ring", color: "#bff0ff", x: ev.x, y: ev.y, s0: 30, s1: 90, life: 0.3 });
-          } else if (ev.skin === "spark" || ev.skin === "needle" || ev.skin === "bee") {
+          } else if (ev.skin === "spark" || ev.skin === "needle" || ev.skin === "bee" || ev.skin === "kunai" || ev.skin === "dart" || ev.skin === "pellet" || ev.skin === "hook" || ev.skin === "card" || ev.skin === "jamu") {
             burstParts(view, ev.x, ev.y, 3, { key: "sparkle", color: ev.color || "#fff", s0: 12, s1: 3, life: 0.3, spd: 150 });
-          } else if (ev.skin === "petal") burstParts(view, ev.x, ev.y, 5, { key: "sparkle", color: "#ff9fd0", s0: 16, s1: 4, life: 0.4, spd: 160 });
+          } else if (ev.skin === "arrow") burstParts(view, ev.x, ev.y, 5, { key: "sparkle", color: "#e8ffb0", s0: 16, s1: 4, life: 0.4, spd: 160 });
           else if (ev.skin === "orb") {
             P(view, { key: "burst", color: ev.color || "#fff", x: ev.x, y: ev.y, s0: 18, s1: 60, life: 0.25 });
             burstParts(view, ev.x, ev.y, 4, { key: "sparkle", color: ev.color || "#fff", s0: 14, s1: 3, life: 0.35, spd: 170 });
@@ -602,7 +701,7 @@
           S("boom");
           break;
         }
-        case "meteorHit":
+        case "valkyrieHit":
           P(view, { key: "blast", color: "#ff8a2a", x: ev.x, y: ev.y, s0: 60, s1: 2.6 * E.T.meteorR, life: 0.5 });
           P(view, { key: "star", color: "#fff1c4", x: ev.x, y: ev.y, s0: 200, s1: 40, life: 0.25 });
           P(view, { key: "ring", color: "#ffb05c", x: ev.x, y: ev.y, s0: 30, s1: 2.4 * E.T.meteorR, life: 0.4 });
@@ -616,7 +715,7 @@
           S("meteorhit");
           break;
         case "reflect":
-          callout(view, "cermin", by[ev.id], S);
+          callout(view, "ksatriaTangkis", by[ev.id], S);
           P(view, { key: "ring", color: "#e6f0ff", x: ev.x, y: ev.y, s0: 40, s1: 120, life: 0.3 });
           P(view, { key: "star", color: "#ffffff", x: ev.x, y: ev.y, s0: 90, s1: 20, life: 0.3 });
           P(view, { key: "sparkle", color: "#cfe0ff", x: ev.tx, y: ev.ty, s0: 60, s1: 10, life: 0.35 });
@@ -631,9 +730,16 @@
           S("pop");
           break;
         case "heal":
-          callout(view, "vampir", by[ev.id], S);
+          if (by[ev.id] && by[ev.id].type === "pemburu") callout(view, "pemburuDarah", by[ev.id], S);
+          if (ev.quiet && Math.random() < 0.7) break;
           P(view, { key: "heart", color: "#ff3b6b", x: ev.x + (Math.random() - 0.5) * 30, y: ev.y - 20, vy: -60, s0: 16, s1: 26, life: 0.8, rot: 0, add: false, drag: 0.98 });
           if (Math.random() < 0.5) S("heal");
+          break;
+        case "splash":
+          P(view, { key: "burst", color: "#c8ff4a", x: ev.x, y: ev.y, s0: 30, s1: 2.4 * E.T.potionR, life: 0.35 });
+          burstParts(view, ev.x, ev.y, 12, { key: "sparkle", color: "#b6ff5a", s0: 16, s1: 3, life: 0.5, spd: 220 });
+          burstParts(view, ev.x, ev.y, 5, { key: "cloud", color: "#8ad03a", add: false, s0: 24, s1: 60, life: 0.8, a0: 0.5, spd: 60 });
+          S("pop");
           break;
         case "boom":
           view.shake = Math.max(view.shake, 11);
@@ -659,7 +765,7 @@
             burstParts(view, b.x, b.y, 8, { key: "sparkle", color: c, s0: 18, s1: 4, life: 0.45, spd: ev.r * 2 });
             view.shake = Math.max(view.shake, ev.type === "gempa" ? 7 : 3);
           }
-          skillFx(view, ev.type, b);
+          skillFx(view, ev.type, b, ev);
           break;
         }
       }
@@ -667,49 +773,66 @@
     w.events.length = 0;
   }
 
-  function skillFx(view, type, b) {
-    if (type === "raksasaInjak") {
+  function skillFx(view, type, b, ev) {
+    if (type === "petinjuJab" || type === "petinju") {
+      const big = type === "petinju";
+      P(view, { key: "burst", color: big ? "#ffd23c" : "#ffffff", x: ev.x, y: ev.y, s0: 20, s1: big ? 90 : 50, life: 0.2 });
+      if (big) { view.shake = Math.max(view.shake, 7); burstParts(view, ev.x, ev.y, 6, { key: "star", color: "#fff6a0", s0: 22, s1: 6, life: 0.5, spd: 160 }); }
+      return;
+    }
+    if (type === "roninTebas" || type === "pembunuhTikam" || type === "juggernautTabrak") {
+      P(view, { key: "slash", color: type === "roninTebas" ? "#bcd0ff" : type === "juggernautTabrak" ? "#ffffff" : "#ff5a7a", x: ev.x, y: ev.y, s0: 50, s1: 120, life: 0.25, rot: Math.random() * TAU, vr: 0 });
+      view.shake = Math.max(view.shake, type === "pembunuhTikam" ? 8 : 5);
+      return;
+    }
+    if (type === "pembunuh") { burstParts(view, b.x, b.y, 8, { key: "smoke", color: "#4a3a5a", add: false, s0: 24, s1: 60, life: 0.6, a0: 0.6, spd: 90 }); return; }
+    if (type === "waktuMundur") { P(view, { key: "swirl", color: "#7af0ff", x: b.x, y: b.y, s0: 40, s1: 150, life: 0.5, vr: -10 }); return; }
+    if (type === "gong") { P(view, { key: "ring", color: "#ffd25a", x: b.x, y: b.y, s0: 30, s1: 90, life: 0.25 }); view.shake = Math.max(view.shake, 4); return; }
+    if (type === "dalang" || type === "totem" || type === "tabibJamu") { burstParts(view, b.x, b.y, 8, { key: "sparkle", color: TYPES[b.type].color, s0: 18, s1: 4, life: 0.5, spd: 140 }); return; }
+    if (type === "vikingInjak") {
       decal(view, "burst", "#0e1a0a", b.x, b.y, b.r * 4, 4);
       burstParts(view, b.x, b.y, 10, { key: "debris", color: "#5a4a3a", add: false, s0: 22, s1: 10, life: 0.7, spd: 260, drag: 0.9 });
       view.shake = Math.max(view.shake, 13);
       view.hitstop = Math.max(view.hitstop, 0.06);
-    } else if (type === "raksasaLompat") {
+    } else if (type === "vikingLompat") {
       burstParts(view, b.x, b.y, 6, { key: "smoke", color: "#c9c3bb", add: false, s0: 20, s1: 50, life: 0.6, a0: 0.5, spd: 90 });
-    } else if (type === "api") {
+    } else if (type === "berserker") {
       view.shake = Math.max(view.shake, 5);
-    } else if (type === "petir") {
+    } else if (type === "ahlipetir") {
       P(view, { key: "glow", color: "#ffe766", x: b.x, y: b.y, s0: 140, s1: 60, life: 0.25, a0: 0.8 });
-    } else if (type === "es") {
+    } else if (type === "sihires") {
       burstParts(view, b.x, b.y, 6, { key: "sparkle", color: "#dff8ff", s0: 16, s1: 4, life: 0.4, spd: 140 });
-    } else if (type === "hantuKeluar" || type === "hantuTembus") {
+    } else if (type === "dukunKeluar" || type === "dukunTembus") {
       burstParts(view, b.x, b.y, 6, { key: "cloud", color: "#d8dcff", s0: 30, s1: 80, life: 0.7, a0: 0.5, spd: 60 });
-    } else if (type === "portal") {
-      P(view, { key: "swirl", color: "#4ff0dc", x: b.x, y: b.y, s0: 90, s1: 20, life: 0.35, vr: 14 });
-    } else if (type === "bintangTaruh") {
+    } else if (type === "pencuri") {
+      P(view, { key: "swirl", color: "#e0b070", x: b.x, y: b.y, s0: 90, s1: 20, life: 0.35, vr: 14 });
+    } else if (type === "silatTaruh") {
       P(view, { key: "star", color: "#fff1a0", x: b.x, y: b.y, s0: 90, s1: 30, life: 0.3 });
-    } else if (type === "jamurMakan") {
+    } else if (type === "druidMakan") {
       burstParts(view, b.x, b.y, 6, { key: "sparkle", color: "#7dff9a", s0: 16, s1: 4, life: 0.6, spd: 120 });
-    } else if (type === "magnetCuri") {
+    } else if (type === "sumoCuri") {
       P(view, { key: "ring", color: "#ff5a6a", x: b.x, y: b.y, s0: 20, s1: 90, life: 0.25 });
-    } else if (type === "meriam") {
+    } else if (type === "koboi") {
       view.recoil[b.id] = 0.2;
       const a = b.aim || 0, tx = b.x + Math.cos(a) * (b.r + 18), ty = b.y + Math.sin(a) * (b.r + 18);
       P(view, { key: "flame", color: "#ffb44a", x: tx, y: ty, s0: 50, s1: 70, life: 0.14, rot: a + Math.PI / 2, vr: 0 });
       P(view, { key: "star", color: "#fff1c0", x: tx, y: ty, s0: 60, s1: 10, life: 0.15 });
       burstParts(view, tx, ty, 3, { key: "smoke", color: "#9aa0ad", add: false, s0: 16, s1: 44, life: 0.6, a0: 0.5, spd: 50 });
       view.shake = Math.max(view.shake, 3);
-    } else if (type === "laser") {
+    } else if (type === "sniper") {
       P(view, { key: "star", color: "#ff7ab8", x: b.x, y: b.y, s0: 120, s1: 30, life: 0.25 });
-    } else if (type === "petir") {
+    } else if (type === "ahlipetir") {
       P(view, { key: "glow", color: "#ffe766", x: b.x, y: b.y, s0: 140, s1: 60, life: 0.25, a0: 0.8 });
-    } else if (type === "lubang") {
+    } else if (type === "kosmos") {
       P(view, { key: "ring", color: "#9b6bff", x: b.x, y: b.y, s0: 30, s1: E.T.holeR * 2.2, life: 0.5 });
-    } else if (type === "hantu") {
+    } else if (type.startsWith("peramal")) {
+      P(view, { key: "star", color: "#e0c8ff", x: b.x, y: b.y, s0: 90, s1: 20, life: 0.25 });
+    } else if (type === "dukun") {
       burstParts(view, b.x, b.y, 6, { key: "cloud", color: "#d8dcff", s0: 30, s1: 80, life: 0.7, a0: 0.5, spd: 60 });
-    } else if (type === "bunga") {
+    } else if (type === "pemanah") {
       burstParts(view, b.x, b.y, 10, { key: "sparkle", color: "#ffa6d5", s0: 18, s1: 4, life: 0.5, spd: 180 });
       P(view, { key: "ringSoft", color: "#ff9fd0", x: b.x, y: b.y, s0: 60, s1: 150, life: 0.35, a0: 0.7 });
-    } else if (type === "angin") {
+    } else if (type === "biksu") {
       P(view, { key: "ringSoft", color: "#e8fbff", x: b.x, y: b.y, s0: 60, s1: E.T.tornadoR * 3, life: 0.4, a0: 0.9 });
       P(view, { key: "swirl", color: "#ffffff", x: b.x, y: b.y, s0: 80, s1: E.T.tornadoR * 2.5, life: 0.4, vr: 10, a0: 0.7 });
       for (let i = 0; i < 10; i++) {
@@ -717,23 +840,23 @@
         P(view, { key: "wisp", color: "#e8fbff", x: b.x + Math.cos(a) * b.r, y: b.y + Math.sin(a) * b.r, vx: Math.cos(a) * 320, vy: Math.sin(a) * 320, s0: 30, s1: 70, life: 0.4, a0: 0.6, drag: 0.9 });
       }
       view.shake = Math.max(view.shake, 4);
-    } else if (type === "gelembung") {
+    } else if (type === "gladiator") {
       P(view, { key: "ringSoft", color: "#9fe6ff", x: b.x, y: b.y, s0: 20, s1: b.r * 2.8, life: 0.35 });
-    } else if (type === "bintang") {
+    } else if (type === "silat") {
       P(view, { key: "star", color: "#fff1a0", x: b.x, y: b.y, s0: 160, s1: 30, life: 0.3 });
-    } else if (type === "naga") {
+    } else if (type === "sihirapi") {
       view.shake = Math.max(view.shake, 3);
     } else if (type === "bayangan") {
       burstParts(view, b.x, b.y, 5, { key: "wisp", color: "#7a3cff", s0: 30, s1: 70, life: 0.6, a0: 0.8, spd: 70 });
-    } else if (type === "petasan") {
+    } else if (type === "grenadier") {
       burstParts(view, b.x, b.y, 3, { key: "smoke", color: "#c9c3bb", add: false, s0: 16, s1: 40, life: 0.6, a0: 0.5, spd: 50 });
-    } else if (type === "matahari") {
+    } else if (type === "pendeta") {
       P(view, { key: "glow", color: "#ffd25a", x: b.x, y: b.y, s0: 120, s1: E.T.sunNovaR * 2.6, life: 0.45 });
       P(view, { key: "ring", color: "#ffb21a", x: b.x, y: b.y, s0: 40, s1: E.T.sunNovaR * 2.3, life: 0.45 });
       P(view, { key: "star", color: "#fff4c2", x: b.x, y: b.y, s0: 260, s1: 60, life: 0.3 });
       view.shake = Math.max(view.shake, 10);
       view.hitstop = Math.max(view.hitstop, 0.05);
-    } else if (type === "pedang") {
+    } else if (type === "samurai") {
       const t = E.bladeTip(b);
       burstParts(view, t.bx, t.by, 4, { key: "sparkle", color: "#fff", s0: 16, s1: 4, life: 0.3, spd: 200 });
     }
@@ -756,9 +879,9 @@
         burstParts(view, f.x, f.y, 8, { key: "debris", color: "#3b3333", add: false, s0: 22, s1: 12, life: 0.7, spd: 240, drag: 0.9 });
         burstParts(view, f.x, f.y, 6, { key: "cloud", color: "#55505a", add: false, s0: 40, s1: 110, life: 1.3, a0: 0.5, spd: 50 });
         decal(view, "burst", "#120c0a", f.x, f.y, f.r * 1.8, 4);
-      } else if (f.kind === "ring" && f.color === TYPES.portal.color) {
-        P(view, { key: "swirl", color: "#4ff0dc", x: f.x, y: f.y, s0: 100, s1: 20, life: 0.4, vr: -14 });
-        P(view, { key: "glow", color: "#2ec4b6", x: f.x, y: f.y, s0: 110, s1: 40, life: 0.35 });
+      } else if (f.kind === "ring" && f.color === TYPES.pencuri.color) {
+        P(view, { key: "swirl", color: "#e0b070", x: f.x, y: f.y, s0: 100, s1: 20, life: 0.4, vr: -14 });
+        P(view, { key: "glow", color: "#a0784a", x: f.x, y: f.y, s0: 110, s1: 40, life: 0.35 });
       } else if (f.kind === "ring") {
         P(view, { key: "ring", color: f.color, x: f.x, y: f.y, s0: 30, s1: 140, life: 0.4 });
         burstParts(view, f.x, f.y, 8, { key: "sparkle", color: f.color, s0: 18, s1: 4, life: 0.5, spd: 200 });
@@ -818,10 +941,10 @@
         else if (mode === "drone") f = b.droneAngle;
         else if (mode === "spin") {
           let rate = (Math.hypot(b.vx, b.vy) / b.r) * 0.45;
-          if (b.type === "portal") rate = 5;
-          if (b.type === "lubang") rate = 1.2;
-          if (b.type === "matahari") rate = 0.7;
-          if (b.type === "bintang" && b.dash > 0) rate *= 2.5;
+          if (b.type === "pencuri") rate = 5;
+          if (b.type === "peramal") rate = 1.2;
+          if (b.type === "pendeta") rate = 0.7;
+          if (b.type === "silat" && b.dash > 0) rate *= 2.5;
           f += (id % 2 ? 1 : -1) * rate * dt;
         } else {
           const want = mode === "aim" && b.aim != null ? b.aim : Math.atan2(b.vy, b.vx);
@@ -834,7 +957,7 @@
       view.face[id] = f;
 
       // ---- jejak bayangan saat ngebut ----
-      const fast = (b.type === "bintang" && b.dash > 0) || Math.hypot(b.vx, b.vy) > 420;
+      const fast = (b.type === "silat" && b.dash > 0) || b.charge > 0 || b.rdash > 0 || Math.hypot(b.vx, b.vy) > 420;
       const tr = view.trails[id] || (view.trails[id] = []);
       if (fast && every(view, "trl" + id, 0.035, dt)) { tr.push({ x: b.x, y: b.y, f: view.face[id], life: 0.22 }); if (tr.length > 6) tr.shift(); }
       for (const p of tr) p.life -= dt;
@@ -859,7 +982,7 @@
       if (b.flung > 0 && every(view, "fl" + id, 0.03, dt)) {
         P(view, { key: "streak", color: "#e8fbff", x: b.x, y: b.y, s0: 60, s1: 30, life: 0.25, rot: Math.atan2(b.vy, b.vx) + Math.PI / 2, vr: 0, a0: 0.6 });
       }
-      if (b.type === "naga" && b.breath > 0) {
+      if (b.type === "sihirapi" && b.breath > 0) {
         const a = b.aim, sx = b.x + Math.cos(a) * b.r * 1.1, sy = b.y + Math.sin(a) * b.r * 1.1;
         for (let i = 0; i < 3; i++) {
           const sa = a + (Math.random() - 0.5) * 2 * E.T.breathAngle, sp = 330 + Math.random() * 120;
@@ -867,17 +990,26 @@
         }
         if (every(view, "nsm" + id, 0.08, dt)) P(view, { key: "smoke", color: "#5a4a44", add: false, x: sx + Math.cos(a) * 120, y: sy + Math.sin(a) * 120, vx: Math.cos(a) * 60, vy: Math.sin(a) * 60, s0: 30, s1: 80, life: 0.8, a0: 0.35 });
       }
-      if (b.type === "bintang" && b.dash > 0) {
+      if (b.type === "silat" && b.dash > 0) {
         P(view, { key: "sparkle", color: "#ffe066", x: b.x + (Math.random() - 0.5) * b.r, y: b.y + (Math.random() - 0.5) * b.r, s0: 24, s1: 4, life: 0.45, rot: 0 });
         if (every(view, "bst" + id, 0.04, dt)) P(view, { key: "glow", color: "#ffcc33", x: b.x, y: b.y, s0: b.r * 2.6, s1: b.r * 1.6, life: 0.25, a0: 0.5 });
       }
-      if (b.type === "tawon" && every(view, "taw" + id, 0.06, dt)) {
+      if (b.type === "necro" && every(view, "taw" + id, 0.06, dt)) {
         for (const p of E.dronePositions(b)) P(view, { key: "point", color: "#ffd166", x: p.x, y: p.y, s0: 14, s1: 4, life: 0.3, a0: 0.8 });
       }
-      if (b.type === "api" && every(view, "api" + id, 0.07, dt)) {
+      if (b.bleed > 0 && every(view, "bld" + id, 0.15, dt)) {
+        P(view, { key: "point", color: "#e0102a", add: false, x: b.x + (Math.random() - 0.5) * b.r, y: b.y + b.r * 0.3, vy: 60, s0: 10, s1: 6, life: 0.5, a0: 0.9, drag: 0.97 });
+      }
+      if (b.fear > 0 && every(view, "fear" + id, 0.35, dt)) {
+        view.texts.push({ x: b.x, y: b.y - b.r - 6, txt: "!", color: "#ff7aff", life: 0.5, max: 0.5, small: true });
+      }
+      if (b.slow > 0 && every(view, "slw" + id, 0.2, dt)) {
+        P(view, { key: "sparkle", color: "#8ad8ff", x: b.x + (Math.random() - 0.5) * b.r * 1.4, y: b.y + (Math.random() - 0.5) * b.r, s0: 12, s1: 3, life: 0.5 });
+      }
+      if (b.type === "berserker" && every(view, "berserker" + id, 0.07, dt)) {
         P(view, { key: "flame", color: "#ff9a2a", x: b.x - b.vx * 0.05, y: b.y - b.vy * 0.05, vx: -b.vx * 0.15, vy: -b.vy * 0.15 - 30, s0: 26, s1: 44, life: 0.35, rot: Math.atan2(-b.vy, -b.vx) + Math.PI / 2, vr: 0 });
       }
-      if (b.type === "cermin" && every(view, "cer" + id, 0.5, dt)) {
+      if (b.type === "ksatria" && every(view, "cer" + id, 0.5, dt)) {
         P(view, { key: "sparkle", color: "#ffffff", x: b.x + (Math.random() - 0.5) * b.r * 1.2, y: b.y + (Math.random() - 0.5) * b.r * 1.2, s0: 4, s1: 26, life: 0.35, rot: 0 });
       }
     }
@@ -903,6 +1035,13 @@
       } else if (h.kind === "tornado" && Math.random() < dt * 40) {
         const a = Math.random() * TAU;
         P(view, { key: "smoke", color: "#d8eef5", add: false, x: h.x + Math.cos(a) * h.r, y: h.y + Math.sin(a) * h.r, vx: -Math.sin(a) * 200, vy: Math.cos(a) * 200, s0: 16, s1: 36, life: 0.4, a0: 0.5 });
+      } else if (h.kind === "rain" && Math.random() < dt * 60) {
+        const a = Math.random() * TAU, rr = Math.random() * h.r;
+        P(view, { key: "streak", color: "#9fd4ff", x: h.x + Math.cos(a) * rr, y: h.y + Math.sin(a) * rr * 0.7 - 30, vy: 260, s0: 22, s1: 12, life: 0.15, rot: 0, vr: 0, a0: 0.7 });
+      } else if (h.kind === "acid" && Math.random() < dt * 10) {
+        P(view, { key: "point", color: "#c8ff4a", x: h.x + (Math.random() - 0.5) * h.r, y: h.y + (Math.random() - 0.5) * h.r * 0.7, vy: -30, s0: 10, s1: 4, life: 0.5 });
+      } else if (h.kind === "potion" && Math.random() < dt * 30) {
+        P(view, { key: "point", color: "#b6ff5a", x: h.x, y: h.y, s0: 12, s1: 3, life: 0.3 });
       } else if (h.kind === "crater" && Math.random() < dt * 8) {
         P(view, { key: "flame", color: "#ff7a1a", x: h.x + (Math.random() - 0.5) * h.r, y: h.y + (Math.random() - 0.5) * h.r, vy: -60, s0: 20, s1: 30, life: 0.4, rot: 0, vr: 0 });
       }
@@ -961,7 +1100,7 @@
         ctx.beginPath(); ctx.arc(h.x, h.y, T.bombR, 0, TAU); ctx.stroke();
         ctx.restore();
         drawTex(ctx, "glow", "#ff3b4e", h.x, h.y, 40 + (1 - k) * 30, 0, Math.sin(t * (10 + (1 - k) * 30)) > 0 ? 0.7 : 0.2, true);
-        drawSprite(ctx, "bom", h.x, h.y, 12, 0);
+        drawBarrel(ctx, h.x, h.y, 11, t);
       } else if (h.kind === "hole") {
         const k = Math.min(1, (h.life / h.max) * 2.5, (h.max - h.life) * 5);
         drawTex(ctx, "glow", "#3b1590", h.x, h.y, h.r * 2.4, 0, 0.8 * k, false);
@@ -984,10 +1123,10 @@
         drawTex(ctx, "glow", "#7acc3a", h.x, h.y, h.r * 2.4, 0, 0.25 * k, true);
       } else if (h.kind === "trap") {
         const k = 1 - h.warn / h.max;
-        drawTex(ctx, "swirl", "#2ec4b6", h.x, h.y, h.r * 2.6, -t * 8, 0.4 + k * 0.6, true);
-        ctx.fillStyle = "rgba(4,30,32," + (0.3 + k * 0.6) + ")";
+        drawTex(ctx, "swirl", "#a0784a", h.x, h.y, h.r * 2.6, -t * 8, 0.4 + k * 0.6, true);
+        ctx.fillStyle = "rgba(40,24,10," + (0.3 + k * 0.6) + ")";
         ctx.beginPath(); ctx.ellipse(h.x, h.y, h.r * k, h.r * k * 0.8, 0, 0, TAU); ctx.fill();
-        drawTex(ctx, "ringSoft", "#4ff0dc", h.x, h.y, h.r * 2.4, 0, 0.8, true);
+        drawTex(ctx, "ringSoft", "#e0b070", h.x, h.y, h.r * 2.4, 0, 0.8, true);
       } else if (h.kind === "shroom") {
         const g = Math.min(1, 1 - h.grow / E.T.shroomGrow), k = Math.min(1, h.life / 0.5);
         const R = h.r * (0.4 + 0.6 * g);
@@ -1004,29 +1143,61 @@
           ctx.beginPath(); ctx.arc(h.x + dx * R, h.y + dy * R, rr * R, 0, TAU); ctx.fill();
         }
         ctx.restore();
-      } else if (h.kind === "shard") {
-        const k = Math.min(1, h.life / 0.6);
-        ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(h.rot);
-        ctx.globalAlpha = 0.85 * k;
-        ctx.fillStyle = "rgba(220,235,255,0.75)"; ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(-h.r, h.r * 0.6); ctx.lineTo(h.r * 0.2, -h.r); ctx.lineTo(h.r, h.r * 0.3); ctx.closePath(); ctx.fill(); ctx.stroke();
-        ctx.restore();
-        if (Math.sin(t * 6 + h.x) > 0.9) drawTex(ctx, "sparkle", "#ffffff", h.x, h.y, 22, 0, 0.8, true);
       } else if (h.kind === "cactus") {
+        // menara tembak mekanik
         const k = Math.min(1, h.life / 0.5, (h.max - h.life) * 4);
-        const sq = h.shotT > 0 ? 1.15 : 1;
-        ctx.save(); ctx.globalAlpha = k; ctx.translate(h.x, h.y); ctx.scale(sq, 2 - sq);
+        const tg = E.T && w.balls.find((o) => o.alive && o.team !== h.team);
+        const ang = tg ? Math.atan2(tg.y - h.y, tg.x - h.x) : 0;
+        const kick = h.shotT > 0 ? 3 : 0;
+        ctx.save(); ctx.globalAlpha = k; ctx.translate(h.x, h.y);
         ctx.fillStyle = "rgba(0,0,0,0.25)";
-        ctx.beginPath(); ctx.ellipse(2, 12, 14, 5, 0, 0, TAU); ctx.fill();
-        ctx.fillStyle = "#5fae3a"; ctx.strokeStyle = "#1f4a14"; ctx.lineWidth = 2;
-        roundRect(ctx, -7, -18, 14, 30, 7); ctx.fill(); ctx.stroke();
-        roundRect(ctx, -16, -8, 8, 14, 4); ctx.fill(); ctx.stroke();
-        roundRect(ctx, 8, -13, 8, 14, 4); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = "#ff8fc8";
-        ctx.beginPath(); ctx.arc(0, -19, 4, 0, TAU); ctx.fill();
-        ctx.fillStyle = "#1f2a14";
-        ctx.beginPath(); ctx.arc(-3, -6, 1.6, 0, TAU); ctx.arc(3, -6, 1.6, 0, TAU); ctx.fill();
+        ctx.beginPath(); ctx.ellipse(2, 9, 15, 5, 0, 0, TAU); ctx.fill();
+        ctx.fillStyle = "#5a6070"; ctx.strokeStyle = "#1e222c"; ctx.lineWidth = 2;
+        roundRect(ctx, -12, -4, 24, 14, 4); ctx.fill(); ctx.stroke();
+        ctx.save(); ctx.rotate(ang);
+        ctx.fillStyle = "#2a2e38"; ctx.fillRect(4 - kick, -3, 16, 6);
         ctx.restore();
+        ctx.fillStyle = "#9aa0b4"; ctx.beginPath(); ctx.arc(0, -2, 8, 0, TAU); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = h.shotT > 0 ? "#fff27a" : "#ff8a1a"; ctx.beginPath(); ctx.arc(0, -2, 3, 0, TAU); ctx.fill();
+        ctx.restore();
+      } else if (h.kind === "mine") {
+        const armed = h.arm <= 0, k = Math.min(1, h.life / 0.5);
+        ctx.save(); ctx.globalAlpha = k * (armed ? 0.75 : 1);
+        ctx.fillStyle = "#4a4630"; ctx.strokeStyle = "#1a180c"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.ellipse(h.x, h.y, h.r, h.r * 0.7, 0, 0, TAU); ctx.fill(); ctx.stroke();
+        ctx.restore();
+        if (armed && Math.sin(t * 8 + h.x) > 0.3) drawTex(ctx, "glow", "#ff3a2a", h.x, h.y - 2, 18, 0, 0.8, true);
+      } else if (h.kind === "timefield") {
+        const k = Math.min(1, h.life / 0.5, (h.max - h.life) * 4);
+        drawTex(ctx, "glow", "#2ab8c8", h.x, h.y, h.r * 2.4, 0, 0.3 * k, true);
+        drawTex(ctx, "rune", "#7af0ff", h.x, h.y, h.r * 2.1, -t * 0.8, 0.6 * k, true);
+        ctx.save(); ctx.globalAlpha = 0.7 * k; ctx.strokeStyle = "#bff8ff"; ctx.lineWidth = 2.5; ctx.lineCap = "round";
+        ctx.beginPath(); ctx.moveTo(h.x, h.y); ctx.lineTo(h.x + Math.cos(t * 2 - Math.PI / 2) * h.r * 0.6, h.y + Math.sin(t * 2 - Math.PI / 2) * h.r * 0.6); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(h.x, h.y); ctx.lineTo(h.x + Math.cos(t / 6 - Math.PI / 2) * h.r * 0.4, h.y + Math.sin(t / 6 - Math.PI / 2) * h.r * 0.4); ctx.stroke();
+        ctx.restore();
+      } else if (h.kind === "acid") {
+        const k = Math.min(1, h.life / 0.6, (h.max - h.life) * 5);
+        ctx.save(); ctx.globalAlpha = 0.55 * k; ctx.fillStyle = "#7ac020";
+        ctx.beginPath(); ctx.ellipse(h.x, h.y, h.r, h.r * 0.72, 0, 0, TAU); ctx.fill(); ctx.restore();
+        drawTex(ctx, "glow", "#b6ff3a", h.x, h.y, h.r * 2.4, 0, 0.3 * k, true);
+      } else if (h.kind === "totem") {
+        const k = Math.min(1, h.life / 0.5, (h.max - h.life) * 4);
+        const pulse = (t * 1.4) % 1;
+        drawTex(ctx, "ringSoft", "#ff9a4a", h.x, h.y, h.r * 2 * pulse, 0, 0.5 * (1 - pulse) * k, true);
+        ctx.save(); ctx.globalAlpha = k; ctx.translate(h.x, h.y);
+        ctx.fillStyle = "rgba(0,0,0,0.25)"; ctx.beginPath(); ctx.ellipse(2, 10, 12, 4, 0, 0, TAU); ctx.fill();
+        ctx.strokeStyle = "#2a1408"; ctx.lineWidth = 1.5;
+        const cols = ["#c0603a", "#e0a040", "#3a8a6a"];
+        for (let i = 0; i < 3; i++) { ctx.fillStyle = cols[i]; roundRect(ctx, -8, 2 - i * 10, 16, 10, 3); ctx.fill(); ctx.stroke(); }
+        ctx.fillStyle = "#fff"; ctx.fillRect(-5, -16, 3, 3); ctx.fillRect(2, -16, 3, 3);
+        ctx.restore();
+      } else if (h.kind === "gongwave" && h.delay <= 0) {
+        const k = 1 - h.r / E.T.gongMaxR;
+        ctx.save(); ctx.globalCompositeOperation = "lighter";
+        ctx.strokeStyle = "rgba(255,210,90," + 0.8 * k + ")"; ctx.lineWidth = E.T.gongWidth * 0.6;
+        ctx.beginPath(); ctx.arc(h.x, h.y, h.r, 0, TAU); ctx.stroke();
+        ctx.strokeStyle = "rgba(255,255,255," + 0.8 * k + ")"; ctx.lineWidth = 2;
+        ctx.stroke(); ctx.restore();
       } else if (h.kind === "pillar") {
         const age = h.max - h.life, rise = Math.min(1, age / 0.18), k = Math.min(1, h.life / 0.4);
         const R = h.r, H = 22 * rise;
@@ -1065,7 +1236,7 @@
         if (!warn) { ctx.strokeStyle = "rgba(255,255,255," + k + ")"; ctx.lineWidth = 2.5; ctx.stroke(); }
         ctx.restore();
         for (const q of p) drawTex(ctx, "star", "#ffe066", q.x, q.y, 34, t * 2, 0.9, true);
-      } else if (h.kind === "meteor") {
+      } else if (h.kind === "valkyrie") {
         const k = 1 - h.delay / h.max; // 0 -> 1 saat jatuh
         drawTex(ctx, "target", "#ff4a2a", h.x, h.y, h.r * 2.2 * (1.2 - k * 0.2), t * 3, 0.5 + k * 0.5, true);
         drawTex(ctx, "glow", "#ff5a1a", h.x, h.y, h.r * 2 * k, 0, 0.5 * k, true);
@@ -1075,29 +1246,29 @@
     // ancang-ancang di bawah bola
     for (const b of w.balls) {
       if (!b.alive) continue;
-      if (b.type === "lubang" && b.timer > T.holeEvery - 0.6) {
+      if (b.type === "kosmos" && b.timer > T.holeEvery - 0.6) {
         const k = (b.timer - (T.holeEvery - 0.6)) / 0.6;
         drawTex(ctx, "rune", "#9b6bff", b.x, b.y, b.r * (2 + k * 2), t * 3, k, true);
       }
-      if (b.type === "matahari") {
+      if (b.type === "pendeta") {
         const charge = Math.max(0, (b.timer - (T.sunNovaEvery - 0.8)) / 0.8);
         drawTex(ctx, "glow", "#ff9a1a", b.x, b.y, T.sunAuraR * 2.4 * (1 + Math.sin(t * 6) * 0.04), 0, 0.35 + charge * 0.5, true);
         drawTex(ctx, "star", "#ffcf4a", b.x, b.y, T.sunAuraR * 1.8, t * 0.6, 0.35 + charge * 0.4, true);
         drawTex(ctx, "ringSoft", "#ffb21a", b.x, b.y, T.sunAuraR * 2, 0, 0.25, true);
       }
-      if (b.type === "magnet") {
+      if (b.type === "sumo") {
         const ph = (t * 1.2) % 1, pull = b.pole > 0;
         const sz = pull ? T.magnetRange * 2 * (1 - ph) : T.magnetRange * 2 * ph;
         drawTex(ctx, "ringSoft", pull ? "#ff5a6a" : "#5a8aff", b.x, b.y, sz, 0, 0.35 * (pull ? ph : 1 - ph), true);
       }
-      if (b.type === "bintang" && b.marks.length) {
+      if (b.type === "silat" && b.marks.length) {
         ctx.save(); ctx.setLineDash([3, 7]); ctx.strokeStyle = "rgba(255,230,120,0.45)"; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.moveTo(b.marks[0].x, b.marks[0].y);
         for (const q of b.marks) ctx.lineTo(q.x, q.y);
         ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.restore();
         for (const q of b.marks) drawTex(ctx, "star", "#ffe066", q.x, q.y, 26 + Math.sin(t * 6) * 4, t, 0.9, true);
       }
-      if (b.type === "kembar" && b.hidden <= 0) {
+      if (b.type === "ninja" && b.hidden <= 0) {
         const pp = E.kembarPartner(w, b);
         if (pp && (pp.echo || pp.id > b.id)) {
           if (pp.echo) { // kembaran cermin (bayangan transparan)
@@ -1126,7 +1297,7 @@
 
     // garis bidik laser
     for (const b of w.balls) {
-      if (!b.alive || b.type !== "laser" || b.aim == null) continue;
+      if (!b.alive || b.type !== "sniper" || b.aim == null) continue;
       const k = Math.min(1, (b.timer - (T.laserEvery - T.laserCharge)) / T.laserCharge);
       const locked = b.timer >= T.laserEvery - T.laserLock;
       const ux = Math.cos(b.aim), uy = Math.sin(b.aim);
@@ -1163,7 +1334,7 @@
       }
       ctx.save();
       if (b.ghost > 0) ctx.globalAlpha = 0.35 + Math.sin(t * 20) * 0.08;
-      if (b.type === "pedang" && b.blade.thrown <= 0) {
+      if (b.type === "samurai" && b.blade.thrown <= 0) {
         // jejak tebasan di belakang pedang
         drawTex(ctx, "slash", "#ffffff", x, y, (b.r + T.bladeLen) * 2.1, b.blade.angle - 0.9, 0.35, true);
         drawBlade(ctx, x, y, b.r, b.blade.angle);
@@ -1184,21 +1355,30 @@
 
       // lapisan status
       ctx.save();
-      if (b.type === "gelembung" && b.shield > 0) {
+      if (b.type === "ksatria" && b.shield > 0) {
         const k = b.shield / T.bubbleHp;
-        drawTex(ctx, "glow", "#7fd8ff", x, y, b.r * 3, 0, 0.18 + 0.12 * k, true);
-        drawTex(ctx, "ringSoft", "#bff0ff", x, y, b.r * 2.9, 0, 0.5 + 0.4 * k, true);
-        ctx.fillStyle = "rgba(255,255,255," + 0.35 * k + ")";
-        ctx.beginPath(); ctx.ellipse(x - b.r * 0.55, y - b.r * 0.7, b.r * 0.32, b.r * 0.16, -0.6, 0, TAU); ctx.fill();
+        drawTex(ctx, "glow", "#7fb0ff", x, y, b.r * 3, 0, 0.16 + 0.12 * k, true);
+        drawTex(ctx, "ringSoft", "#ffe9a0", x, y, b.r * 2.8, 0, 0.45 + 0.4 * k, true);
       }
       if (b.trapped > 0) {
-        const wob = 1 + Math.sin(t * 9) * 0.04;
-        drawTex(ctx, "glow", "#7fd8ff", x, y, b.r * 3.4, 0, 0.25, true);
-        ctx.fillStyle = "rgba(160,225,255,0.18)"; ctx.strokeStyle = "rgba(220,248,255,0.9)"; ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.ellipse(x, y, b.r * 1.45 * wob, b.r * 1.45 / wob, 0, 0, TAU); ctx.fill(); ctx.stroke();
-        ctx.fillStyle = "rgba(255,255,255,0.7)";
-        ctx.beginPath(); ctx.ellipse(x - b.r * 0.7, y - b.r * 0.8, b.r * 0.3, b.r * 0.14, -0.7, 0, TAU); ctx.fill();
+        // terjerat jaring gladiator
+        ctx.save();
+        ctx.beginPath(); ctx.arc(x, y, b.r * 1.25, 0, TAU); ctx.clip();
+        ctx.strokeStyle = "rgba(235,225,190,0.9)"; ctx.lineWidth = 2;
+        const R = b.r * 1.25, st = R / 2.5, off = Math.sin(t * 4) * 2;
+        for (let i = -3; i <= 3; i++) {
+          ctx.beginPath(); ctx.moveTo(x - R + i * st + off, y - R); ctx.lineTo(x + R + i * st + off, y + R); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x + R + i * st - off, y - R); ctx.lineTo(x - R + i * st - off, y + R); ctx.stroke();
+        }
+        ctx.restore();
+        ctx.strokeStyle = "#8a6a3a"; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(x, y, b.r * 1.25, 0, TAU); ctx.stroke();
       }
+      if (b.hookT > 0 && b.hookSrc && b.hookSrc.alive) {
+        ctx.strokeStyle = "rgba(230,240,255,0.85)"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(b.hookSrc.x, b.hookSrc.y); ctx.lineTo(x, y); ctx.stroke();
+      }
+      if (b.slow > 0) drawTex(ctx, "ringSoft", "#7ad8ff", x, y, b.r * 2.6, 0, 0.4, true);
       if (b.silence > 0) {
         drawTex(ctx, "rune", "#7a3cff", x, y, b.r * 2.6, t * 2, 0.55, true);
         drawTex(ctx, "rune", "#2a1250", x, y, b.r * 2.2, -t * 3, 0.5, false);
@@ -1224,43 +1404,42 @@
       ctx.restore();
 
       // ancang-ancang di atas bola
-      if (b.type === "petir" && b.timer > T.cloudEvery - 0.6) {
+      if (b.type === "ahlipetir" && b.timer > T.cloudEvery - 0.6) {
         const k = (b.timer - (T.cloudEvery - 0.6)) / 0.6;
         drawTex(ctx, Math.random() < 0.5 ? "bolt" : "boltS", "#fff27a", x, y, b.r * (2.2 + k), Math.random() * TAU, 0.3 + k * 0.6, true);
       }
-      if (b.type === "meriam" && b.timer > T.shotEvery - 0.45 && b.aim != null) {
+      if (b.type === "koboi" && b.timer > T.shotEvery - 0.45 && b.aim != null) {
         const k = (b.timer - (T.shotEvery - 0.45)) / 0.45;
         drawTex(ctx, "glow", "#ff9a2a", x + Math.cos(b.aim) * (b.r + 14), y + Math.sin(b.aim) * (b.r + 14), 20 + k * 40, 0, k, true);
       }
-      if (b.type === "portal" && b.timer > T.trapEvery - 0.6) {
+      if (b.type === "pencuri" && b.timer > T.trapEvery - 0.6) {
         const k = (b.timer - (T.trapEvery - 0.6)) / 0.6;
-        drawTex(ctx, "swirl", "#4ff0dc", x, y, b.r * (4 - k * 1.8), -t * 12, k, true);
+        drawTex(ctx, "swirl", "#e0b070", x, y, b.r * (4 - k * 1.8), -t * 12, k, true);
       }
-      if (b.type === "angin" && b.timer > T.tornadoEvery - 0.45) {
+      if (b.type === "biksu" && b.timer > T.tornadoEvery - 0.45) {
         const k = (b.timer - (T.tornadoEvery - 0.45)) / 0.45;
         drawTex(ctx, "ringSoft", "#ffffff", x, y, b.r * (5 - k * 3), 0, k * 0.8, true);
       }
-      if (b.type === "bunga" && b.timer > T.flowerEvery - 0.5) {
+      if (b.type === "pemanah" && b.timer > T.flowerEvery - 0.5) {
         const k = (b.timer - (T.flowerEvery - 0.5)) / 0.5;
         drawTex(ctx, "glow", "#ff8fc8", x, y, b.r * (2 + k * 1.5), 0, k * 0.7, true);
       }
-      if (b.type === "bintang" && b.dash <= 0 && b.timer > T.dashEvery - 0.35) {
+      if (b.type === "silat" && b.dash <= 0 && b.timer > T.dashEvery - 0.35) {
         drawTex(ctx, "sparkle", "#fff1a0", x, y, b.r * 3.2, t * 8, 0.8, true);
       }
-      if (b.type === "naga" && b.breath <= 0 && b.timer > T.breathEvery - 0.4 && b.aim != null) {
+      if (b.type === "sihirapi" && b.breath <= 0 && b.timer > T.breathEvery - 0.4 && b.aim != null) {
         const k = (b.timer - (T.breathEvery - 0.4)) / 0.4;
         drawTex(ctx, "glow", "#ff7a1a", x + Math.cos(b.aim) * b.r, y + Math.sin(b.aim) * b.r, 20 + k * 50, 0, k, true);
       }
-      if (b.type === "tawon") {
+      if (b.type === "necro") {
         for (const p of E.dronePositions(b)) {
-          ctx.fillStyle = "rgba(220,240,255,0.75)";
-          ctx.beginPath(); ctx.ellipse(p.x - 3, p.y - 6, 5, 3, -0.5, 0, TAU); ctx.fill();
-          ctx.beginPath(); ctx.ellipse(p.x + 3, p.y - 6, 5, 3, 0.5, 0, TAU); ctx.fill();
-          ctx.fillStyle = "#ffb703";
-          ctx.beginPath(); ctx.arc(p.x, p.y, 7, 0, TAU); ctx.fill();
-          ctx.fillStyle = "#1a1408";
-          ctx.fillRect(p.x - 1.5, p.y - 7, 3, 14);
+          drawTex(ctx, "glow", "#5fff9a", p.x, p.y, 26, 0, 0.4, true);
+          drawSkull(ctx, p.x, p.y + Math.sin(t * 6 + p.i) * 2, 7);
         }
+      }
+      if (b.minion) { // tongkat wayang
+        ctx.strokeStyle = "#5a3a1a"; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(x, y + b.r * 0.4); ctx.lineTo(x, y + b.r * 1.6); ctx.stroke();
       }
 
       drawHp(ctx, x, y, b.r, Math.ceil(b.hp), TYPES[b.type].color);
@@ -1285,7 +1464,7 @@
 
     // pedang bumerang
     for (const b of w.balls) {
-      if (!b.alive || b.type !== "pedang" || b.blade.thrown <= 0) continue;
+      if (!b.alive || b.type !== "samurai" || b.blade.thrown <= 0) continue;
       const p = E.bladeThrowPos(b);
       drawTex(ctx, "swirl", "#ffffff", p.x, p.y, 110, b.blade.angle, 0.4, true);
       ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(b.blade.angle);
@@ -1310,16 +1489,16 @@
           ctx.beginPath(); ctx.arc(h.x, h.y, T.bombR, 0, TAU); ctx.stroke(); ctx.restore();
         }
         drawTex(ctx, "glow", "#ff3b4e", h.x, h.y, 36 + (1 - k) * 30, 0, blink ? 0.8 : 0.25, true);
-        drawSprite(ctx, "bom", h.x, h.y, 11, Math.floor(t * 12));
+        drawBarrel(ctx, h.x, h.y, 10, t);
       } else if (h.kind === "bat") {
         const flap = Math.sin(t * 30 + h.off) * 0.6, ang = h.state === "latch" ? -Math.PI / 2 : Math.atan2(h.vy, h.vx);
         ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(ang + Math.PI / 2);
-        ctx.fillStyle = "#2a0a18";
+        ctx.fillStyle = "#c8d0e0";
         for (const sgn of [-1, 1]) {
           ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(sgn * 13, -6 - flap * 6); ctx.lineTo(sgn * 9, 0); ctx.lineTo(sgn * 14, 4 - flap * 3); ctx.closePath(); ctx.fill();
         }
         ctx.beginPath(); ctx.ellipse(0, 0, 4.5, 6, 0, 0, TAU); ctx.fill();
-        ctx.fillStyle = "#ff2d55";
+        ctx.fillStyle = "#ffcc33";
         ctx.beginPath(); ctx.arc(-1.8, -2, 1.3, 0, TAU); ctx.arc(1.8, -2, 1.3, 0, TAU); ctx.fill();
         ctx.restore();
         if (h.stored > 0 && h.state === "back") drawTex(ctx, "glow", "#ff2d6b", h.x, h.y, 24, 0, 0.7, true);
@@ -1331,17 +1510,46 @@
           ctx.beginPath(); ctx.moveTo(-9, 0); ctx.lineTo(7, 0); ctx.stroke();
           ctx.restore();
         } else if (h.skin === "bee") {
-          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(ang);
-          ctx.fillStyle = "rgba(220,240,255,0.8)";
-          ctx.beginPath(); ctx.ellipse(-1, -6, 5, 3, 0.4, 0, TAU); ctx.ellipse(-1, 6, 5, 3, -0.4, 0, TAU); ctx.fill();
-          ctx.fillStyle = "#ffb703"; ctx.beginPath(); ctx.ellipse(0, 0, 8, 5.5, 0, 0, TAU); ctx.fill();
-          ctx.fillStyle = "#1a1408"; ctx.fillRect(-3, -5.5, 2.5, 11); ctx.fillRect(2, -5.5, 2.5, 11);
+          drawTex(ctx, "glow", "#5fff9a", h.x, h.y, 30, 0, 0.5, true);
+          drawSkull(ctx, h.x, h.y, 7, ang);
+        } else if (h.skin === "net") {
+          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(t * 6);
+          ctx.strokeStyle = "#e8dcb0"; ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.arc(0, 0, h.r, 0, TAU); ctx.stroke();
+          for (let i = 0; i < 4; i++) { const a = (i * Math.PI) / 4; ctx.beginPath(); ctx.moveTo(Math.cos(a) * h.r, Math.sin(a) * h.r); ctx.lineTo(-Math.cos(a) * h.r, -Math.sin(a) * h.r); ctx.stroke(); }
           ctx.restore();
-        } else if (h.skin === "bubble") {
-          drawTex(ctx, "glow", "#7fd8ff", h.x, h.y, h.r * 4, 0, 0.35, true);
-          ctx.fillStyle = "rgba(160,225,255,0.25)"; ctx.strokeStyle = "rgba(230,250,255,0.95)"; ctx.lineWidth = 2;
-          ctx.beginPath(); ctx.arc(h.x, h.y, h.r * (1 + Math.sin(t * 10) * 0.06), 0, TAU); ctx.fill(); ctx.stroke();
-          ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(h.x - h.r * 0.4, h.y - h.r * 0.4, h.r * 0.2, 0, TAU); ctx.fill();
+        } else if (h.skin === "kunai" || h.skin === "dart") {
+          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(ang);
+          ctx.strokeStyle = h.skin === "dart" ? "#c8a060" : "#3a3a48"; ctx.lineWidth = 2.5; ctx.lineCap = "round";
+          ctx.beginPath(); ctx.moveTo(-9, 0); ctx.lineTo(4, 0); ctx.stroke();
+          ctx.fillStyle = h.skin === "dart" ? "#7ad04a" : "#c8ccd8";
+          ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(3, -3.5); ctx.lineTo(3, 3.5); ctx.closePath(); ctx.fill();
+          if (h.skin === "kunai") { ctx.strokeStyle = "#d04a7a"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(-11, 0, 2.5, 0, TAU); ctx.stroke(); }
+          ctx.restore();
+        } else if (h.skin === "hook") {
+          const o = h.owner;
+          if (o && o.alive) { ctx.strokeStyle = "rgba(230,240,255,0.8)"; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(o.x, o.y); ctx.lineTo(h.x, h.y); ctx.stroke(); }
+          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(ang);
+          ctx.strokeStyle = "#d8dce8"; ctx.lineWidth = 2.5; ctx.lineCap = "round";
+          ctx.beginPath(); ctx.arc(0, 3, 5, Math.PI * 1.5, Math.PI * 0.8); ctx.stroke();
+          ctx.restore();
+        } else if (h.skin === "pellet") {
+          ctx.fillStyle = "#ffe2a0";
+          ctx.beginPath(); ctx.arc(h.x, h.y, 3, 0, TAU); ctx.fill();
+          drawTex(ctx, "streak", "#ffcf8a", h.x - Math.cos(ang) * 10, h.y - Math.sin(ang) * 10, 30, ang + Math.PI / 2, 0.6, true);
+        } else if (h.skin === "jamu") {
+          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(t * 8);
+          ctx.fillStyle = "#6a3a1a"; ctx.strokeStyle = "#2a1408"; ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.ellipse(0, 0, 6, 8, 0, 0, TAU); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = "#e8c890"; ctx.fillRect(-3, -11, 6, 4);
+          ctx.restore();
+        } else if (h.skin === "card") {
+          drawTex(ctx, "glow", h.color, h.x, h.y, 40, 0, 0.6, true);
+          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(t * 9 + h.x * 0.01);
+          ctx.fillStyle = "#fffaf0"; ctx.strokeStyle = h.color; ctx.lineWidth = 2.5;
+          roundRect(ctx, -6, -9, 12, 18, 2); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = h.color; starShape(ctx, 0, 0, 4);
+          ctx.restore();
         } else if (h.skin === "spark") {
           drawTex(ctx, "point", "hsl(" + h.hue + ",100%,65%)", h.x, h.y, 26, 0, 1, true);
         } else if (h.skin === "orb") {
@@ -1351,9 +1559,13 @@
           ctx.lineWidth = 2; ctx.strokeStyle = "rgba(0,0,0,0.55)"; ctx.stroke();
           ctx.fillStyle = "rgba(255,255,255,0.85)";
           ctx.beginPath(); ctx.arc(h.x - h.r * 0.35, h.y - h.r * 0.35, h.r * 0.32, 0, TAU); ctx.fill();
-        } else if (h.skin === "petal") {
-          drawTex(ctx, "glow", "#ff6fb5", h.x, h.y, 46, 0, 0.6, true);
-          drawTex(ctx, "sparkle", "#ffc2e0", h.x, h.y, 38, t * 10 + h.x, 1, true);
+        } else if (h.skin === "arrow") {
+          ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(ang);
+          ctx.strokeStyle = "#8a6a3a"; ctx.lineWidth = 2; ctx.lineCap = "round";
+          ctx.beginPath(); ctx.moveTo(-12, 0); ctx.lineTo(6, 0); ctx.stroke();
+          ctx.fillStyle = "#e0e4ea"; ctx.beginPath(); ctx.moveTo(11, 0); ctx.lineTo(4, -4); ctx.lineTo(4, 4); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = "#7fc24a"; ctx.fillRect(-13, -3, 4, 6);
+          ctx.restore();
         } else if (h.skin === "shadow") {
           drawTex(ctx, "wisp", "#2a1250", h.x, h.y, 54, ang + Math.PI / 2, 0.9, false);
           drawTex(ctx, "glow", "#8a4dff", h.x, h.y, 44, 0, 0.6, true);
@@ -1367,29 +1579,44 @@
           ctx.fillStyle = g;
           ctx.beginPath(); ctx.arc(h.x, h.y, h.r, 0, TAU); ctx.fill();
         }
+      } else if (h.kind === "potion") {
+        ctx.save(); ctx.translate(h.x, h.y); ctx.rotate(h.spin);
+        ctx.fillStyle = "rgba(160,230,60,0.9)"; ctx.strokeStyle = "#2a4010"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(0, 2, 7, 0, TAU); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = "#d8e8f0"; ctx.fillRect(-2.5, -9, 5, 6); ctx.strokeRect(-2.5, -9, 5, 6);
+        ctx.restore();
       } else if (h.kind === "rocket") {
         const ang = Math.atan2(h.vy, h.vx);
         drawTex(ctx, "flame", "hsl(" + h.hue + ",100%,60%)", h.x - Math.cos(ang) * 14, h.y - Math.sin(ang) * 14, 30, ang - Math.PI / 2, 0.9, true);
         ctx.save();
         ctx.translate(h.x, h.y); ctx.rotate(ang);
-        ctx.fillStyle = "#e8e2d8"; ctx.fillRect(-9, -4, 16, 8);
-        ctx.fillStyle = "hsl(" + h.hue + ",90%,55%)";
-        ctx.beginPath(); ctx.moveTo(7, -5); ctx.lineTo(14, 0); ctx.lineTo(7, 5); ctx.fill();
+        ctx.fillStyle = "#4a6a2a"; ctx.strokeStyle = "#1a2a0a"; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(0, 0, 7, 0, TAU); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = "#9aa0a8"; ctx.fillRect(-3, -10, 6, 4);
         ctx.restore();
-      } else if (h.kind === "meteor") {
+      } else if (h.kind === "valkyrie") {
         const k = 1 - h.delay / h.max;
         const sx = h.x - 220 * (1 - k), sy = h.y - 320 * (1 - k); // meteor datang dari kiri atas
         if (k > 0.05) {
           const ang = Math.atan2(h.y - sy, h.x - sx);
           drawTex(ctx, "flame", "#ff7a1a", sx - Math.cos(ang) * 30, sy - Math.sin(ang) * 30, 90, ang - Math.PI / 2, 0.9, true);
           drawTex(ctx, "glow", "#ffb05c", sx, sy, 70, 0, 0.8, true);
-          drawSprite(ctx, "meteor", sx, sy, 14, frameFor("meteor", ang));
+          drawSpear(ctx, sx, sy, ang, 40);
         }
       }
     }
 
-    // awan badai & tornado (di atas bola)
+    // awan badai, hujan & tornado (di atas bola)
     for (const h of w.hazards) {
+      if (h.kind === "rain") {
+        const k = Math.min(1, h.life / 0.5, (h.max - h.life) * 4);
+        drawTex(ctx, "glow", "#4a8ad0", h.x, h.y, h.r * 2.2, 0, 0.25 * k, false);
+        for (let i = 0; i < 6; i++) {
+          const a = i * 1.05 + t * 0.5;
+          drawTex(ctx, "cloud", i % 2 ? "#6a7a98" : "#8a9ab8", h.x + Math.cos(a) * 28, h.y - 50 + Math.sin(a) * 10, 66, a, 0.9 * k, false);
+        }
+        continue;
+      }
       if (h.kind === "cloud") {
         const k = Math.min(1, h.life / 0.5, (h.max - h.life) * 4);
         ctx.save(); ctx.globalAlpha = 0.35 * k; ctx.fillStyle = "#000";

@@ -9,67 +9,110 @@
   const T = {
     critChance: 0.15,
     poisonDmg: 1, poisonEvery: 0.75, poisonTime: 4, poisonMax: 3,
-    // karet: tali ketapel antar titik pantul
+    // penari: tali ketapel antar titik pantul
     karetBoost: 1.06, karetMax: 500, bandLife: 2.4, bandMin: 70, bandDmg: 4, bandPerSpeed: 100, bandFling: 1.7, bandFlingTime: 0.6,
-    // es: bola salju yang membesar tiap mantul
-    snowEvery: 2.4, snowSpeed: 300, snowR: 9, snowGrow: 5, snowMaxR: 30, snowBounces: 4, snowDmgBase: 8, snowDmgPerR: 0.5, snowFreeze: 0.6,
-    // api: jejak api + erupsi
-    fireBurn: 5, fireEvery: 0.4, fireLife: 2.4, eruptEvery: 4.5, eruptDmg: 6, eruptR: 26,
-    // pedang: pedang berputar + lempar bumerang
-    bladeLen: 60, bladeSpin: 4.5, bladeStart: 7, bladeGrow: 1, bladeCd: 0.35, throwEvery: 5, throwTime: 1.1, throwRange: 190, throwHitR: 26,
-    // petir: awan badai yang menguntit lawan
-    cloudEvery: 5.0, cloudLife: 3.6, cloudStrikeEvery: 0.55, cloudSpread: 50, cloudHitR: 30, cloudDmg: 6, cloudSpeed: 150,
-    // vampir: kelelawar penghisap darah
+    // sihires: bola salju yang membesar tiap mantul
+    snowEvery: 2.4, snowSpeed: 300, snowR: 9, snowGrow: 5, snowMaxR: 30, snowBounces: 4, snowDmgBase: 9, snowDmgPerR: 0.5, snowFreeze: 0.6,
+    // berserker: jejak api + erupsi
+    fireBurn: 4, fireEvery: 0.4, fireLife: 2.4, eruptEvery: 4.5, eruptDmg: 6, eruptR: 26,
+    // samurai: pedang berputar + lempar bumerang
+    bladeLen: 60, bladeSpin: 4.5, bladeStart: 7, bladeGrow: 1, bladeMax: 15, bladeCd: 0.35, throwEvery: 5, throwTime: 1.1, throwRange: 190, throwHitR: 26,
+    // ahlipetir: awan badai yang menguntit lawan
+    cloudEvery: 5.3, cloudLife: 3.6, cloudStrikeEvery: 0.55, cloudSpread: 50, cloudHitR: 30, cloudDmg: 7, cloudSpeed: 150,
+    // pemburu: kelelawar penghisap darah
     batEvery: 3.0, batMax: 3, batSpeed: 300, batLatch: 1.25, batTick: 0.3, batDmg: 2, batHeal: 0.5,
-    // raksasa: lompat lalu injak
+    // viking: lompat lalu injak
     giantGrow: 1.0, giantMax: 56, leapEvery: 3.5, leapTime: 0.75, stompMult: 2.2, stompDiv: 3,
-    // bom: bom panas yang pindah-pindah
-    bombEvery: 4.0, bombSpeed: 360, bombFuse: 2.6, bombDmg: 27, bombSplash: 11, bombR: 75, bombSelf: 0.3, bombPass: 0.3, bombGround: 1.0,
-    // duri: kaktus penembak
-    thorns: 0.35, cactusEvery: 3.5, cactusMax: 3, cactusLife: 9, cactusShotEvery: 1.1, cactusRange: 220, needleSpeed: 380, needleDmg: 3,
-    // kembar: benang kembar
+    // bajaklaut: bom panas yang pindah-pindah
+    bombEvery: 4.0, bombSpeed: 360, bombFuse: 2.6, bombDmg: 30, bombSplash: 13, bombR: 75, bombSelf: 0.3, bombPass: 0.3, bombGround: 1.0,
+    // mekanik: kaktus penembak
+    cactusEvery: 3.0, cactusMax: 3, cactusLife: 9, cactusShotEvery: 1.1, cactusRange: 220, needleSpeed: 380, needleDmg: 4,
+    // ninja: benang kembar
     threadCd: 0.45, threadDmg: 6, threadWidth: 12, splitKeep: 0.75, splitR: 26,
-    // racun: kabut kentut yang bikin mabuk
-    gasEvery: 3.0, gasR: 64, gasLife: 4.5, gasDrift: 70, gasStack: 0.4, drunkTime: 1.2,
-    // batu: pilar batu
+    // bard: kabut kentut yang bikin mabuk
+    gasEvery: 3.0, gasR: 64, gasLife: 4.5, gasDrift: 70, gasStack: 0.35, drunkTime: 1.2,
+    // golem: pilar batu
     rockMass: 2.5, rockArmor: 0.8, pillarEvery: 3.5, pillarR: 20, pillarLife: 6, pillarDmg: 7, pillarHp: 2, pillarRiseDmg: 5, pillarCd: 0.4,
-    // jamur: kebun jamur
+    // druid: kebun jamur
     shroomEvery: 2.2, shroomMax: 5, shroomR: 13, shroomLife: 12, shroomGrow: 0.5, shroomDmg: 11, shroomHeal: 6, shroomDizzy: 1.0,
-    // magnet: kutub utara/selatan, mencuri peluru
+    // sumo: kutub utara/selatan, mencuri peluru
     magnetRange: 230, magnetPull: 260, poleTime: 2.5, repelR: 160, repelMax: 29, repelMin: 6, repelPush: 260, stealR: 150,
-    // meriam: peluru memantul + tendangan mundur
+    // koboi: peluru memantul + tendangan mundur
     shotEvery: 2.2, shotSpeed: 430, shotDmg: 10, shotBounces: 2, shotBounceDmg: 3,
-    // tawon: sarang yang terus bertambah
-    droneOrbit: 30, droneSpin: 3.6, droneDmg: 5, droneCd: 0.3, hiveEvery: 4, hiveStart: 2, hiveMax: 5, beeLaunchEvery: 3, beeSpeed: 330, beeDmg: 8,
-    // hantu: merasuki lawan
+    // necro: sarang yang terus bertambah
+    droneOrbit: 30, droneSpin: 3.6, droneDmg: 5, droneCd: 0.3, hiveEvery: 4, hiveStart: 2, hiveMax: 5, beeLaunchEvery: 3, beeSpeed: 330, beeDmg: 9,
+    // dukun: merasuki lawan
     ghostEvery: 4.5, ghostTime: 1.2, possessRange: 230, possessTime: 1.8, possessSpeed: 1.6, possessDmg: 10,
-    // laser: sinar memantul
+    // sniper: sinar memantul
     laserEvery: 3.2, laserDmg: 13, laserWidth: 12, laserCharge: 0.6, laserLock: 0.15, laserBounces: 2,
-    // portal: lubang jebakan, jatuh dari langit
-    trapEvery: 4.0, trapWarn: 0.55, trapR: 40, fallTime: 0.9, fallDmg: 15, fallStun: 0.5,
-    // lubang hitam
-    holeEvery: 3.5, holeLife: 2.5, holeR: 130, holePull: 380, holeCore: 70, holeDmg: 11, holeTick: 0.3, holeEatDmg: 1,
-    // bunga: spiral serbuk tidur
-    flowerEvery: 3.2, spiralTime: 1.2, spiralPetals: 14, petalSpeed: 260, petalDmg: 9, drowsyMax: 3, drowsyReset: 3, sleepTime: 1.4,
-    // angin: tornado penculik
-    tornadoEvery: 4.5, tornadoLife: 3.2, tornadoSpeed: 130, tornadoR: 42, caughtTime: 0.9, tornadoTick: 0.15, tornadoDmg: 1,
+    // pencuri: lubang jebakan, jatuh dari langit
+    trapEvery: 4.0, trapWarn: 0.55, trapR: 40, fallTime: 0.9, fallDmg: 18, fallStun: 0.5,
+    // peramal: kartu takdir acak
+    cardEvery: 2.0, cardSpeed: 340, cardDmg: 15, cardWeak: 6, cardGold: 24, cardGoldChance: 0.15, cardHeal: 9, cardFreeze: 0.8, cardSilence: 1.3,
+    // pemanah: spiral serbuk tidur
+    flowerEvery: 3.2, spiralTime: 1.2, spiralPetals: 14, petalSpeed: 260, petalDmg: 9, drowsyMax: 3, drowsyReset: 3, pinTime: 0.9,
+    // biksu: tornado penculik
+    tornadoEvery: 4.8, tornadoLife: 3.2, tornadoSpeed: 130, tornadoR: 42, caughtTime: 0.9, tornadoTick: 0.15, tornadoDmg: 1,
     flingMult: 2.2, flingTime: 0.9, flingWallDmg: 10,
-    // gelembung: perisai + penjara gelembung
-    bubbleHp: 15, bubbleRegen: 6, prisonEvery: 4.5, prisonSpeed: 210, prisonTime: 1.0, prisonDmg: 8, prisonFloat: 45,
-    // cermin: memantulkan peluru, pecahan kaca
-    mirrorChance: 0.24, mirrorShotChance: 0.6, shardEvery: 1.8, shardMax: 6, shardLife: 6, shardDmg: 4, shardR: 9,
-    // bintang: rasi bintang
-    dashEvery: 2.0, dashTime: 0.5, dashMult: 2.3, starWarn: 0.4, starLife: 2.5, starDmg: 10, starCd: 0.5, starWidth: 14,
+    // gladiator: perisai + penjara gelembung
+    bubbleHp: 15, bubbleRegen: 5, prisonEvery: 4.0, prisonSpeed: 210, prisonTime: 0.8, prisonDmg: 8, netDmg: 4, prisonFloat: 45,
+    // ksatria: memantulkan peluru, pecahan kaca
+    mirrorShotChance: 0.4, bashEvery: 2.6, bashR: 95, bashDmg: 18,
+    // silat: rasi bintang
+    dashEvery: 2.0, dashTime: 0.5, dashMult: 2.3, starWarn: 0.4, starLife: 2.5, starDmg: 11, starCd: 0.5, starWidth: 14,
     // naga
-    breathEvery: 3.0, breathTime: 0.8, breathRange: 170, breathAngle: 0.45, breathDmg: 5, breathTick: 0.15,
+    breathEvery: 3.0, breathTime: 0.8, breathRange: 185, breathAngle: 0.45, breathDmg: 4, breathTick: 0.15,
     // bayangan: mencuri bayangan (skill lawan terkunci)
-    shadowEvery: 3.2, shadowSpeed: 330, shadowDmg: 6, shadowTurn: 4.0, silenceTime: 1.4,
-    // petasan: roket yang pecah jadi percikan
-    rocketEvery: 2.8, rocketSpeed: 320, rocketR: 55, rocketDmg: 11, sparkCount: 5, sparkSpeed: 230, sparkDmg: 3,
-    // meteor: + kawah lava
+    shadowEvery: 3.0, shadowSpeed: 330, shadowDmg: 7, shadowTurn: 4.0, silenceTime: 1.1,
+    // grenadier: roket yang pecah jadi percikan
+    rocketEvery: 2.8, rocketSpeed: 320, rocketR: 55, rocketDmg: 12, sparkCount: 5, sparkSpeed: 230, sparkDmg: 3,
+    // valkyrie: + kawah lava
     meteorEvery: 4.0, meteorDelay: 0.85, meteorR: 80, meteorDmg: 32, craterR: 40, craterLife: 3, craterDmg: 3, craterTick: 0.4,
-    // matahari: panas menumpuk + suar
-    sunAuraR: 100, sunAuraTick: 0.5, sunHeatMax: 4, sunNovaEvery: 6, sunNovaR: 150, sunNovaDmg: 31,
+    // pendeta: panas menumpuk + suar
+    sunAuraR: 100, sunAuraTick: 0.5, sunHeatMax: 4, sunNovaEvery: 6, sunNovaR: 150, sunNovaDmg: 27, sunNovaHeal: 5,
+    // berserker: makin sekarat makin sakit
+    rageMax: 0.5,
+    // ===== 20 hero baru =====
+    // paladin: palu suci
+    hammerEvery: 2.8, hammerR: 105, hammerDmg: 22, hammerTurn: 1.3, hammerStun: 0.45,
+    // barong: raungan yang bikin takut
+    roarEvery: 3.7, roarR: 170, roarDmg: 12, fearTime: 1.1, fearSpeed: 1.5,
+    // juggernaut: seruduk
+    chargeEvery: 4.0, chargeTime: 0.7, chargeMult: 2.6, chargeDmg: 7, chargePush: 1.8,
+    // petinju: jab beruntun + uppercut
+    punchR: 26, punchEvery: 0.45, punchDmg: 3, uppercutEvery: 4, uppercutDmg: 8, uppercutStun: 0.5, punchTurn: 1.6,
+    // jawara: makin dipukul makin panas
+    jawaraStack: 6, jawaraTick: 1.0, jawaraR: 150, jawaraDmg: 30,
+    // ronin: tebasan tembus + berdarah
+    roninEvery: 3.6, roninDash: 0.35, roninMult: 3.2, roninDmg: 8, bleedDmg: 1, bleedEvery: 0.4, bleedTime: 3,
+    // pembunuh: menghilang lalu menikam
+    stealthEvery: 4.6, stealthTime: 1.6, backstabDmg: 20, stealthTurn: 4,
+    // kunoichi: kunai beracun
+    kunaiEvery: 3.0, kunaiCount: 3, kunaiSpread: 0.28, kunaiSpeed: 420, kunaiDmg: 2,
+    // penjebak: ranjau
+    mineEvery: 2.0, mineMax: 4, mineArm: 0.6, mineLife: 10, mineR: 12, mineBlast: 45, mineDmg: 10, mineSlow: 1.2,
+    // penyihir waktu: zona lambat + putar balik
+    slowFieldEvery: 4.0, slowFieldR: 95, slowFieldLife: 3, slowK: 0.45, slowFieldDmg: 3, slowFieldTick: 0.5, rewindEvery: 7, rewindBack: 3, rewindMax: 22,
+    // penyihir kosmos: lubang hitam
+    holeEvery: 3.5, holeLife: 2.5, holeR: 130, holePull: 380, holeCore: 70, holeDmg: 11, holeTick: 0.3, holeEatDmg: 1,
+    // alkemis: ramuan + genangan asam
+    potionEvery: 2.8, potionSpeed: 300, potionR: 40, potionDmg: 13, acidR: 45, acidLife: 3.5, acidDmg: 4, acidTick: 0.4,
+    // pawang hujan
+    rainEvery: 4.2, rainR: 75, rainLife: 3, rainSpeed: 90, rainDmg: 2, rainTick: 0.3, rainSlow: 0.6,
+    // nelayan: kail penarik
+    hookEvery: 2.4, hookSpeed: 460, hookDmg: 13, hookPull: 520, hookTime: 0.45,
+    // gunner: senapan tabur
+    pelletEvery: 2.2, pelletCount: 5, pelletSpread: 0.5, pelletSpeed: 480, pelletDmg: 3, pelletLife: 0.55,
+    // pemburu sumpit
+    dartEvery: 1.35, dartSpeed: 520, dartDmg: 6, dartSleepN: 2, dartReset: 4, dartSleep: 1.1,
+    // tabib: jamu
+    jamuEvery: 4.0, jamuHeal: 9, jamuBoost: 1.4, bitterEvery: 2.6, bitterDmg: 9, bitterDrunk: 1.0,
+    // dalang: wayang minion
+    puppetEvery: 5.5, puppetMax: 2, puppetHp: 17, puppetR: 20, puppetDmg: 4, puppetCd: 0.5, puppetLife: 10,
+    // pemanggil totem
+    totemEvery: 5, totemMax: 2, totemLife: 8, totemR: 110, totemTick: 0.7, totemDmg: 4, totemHeal: 2, totemSlow: 0.7,
+    // penabuh gong
+    gongEvery: 3.4, gongWaves: 3, gongGap: 0.35, gongSpeed: 260, gongMaxR: 200, gongDmg: 7, gongWidth: 18,
   };
 
   function rng(seed) {
@@ -82,44 +125,67 @@
     };
   }
 
-  const RARITY = {
-    biasa: { name: "Biasa", weight: 50, reward: 1 },
-    langka: { name: "Langka", weight: 30, reward: 1.5 },
-    epik: { name: "Epik", weight: 15, reward: 2 },
-    legendaris: { name: "Legendaris", weight: 5, reward: 3 },
+  // Tidak ada rarity: semua hero setara. Role cuma pengelompokan (ala ML) untuk koleksi, banner, misi, dan Tower.
+  const ROLES = {
+    tank: { name: "Tank", color: "#4a7bd1" },
+    fighter: { name: "Fighter", color: "#e0563a" },
+    assassin: { name: "Assassin", color: "#8a4fd8" },
+    mage: { name: "Mage", color: "#2fa6d6" },
+    marksman: { name: "Marksman", color: "#e09a1a" },
+    support: { name: "Support", color: "#2fae6a" },
   };
 
   const TYPES = {
-    karet: { name: "Karet", rarity: "biasa", color: "#ff5fa2", skill: "Tiap mantul tembok, bentangan tali karet muncul di jalurnya. Lawan yang nyangkut dijepret, makin ngebut makin sakit." },
-    es: { name: "Es", rarity: "biasa", color: "#6fe3ff", skill: "Menggelindingkan bola salju yang makin besar tiap mantul tembok. Kena lawan: sakit dan membeku." },
-    api: { name: "Api", rarity: "biasa", color: "#ff7a2f", skill: "Meninggalkan jejak api. Tiap 4,5 detik semua jejak api meletus bersamaan." },
-    pedang: { name: "Pedang", rarity: "langka", color: "#ff4d5e", skill: "Pedang berputar yang makin tajam. Tiap 5 detik pedangnya dilempar seperti bumerang." },
-    petir: { name: "Petir", rarity: "langka", color: "#ffe14d", skill: "Memanggil awan badai yang menguntit lawan dan menyambar asal-asalan di sekitarnya." },
-    vampir: { name: "Vampir", rarity: "langka", color: "#c2185b", skill: "Melepas kelelawar yang menggigit lawan, lalu pulang membawa darah untuk tuannya." },
-    raksasa: { name: "Raksasa", rarity: "epik", color: "#5bd46a", skill: "Membesar tiap mantul tembok. Tiap 3,5 detik melompat lalu menginjak lawan dari atas." },
-    bom: { name: "Bom", rarity: "epik", color: "#9aa0b4", skill: "Menempelkan bom panas ke lawan. Bomnya pindah ke siapa pun yang ditabrak, termasuk Bom sendiri!" },
-    duri: { name: "Duri", rarity: "epik", color: "#a8e04a", skill: "Menanam kaktus yang menembaki lawan. Yang menyakitinya kena balik sebagian damage-nya." },
-    kembar: { name: "Kembar", rarity: "legendaris", color: "#b98cff", skill: "Punya kembaran cermin di seberang arena, terhubung benang tajam yang menyapu arena. Saat darah setengah, membelah jadi dua." },
-    racun: { name: "Racun", rarity: "biasa", color: "#8be04a", skill: "Kentut kabut racun yang pelan-pelan mengejar lawan. Lawan di dalamnya keracunan dan jalannya mabuk." },
-    batu: { name: "Batu", rarity: "biasa", color: "#a08c78", skill: "Memunculkan pilar batu di depan lawan. Lawan yang nabrak pilar kesakitan. Damage masuk -20%." },
-    jamur: { name: "Jamur", rarity: "biasa", color: "#e8524a", skill: "Menanam jamur di arena. Lawan yang nginjak kena spora dan pusing, Jamur yang makan jadi sehat." },
-    magnet: { name: "Magnet", rarity: "langka", color: "#e63946", skill: "Ganti kutub tiap 2,5 detik: menarik lawan dan mencuri pelurunya, lalu meledak mendorong." },
-    meriam: { name: "Meriam", rarity: "langka", color: "#5c6b7a", skill: "Peluru meriam memantul di tembok dan makin sakit tiap pantulan. Tiap nembak, Meriam terdorong mundur." },
-    tawon: { name: "Tawon", rarity: "langka", color: "#ffb703", skill: "Sarangnya terus bertambah sampai 5 tawon. Tawon bergiliran terbang menyengat lawan." },
-    hantu: { name: "Hantu", rarity: "epik", color: "#d8e2ff", skill: "Merasuki lawan: lawan dikendalikan, lari ngebut, dan kesakitan tiap kepentok tembok." },
-    laser: { name: "Laser", rarity: "epik", color: "#ff2e88", skill: "Menembakkan sinar yang memantul 2 kali di tembok. Bisa dihindari kalau gesit." },
-    portal: { name: "Portal", rarity: "epik", color: "#2ec4b6", skill: "Membuka lubang di bawah lawan. Yang kecemplung jatuh dari langit di tempat acak." },
-    lubang: { name: "Lubang Hitam", rarity: "legendaris", color: "#6c3bff", skill: "Pusaran yang menyedot lawan dan menelan peluru. Tiap peluru yang ditelan bikin pusarannya makin sakit." },
-    bunga: { name: "Bunga", rarity: "biasa", color: "#ff8fc8", skill: "Menyemburkan spiral kelopak. Kena 3 kelopak, lawan tertidur pulas." },
-    angin: { name: "Angin", rarity: "biasa", color: "#bfeaf2", skill: "Tornado yang mengejar lawan, memutarnya, lalu melemparnya ke tembok." },
-    gelembung: { name: "Gelembung", rarity: "biasa", color: "#7fd8ff", skill: "Perisai gelembung 15. Meniup gelembung penjara yang mengurung lawan lalu meletup." },
-    cermin: { name: "Cermin", rarity: "langka", color: "#c9d6e8", skill: "60% peluru lawan dipantulkan balik. Menebar pecahan kaca yang melukai lawan yang lewat." },
-    bintang: { name: "Bintang", rarity: "langka", color: "#ffd84a", skill: "Melesat dan menaruh bintang. Tiap tiga bintang membentuk rasi: garis-garisnya menyetrum lawan yang lewat." },
-    naga: { name: "Naga", rarity: "epik", color: "#2fbf71", skill: "Menyemburkan api ke arah lawan, membakar semua yang ada di depannya." },
-    bayangan: { name: "Bayangan", rarity: "epik", color: "#3a3550", skill: "Bayangan pengejar yang mencuri bayangan lawan: skill lawan terkunci 2,5 detik." },
-    petasan: { name: "Petasan", rarity: "epik", color: "#ff5a3c", skill: "Roket kembang api yang meledak lalu pecah jadi percikan warna-warni." },
-    meteor: { name: "Meteor", rarity: "legendaris", color: "#ff7a1a", skill: "Meteor jatuh di posisi lawan dan meninggalkan kawah lava." },
-    matahari: { name: "Matahari", rarity: "legendaris", color: "#ffb21a", skill: "Aura panas yang makin menyengat kalau lawan lama di dekatnya. Tiap 6 detik meledakkan suar surya." },
+    ksatria: { name: "Ksatria", role: "tank", color: "#4a7bd1", skill: "Perisai 15 yang pulih sendiri, 40% peluru lawan ditangkis balik. Lawan yang terlalu dekat kena hantaman perisai." },
+    golem: { name: "Golem", role: "tank", color: "#a08c78", skill: "Memunculkan pilar batu di depan lawan. Lawan yang nabrak pilar kesakitan. Badan batu: damage masuk -20%." },
+    viking: { name: "Viking", role: "tank", color: "#d9822b", skill: "Makin besar tiap mantul tembok. Tiap 3,5 detik melompat lalu menghantam lawan dari atas." },
+    gladiator: { name: "Gladiator", role: "tank", color: "#c23b2e", skill: "Melempar jaring yang mengejar lawan. Lawan yang terjerat melayang tak berdaya, lalu kesakitan." },
+    sumo: { name: "Sumo", role: "tank", color: "#f08aa8", skill: "Ganti jurus tiap 2,5 detik: menarik lawan sambil merebut pelurunya, lalu dorongan perut yang bikin terpental." },
+    samurai: { name: "Samurai", role: "fighter", color: "#e04050", skill: "Katana berputar yang makin tajam tiap kena. Tiap 5 detik katananya dilempar seperti bumerang." },
+    silat: { name: "Pendekar Silat", role: "fighter", color: "#2fae7a", skill: "Melangkah kilat. Tiap tiga langkah membentuk jurus segitiga yang menyetrum lawan yang lewat." },
+    berserker: { name: "Berserker", role: "fighter", color: "#b3261e", skill: "Meninggalkan jejak amarah yang meletus tiap 4,5 detik. Makin sekarat makin brutal: damage naik sampai +80%." },
+    biksu: { name: "Biksu Kungfu", role: "fighter", color: "#f0a020", skill: "Tendangan puyuh yang mengejar lawan, memutarnya, lalu melemparnya ke tembok." },
+    valkyrie: { name: "Valkyrie", role: "fighter", color: "#e8c84a", skill: "Menandai lawan, lalu tombak cahaya jatuh dari langit dan meninggalkan tanah terbakar." },
+    ninja: { name: "Ninja", role: "assassin", color: "#6b4fd8", skill: "Kloning bayangan di seberang arena, terhubung kawat baja tajam. Saat darah setengah, kloningnya jadi nyata." },
+    bayangan: { name: "Bayangan", role: "assassin", color: "#3a3550", skill: "Bayangan pengejar yang mencuri bayangan lawan: skill lawan terkunci sebentar." },
+    pencuri: { name: "Pencuri", role: "assassin", color: "#8a6a44", skill: "Menjebak lawan pakai karung. Korbannya diculik, lalu dijatuhkan dari langit di tempat acak." },
+    pemburu: { name: "Pemburu Iblis", role: "assassin", color: "#8c96b0", skill: "Melepas elang perak yang mencakar lawan, lalu pulang membawa darah untuk tuannya." },
+    penari: { name: "Penari Selendang", role: "assassin", color: "#ff5fa2", skill: "Makin cepat tiap mantul tembok sambil membentangkan selendang. Lawan yang nyangkut dilempar jauh." },
+    sihirapi: { name: "Penyihir Api", role: "mage", color: "#ff7a2f", skill: "Menyemburkan api ke arah lawan, membakar semua yang ada di depannya." },
+    sihires: { name: "Penyihir Es", role: "mage", color: "#6fe3ff", skill: "Menggelindingkan bola salju yang makin besar tiap mantul tembok. Kena lawan: sakit dan membeku." },
+    dukun: { name: "Dukun", role: "mage", color: "#9b59b6", skill: "Santet: merasuki lawan, bikin lawan lari ngebut dan kesakitan tiap kepentok tembok." },
+    necro: { name: "Necromancer", role: "mage", color: "#5fd38a", skill: "Tengkorak penjaga terus bertambah sampai 5. Tengkorak bergiliran terbang menggigit lawan." },
+    ahlipetir: { name: "Ahli Petir", role: "mage", color: "#ffd23c", skill: "Memanggil awan badai yang menguntit lawan dan menyambar asal-asalan di sekitarnya." },
+    pemanah: { name: "Pemanah", role: "marksman", color: "#7fc24a", skill: "Menembakkan spiral panah. Kena 3 panah, lawan terpaku tak bisa bergerak." },
+    koboi: { name: "Koboi", role: "marksman", color: "#c8874a", skill: "Peluru revolver memantul di tembok dan makin sakit tiap pantulan. Tiap nembak, Koboi terdorong mundur." },
+    sniper: { name: "Penembak Jitu", role: "marksman", color: "#ff2e88", skill: "Membidik, lalu menembak sinar yang memantul 2 kali di tembok. Bisa dihindari kalau gesit." },
+    bajaklaut: { name: "Bajak Laut", role: "marksman", color: "#3d6fb0", skill: "Menempelkan tong mesiu ke lawan. Tongnya pindah ke siapa pun yang ditabrak, termasuk Bajak Laut sendiri!" },
+    grenadier: { name: "Grenadier", role: "marksman", color: "#6b8e3a", skill: "Melempar granat yang meledak, lalu pecah jadi serpihan berapi." },
+    pendeta: { name: "Pendeta", role: "support", color: "#ffc94a", skill: "Aura suci yang makin menyengat kalau lawan lama di dekatnya. Tiap 6 detik meledakkan cahaya dan memulihkan darah." },
+    bard: { name: "Bard", role: "support", color: "#e05ad0", skill: "Lagu sumbang yang mengejar lawan. Lawan di dalamnya joget pusing dan kena damage menumpuk sampai 3 lapis." },
+    druid: { name: "Druid", role: "support", color: "#8be04a", skill: "Menanam jamur ajaib. Lawan yang nginjak kena spora dan pusing, Druid yang makan jadi sehat." },
+    mekanik: { name: "Mekanik", role: "support", color: "#9aa0b4", skill: "Memasang menara tembak otomatis, sampai 3 sekaligus." },
+    paladin: { name: "Paladin", role: "tank", color: "#e8c040", skill: "Palu Suci: menghantam tanah di sekitarnya. Lawan yang dekat kesakitan dan pingsan sebentar." },
+    barong: { name: "Barong", role: "tank", color: "#e0402a", skill: "Raungan Barong yang melukai dan bikin lawan ketakutan lari menjauh." },
+    juggernaut: { name: "Juggernaut", role: "tank", color: "#6a7a8a", skill: "Menyeruduk lurus ke lawan. Lawan yang ketabrak terpental, dan sakit lagi kalau kepentok tembok." },
+    petinju: { name: "Petinju", role: "fighter", color: "#e85a3a", skill: "Mengejar lawan dan meninju bertubi-tubi dari dekat. Tiap pukulan keempat jadi uppercut yang bikin pusing." },
+    jawara: { name: "Jawara", role: "fighter", color: "#a0522d", skill: "Makin lama bertarung dan makin sering dipukul, makin panas. Sudah penuh: golok berputar menghajar sekeliling." },
+    ronin: { name: "Ronin", role: "fighter", color: "#5a6aa0", skill: "Melesat menembus lawan sambil menebas. Lawan yang kena tebasan berdarah beberapa detik." },
+    pembunuh: { name: "Pembunuh", role: "assassin", color: "#5a4a6a", skill: "Menghilang dan kebal, mengendap ke lawan, lalu menikam. Tikamannya selalu kritis." },
+    kunoichi: { name: "Kunoichi", role: "assassin", color: "#d04a7a", skill: "Melempar tiga kunai beracun menyebar. Racunnya menumpuk sampai 3 lapis." },
+    penjebak: { name: "Penjebak", role: "assassin", color: "#8a7a3a", skill: "Menanam ranjau di jalurnya, sampai 4. Lawan yang nginjak kena ledakan dan jalannya melambat." },
+    waktu: { name: "Penyihir Waktu", role: "mage", color: "#3ab8c8", skill: "Zona waktu lambat di sekitar lawan. Tiap 7 detik memutar balik waktu: darahnya pulih seperti 3 detik lalu." },
+    kosmos: { name: "Penyihir Kosmos", role: "mage", color: "#6c3bff", skill: "Pusaran lubang hitam yang menyedot lawan dan menelan peluru. Tiap peluru yang ditelan bikin pusarannya makin sakit." },
+    alkemis: { name: "Alkemis", role: "mage", color: "#a0d030", skill: "Melempar ramuan yang pecah di dekat lawan dan meninggalkan genangan asam." },
+    pawang: { name: "Pawang Hujan", role: "mage", color: "#4a8ad0", skill: "Hujan deras yang menguntit lawan: lawan basah, jalannya lambat, dan kesakitan pelan-pelan." },
+    nelayan: { name: "Nelayan", role: "marksman", color: "#2a9ad0", skill: "Melempar kail. Lawan yang kena tersangkut dan ditarik mendekat." },
+    gunner: { name: "Gunner", role: "marksman", color: "#8a6a3a", skill: "Senapan tabur: 5 peluru menyebar, sakit dari dekat. Tiap nembak terdorong mundur." },
+    sumpit: { name: "Pemburu Sumpit", role: "marksman", color: "#5a9a3a", skill: "Meniup sumpit dengan cepat. Kena 2 sumpit, lawan tertidur." },
+    tabib: { name: "Tabib", role: "support", color: "#d0a060", skill: "Minum jamu tiap 4 detik: darah pulih dan larinya ngebut. Melempar jamu pahit yang bikin lawan mual dan pusing." },
+    dalang: { name: "Dalang", role: "support", color: "#c08a4a", skill: "Memanggil wayang, sampai 2, yang ikut bertarung menabrak lawan. Lawan bisa salah sasaran ke wayang." },
+    totem: { name: "Pemanggil Totem", role: "support", color: "#c0603a", skill: "Menancapkan totem, sampai 2. Lawan di dekat totem melambat dan kesakitan, pemiliknya pulih pelan-pelan." },
+    gong: { name: "Penabuh Gong", role: "support", color: "#d4a020", skill: "Memukul gong: tiga gelombang suara menyebar, melukai, dan mendorong lawan." },
+    peramal: { name: "Peramal", role: "support", color: "#b98cff", skill: "Melempar kartu takdir acak: merah sakit, biru membekukan, ungu mengunci skill, emas super sakit, hijau memulihkan darah." },
   };
 
   function maxHpFor(stars) {
@@ -142,9 +208,12 @@
       poison: 0, poisonT: 0, poisonTick: 0, poisonSrc: null,
       ghost: 0, possess: null, possessT: 0, droneAngle: 0, bees: T.hiveStart,
       aim: null, breath: 0, breathTick: 0, dash: 0, auraTick: 0, heat: {},
-      shield: type === "gelembung" ? T.bubbleHp : 0, shieldT: 0,
+      shield: type === "ksatria" ? T.bubbleHp : 0, shieldT: 0,
       lastWall: null, pole: 1, thread: 0, threadTick: 0, marks: [], spiral: 0, spiralN: 0, spiralA: 0, spiralT: 0,
       airFrom: null, airTo: null,
+      // status & skill hero baru
+      slow: 0, slowK: 1, bleed: 0, bleedTick: 0, bleedSrc: null, fear: 0, fearSrc: null, hookT: 0, hookSrc: null, dartN: 0, dartT: 0,
+      charge: 0, rdash: 0, punchT: 0, upN: 0, stack: 0, stealth: 0, hist: [], histT: 0, minion: false, owner: null, life: 0,
     };
   }
 
@@ -177,16 +246,12 @@
     return damage(w, target, crit ? amt * 2 : amt, src, crit);
   }
 
-  function damage(w, target, amt, src, crit, noReflect) {
+  function damage(w, target, amt, src, crit) {
     if (!target.alive || amt <= 0) return 0;
     if (src && (target.ghost > 0 || target.hidden > 0)) return 0; // tembus pandang / sedang menghilang = kebal (kecuali overtime)
-    // cermin: kadang memantulkan seluruh damage ke penyerang
-    if (target.type === "cermin" && src && src.alive && src !== target && !noReflect && w.rand() < T.mirrorChance) {
-      emit(w, { kind: "reflect", id: target.id, x: target.x, y: target.y, tx: src.x, ty: src.y });
-      damage(w, src, amt, target, crit, true);
-      return 0;
-    }
-    // gelembung: perisai menyerap damage dulu
+    // berserker: damage naik makin darahnya tipis
+    if (src && src.type === "berserker" && src.maxHp) amt = Math.round(amt * (1 + T.rageMax * Math.max(0, 1 - src.hp / src.maxHp)));
+    // ksatria: perisai menyerap damage dulu
     if (target.shield > 0 && src) {
       const take = Math.min(target.shield, amt);
       target.shield -= take;
@@ -195,21 +260,11 @@
       if (target.shield <= 0) { target.shieldT = T.bubbleRegen; emit(w, { kind: "pop", id: target.id, x: target.x, y: target.y }); }
       if (amt <= 0) return 0;
     }
-    if (target.type === "batu") amt = Math.max(1, Math.round(amt * T.rockArmor));
+    if (target.type === "golem") amt = Math.max(1, Math.round(amt * T.rockArmor));
     target.hp -= amt;
+    if (target.type === "jawara" && src && src !== target && !target.minion) target.stack++;
     target.flash = 0.12;
     emit(w, { kind: "dmg", id: target.id, x: target.x, y: target.y - target.r, amt, crit: !!crit, color: src ? TYPES[src.type].color : "#fff" });
-    // Duri memantulkan sebagian damage ke penyerang
-    if (target.type === "duri" && src && src.alive && src !== target && src.type !== "duri") {
-      const back = Math.ceil(amt * T.thorns);
-      src.hp -= back;
-      src.flash = 0.12;
-      emit(w, { kind: "dmg", id: src.id, x: src.x, y: src.y - src.r, amt: back, color: TYPES.duri.color });
-      emit(w, { kind: "skill", type: "duri", id: target.id });
-      checkState(w, src);
-    }
-    // Cermin yang retak menjatuhkan pecahan kaca
-    if (target.type === "cermin" && src && target.alive) dropShard(w, target);
     checkState(w, target);
     return amt;
   }
@@ -224,23 +279,23 @@
       if (b.possess) releasePossess(w, b);
       if (b.possessedBy) releasePossess(w, b.possessedBy);
       w.fx.push({ kind: "pop", x: b.x, y: b.y, r: b.r, color: TYPES[b.type].color, life: 0.5, max: 0.5 });
-      emit(w, { kind: "ko", type: b.type });
+      if (!b.minion) emit(w, { kind: "ko", type: b.type });
       return;
     }
-    if (b.type === "kembar" && !b.split && b.hp <= b.maxHp / 2) {
+    if (b.type === "ninja" && !b.split && b.hp <= b.maxHp / 2) {
       b.split = true;
       b.r = T.splitR;
       const keep = Math.ceil(b.hp * T.splitKeep);
       b.hp = keep;
-      const twin = makeBall(w, "kembar", b.team, ARENA - b.x, ARENA - b.y, Math.atan2(-b.vy, -b.vx), b.stars);
+      const twin = makeBall(w, "ninja", b.team, ARENA - b.x, ARENA - b.y, Math.atan2(-b.vy, -b.vx), b.stars);
       twin.split = true;
       twin.r = T.splitR;
       twin.hp = keep;
       twin.maxHp = b.maxHp;
       w.balls.push(twin); // kembaran cermin jadi nyata
-      w.fx.push({ kind: "ring", x: b.x, y: b.y, r: 30, color: TYPES.kembar.color, life: 0.4, max: 0.4 });
-      w.fx.push({ kind: "ring", x: twin.x, y: twin.y, r: 30, color: TYPES.kembar.color, life: 0.4, max: 0.4 });
-      emit(w, { kind: "skill", type: "kembar", id: b.id });
+      w.fx.push({ kind: "ring", x: b.x, y: b.y, r: 30, color: TYPES.ninja.color, life: 0.4, max: 0.4 });
+      w.fx.push({ kind: "ring", x: twin.x, y: twin.y, r: 30, color: TYPES.ninja.color, life: 0.4, max: 0.4 });
+      emit(w, { kind: "skill", type: "ninja", id: b.id });
     }
   }
 
@@ -259,6 +314,18 @@
       if (d < bd) { bd = d; best = o; }
     }
     return best;
+  }
+
+  function steer(b, tx, ty, turn, dt) {
+    const cur = Math.atan2(b.vy, b.vx);
+    let d = Math.atan2(ty - b.y, tx - b.x) - cur;
+    d = Math.atan2(Math.sin(d), Math.cos(d));
+    setDir(b, cur + Math.max(-turn * dt, Math.min(turn * dt, d)));
+  }
+  function slowDown(o, time, k) {
+    if (!o.alive) return;
+    if (o.slow <= 0 || k < o.slowK) o.slowK = k;
+    o.slow = Math.max(o.slow, time);
   }
 
   function setSpeed(b, s) {
@@ -308,10 +375,10 @@
   }
 
   function applyPoison(w, src, o) {
-    if (!o.alive || o.type === "racun") return;
+    if (!o.alive || o.type === "bard") return;
     const before = o.poison;
     o.poison = Math.min(T.poisonMax, o.poison + 1);
-    if (o.poison === T.poisonMax && before < T.poisonMax) emit(w, { kind: "skill", type: "racunMax", id: src.id });
+    if (o.poison === T.poisonMax && before < T.poisonMax) emit(w, { kind: "skill", type: "bardMax", id: src.id });
     o.poisonT = T.poisonTime;
     o.poisonSrc = src;
   }
@@ -352,7 +419,7 @@
     return pts;
   }
 
-  // pedang: posisi bilah (berputar di badan atau sedang dilempar)
+  // samurai: posisi bilah (berputar di badan atau sedang dilempar)
   function bladeTip(b) {
     const len = T.bladeLen;
     const ca = Math.cos(b.blade.angle), sa = Math.sin(b.blade.angle);
@@ -378,20 +445,11 @@
     return out;
   }
 
-  // kembar: pasangan benang (kembaran cermin sebelum membelah, kembaran asli sesudahnya)
+  // ninja: pasangan benang (kembaran cermin sebelum membelah, kembaran asli sesudahnya)
   function kembarPartner(w, b) {
     if (!b.split) return { x: ARENA - b.x, y: ARENA - b.y, echo: true };
-    const o = w.balls.find((k) => k !== b && k.alive && k.type === "kembar" && k.team === b.team && k.split);
+    const o = w.balls.find((k) => k !== b && k.alive && k.type === "ninja" && k.team === b.team && k.split);
     return o ? { x: o.x, y: o.y, echo: false, id: o.id } : null;
-  }
-
-  function dropShard(w, b) {
-    if (countOwned(w, b, "shard") >= T.shardMax) return;
-    const a = w.rand() * Math.PI * 2, d = b.r + 10 + w.rand() * 30;
-    w.hazards.push({
-      kind: "shard", x: clamp(b.x + Math.cos(a) * d, 12, ARENA - 12), y: clamp(b.y + Math.sin(a) * d, 12, ARENA - 12),
-      r: T.shardR, life: T.shardLife, max: T.shardLife, team: b.team, owner: b, rot: w.rand() * Math.PI,
-    });
   }
 
   // ------------------------------------------------------------ hantu
@@ -410,7 +468,7 @@
         h.x = clamp(o.x - (o.vx / m) * (o.r + h.r + 4), h.r, ARENA - h.r);
         h.y = clamp(o.y - (o.vy / m) * (o.r + h.r + 4), h.r, ARENA - h.r);
         setDir(h, Math.atan2(-o.vy, -o.vx));
-        emit(w, { kind: "skill", type: "hantuKeluar", id: h.id });
+        emit(w, { kind: "skill", type: "dukunKeluar", id: h.id });
       }
     }
   }
@@ -427,24 +485,24 @@
       emit(w, { kind: "slam", x: b.x, y: b.y, id: b.id });
     }
     if (!canAct(b)) return;
-    if (b.type === "karet") {
+    if (b.type === "penari") {
       const was = b.speed;
       if (b.boostT <= 0) setSpeed(b, Math.min(b.speed * T.karetBoost, T.karetMax));
-      if (b.speed >= T.karetMax && was < T.karetMax) emit(w, { kind: "skill", type: "karet", id: b.id });
+      if (b.speed >= T.karetMax && was < T.karetMax) emit(w, { kind: "skill", type: "penari", id: b.id });
       const p = { x: b.x, y: b.y };
       if (b.lastWall && dist(p, b.lastWall) > T.bandMin) {
         // maksimal 2 tali sekaligus
         const mine = w.hazards.filter((h) => h.kind === "band" && h.owner === b && h.life > 0);
         if (mine.length >= 2) mine[0].life = 0;
         w.hazards.push({ kind: "band", x1: b.lastWall.x, y1: b.lastWall.y, x2: p.x, y2: p.y, life: T.bandLife, max: T.bandLife, team: b.team, owner: b, x: p.x, y: p.y });
-        emit(w, { kind: "skill", type: "karetTali", id: b.id });
+        emit(w, { kind: "skill", type: "penariTali", id: b.id });
       }
       b.lastWall = p;
     }
-    if (b.type === "raksasa" && b.air <= 0) {
+    if (b.type === "viking" && b.air <= 0) {
       const was = b.r;
       b.r = Math.min(b.r + T.giantGrow, T.giantMax);
-      if (b.r >= T.giantMax && was < T.giantMax) emit(w, { kind: "skill", type: "raksasa", id: b.id });
+      if (b.r >= T.giantMax && was < T.giantMax) emit(w, { kind: "skill", type: "viking", id: b.id });
     }
   }
 
@@ -464,13 +522,13 @@
     b.wallCd -= dt;
     const tgt = nearestEnemy(w, b);
 
-    if (b.type === "es" && b.timer >= T.snowEvery && tgt) {
+    if (b.type === "sihires" && b.timer >= T.snowEvery && tgt) {
       b.timer = 0;
       shot(w, b, aimAngle(w, b, tgt), { kind: "snow", speed: T.snowSpeed, r: T.snowR, life: 6, bounces: 0 });
-      emit(w, { kind: "skill", type: "es", id: b.id });
+      emit(w, { kind: "skill", type: "sihires", id: b.id });
     }
 
-    if (b.type === "api") {
+    if (b.type === "berserker") {
       b.trailT += dt;
       if (b.trailT >= 0.08) {
         b.trailT = 0;
@@ -488,11 +546,11 @@
             strike(w, o, T.eruptDmg, b);
           }
         }
-        emit(w, { kind: "skill", type: "api", id: b.id });
+        emit(w, { kind: "skill", type: "berserker", id: b.id });
       }
     }
 
-    if (b.type === "pedang") {
+    if (b.type === "samurai") {
       if (b.blade.thrown > 0) {
         b.blade.thrown -= dt;
         b.blade.angle += T.bladeSpin * 3 * dt;
@@ -501,9 +559,9 @@
           if ((b.hitCd[o.id] || 0) > 0) continue;
           if (Math.hypot(o.x - p.x, o.y - p.y) < o.r + T.throwHitR) {
             strike(w, o, b.blade.dmg, b);
-            b.blade.dmg += T.bladeGrow;
+            b.blade.dmg = Math.min(T.bladeMax, b.blade.dmg + T.bladeGrow);
             b.hitCd[o.id] = T.bladeCd;
-            emit(w, { kind: "skill", type: "pedang", id: b.id, x: p.x, y: p.y });
+            emit(w, { kind: "skill", type: "samurai", id: b.id, x: p.x, y: p.y });
           }
         }
         if (b.blade.thrown <= 0) b.timer = 0;
@@ -514,35 +572,35 @@
           if ((b.hitCd[o.id] || 0) > 0) continue;
           if (segDist(o.x, o.y, s.ax, s.ay, s.bx, s.by) < o.r) {
             strike(w, o, b.blade.dmg, b);
-            b.blade.dmg += T.bladeGrow;
-            if (b.blade.dmg % 5 === 0) emit(w, { kind: "skill", type: "pedangUp", id: b.id });
+            b.blade.dmg = Math.min(T.bladeMax, b.blade.dmg + T.bladeGrow);
+            if (b.blade.dmg % 5 === 0) emit(w, { kind: "skill", type: "samuraiUp", id: b.id });
             b.hitCd[o.id] = T.bladeCd;
-            emit(w, { kind: "skill", type: "pedang", id: b.id, x: s.bx, y: s.by });
+            emit(w, { kind: "skill", type: "samurai", id: b.id, x: s.bx, y: s.by });
           }
         }
         if (b.timer >= T.throwEvery && tgt) {
           b.blade.thrown = T.throwTime;
           b.blade.dir = aimAngle(w, b, tgt);
-          emit(w, { kind: "skill", type: "pedangLempar", id: b.id });
+          emit(w, { kind: "skill", type: "samuraiLempar", id: b.id });
         }
       }
     }
 
-    if (b.type === "petir" && b.timer >= T.cloudEvery && tgt) {
+    if (b.type === "ahlipetir" && b.timer >= T.cloudEvery && tgt) {
       b.timer = 0;
       w.hazards.push({ kind: "cloud", x: tgt.x, y: tgt.y, target: tgt, life: T.cloudLife, max: T.cloudLife, tick: 0, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "petir", id: b.id });
+      emit(w, { kind: "skill", type: "ahlipetir", id: b.id });
     }
 
-    if (b.type === "vampir" && b.timer >= T.batEvery && tgt && countOwned(w, b, "bat") < T.batMax) {
+    if (b.type === "pemburu" && b.timer >= T.batEvery && tgt && countOwned(w, b, "bat") < T.batMax) {
       b.timer = 0;
       const a = aimAngle(w, b, tgt);
       w.hazards.push({ kind: "bat", state: "go", x: b.x, y: b.y, vx: Math.cos(a) * T.batSpeed, vy: Math.sin(a) * T.batSpeed, target: tgt,
         life: 8, stored: 0, tick: 0, latch: 0, off: w.rand() * Math.PI * 2, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "vampir", id: b.id });
+      emit(w, { kind: "skill", type: "pemburu", id: b.id });
     }
 
-    if (b.type === "raksasa" && b.timer >= T.leapEvery && tgt) {
+    if (b.type === "viking" && b.timer >= T.leapEvery && tgt) {
       b.timer = 0;
       b.air = T.leapTime;
       b.airFrom = { x: b.x, y: b.y };
@@ -550,27 +608,27 @@
         x: clamp(tgt.x + tgt.vx * T.leapTime * 0.6, b.r, ARENA - b.r),
         y: clamp(tgt.y + tgt.vy * T.leapTime * 0.6, b.r, ARENA - b.r),
       };
-      emit(w, { kind: "skill", type: "raksasaLompat", id: b.id });
+      emit(w, { kind: "skill", type: "vikingLompat", id: b.id });
     }
 
-    if (b.type === "bom" && b.timer >= T.bombEvery && tgt && countOwned(w, b, "bomb") === 0) {
+    if (b.type === "bajaklaut" && b.timer >= T.bombEvery && tgt && countOwned(w, b, "bomb") === 0) {
       b.timer = 0;
       const a = aimAngle(w, b, tgt);
       w.hazards.push({ kind: "bomb", state: "fly", x: b.x + Math.cos(a) * b.r, y: b.y + Math.sin(a) * b.r,
         vx: Math.cos(a) * T.bombSpeed, vy: Math.sin(a) * T.bombSpeed, r: 9, fuse: T.bombFuse, max: T.bombFuse, carrier: null, passCd: 0,
         life: 1, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "bom", id: b.id });
+      emit(w, { kind: "skill", type: "bajaklaut", id: b.id });
     }
 
-    if (b.type === "duri" && b.timer >= T.cactusEvery && countOwned(w, b, "cactus") < T.cactusMax) {
+    if (b.type === "mekanik" && b.timer >= T.cactusEvery && countOwned(w, b, "cactus") < T.cactusMax) {
       b.timer = 0;
       w.hazards.push({ kind: "cactus", x: b.x, y: b.y, r: 14, life: T.cactusLife, max: T.cactusLife, tick: 0, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "duriTanam", id: b.id });
+      emit(w, { kind: "skill", type: "mekanikTanam", id: b.id });
     }
 
-    if (b.type === "kembar") {
+    if (b.type === "ninja") {
       // benang ditarik oleh kembar dengan id terkecil supaya tidak dobel
-      const lead = !b.split || !w.balls.some((k) => k !== b && k.alive && k.type === "kembar" && k.team === b.team && k.split && k.id < b.id);
+      const lead = !b.split || !w.balls.some((k) => k !== b && k.alive && k.type === "ninja" && k.team === b.team && k.split && k.id < b.id);
       const p = lead && kembarPartner(w, b);
       if (p) {
         for (const o of enemiesOf(w, b)) {
@@ -579,21 +637,21 @@
           if (segDist(o.x, o.y, b.x, b.y, p.x, p.y) < o.r + T.threadWidth / 2) {
             b.hitCd[key] = T.threadCd;
             strike(w, o, T.threadDmg, b);
-            emit(w, { kind: "skill", type: "kembarBenang", id: b.id, x: o.x, y: o.y });
+            emit(w, { kind: "skill", type: "ninjaBenang", id: b.id, x: o.x, y: o.y });
           }
         }
       }
     }
 
-    if (b.type === "racun" && b.timer >= T.gasEvery) {
+    if (b.type === "bard" && b.timer >= T.gasEvery) {
       b.timer = 0;
       const m = Math.hypot(b.vx, b.vy) || 1;
       w.hazards.push({ kind: "gas", x: b.x, y: b.y, vx: (-b.vx / m) * T.gasDrift, vy: (-b.vy / m) * T.gasDrift, r: T.gasR,
         life: T.gasLife, max: T.gasLife, acc: {}, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "racun", id: b.id });
+      emit(w, { kind: "skill", type: "bard", id: b.id });
     }
 
-    if (b.type === "batu" && b.timer >= T.pillarEvery && tgt) {
+    if (b.type === "golem" && b.timer >= T.pillarEvery && tgt) {
       b.timer = 0;
       const R = T.pillarR;
       const x = clamp(tgt.x + tgt.vx * 0.45, R, ARENA - R), y = clamp(tgt.y + tgt.vy * 0.45, R, ARENA - R);
@@ -611,18 +669,18 @@
           if (o.team !== b.team) strike(w, o, T.pillarRiseDmg, b);
         }
       }
-      emit(w, { kind: "skill", type: "batu", id: b.id, x, y });
+      emit(w, { kind: "skill", type: "golem", id: b.id, x, y });
     }
 
-    if (b.type === "jamur" && b.timer >= T.shroomEvery && countOwned(w, b, "shroom") < T.shroomMax) {
+    if (b.type === "druid" && b.timer >= T.shroomEvery && countOwned(w, b, "shroom") < T.shroomMax) {
       b.timer = 0;
       const M = 30;
       w.hazards.push({ kind: "shroom", x: M + w.rand() * (ARENA - 2 * M), y: M + w.rand() * (ARENA - 2 * M), r: T.shroomR,
         life: T.shroomLife, max: T.shroomLife, grow: T.shroomGrow, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "jamurTanam", id: b.id });
+      emit(w, { kind: "skill", type: "druidTanam", id: b.id });
     }
 
-    if (b.type === "magnet") {
+    if (b.type === "sumo") {
       if (b.timer >= T.poleTime) {
         b.timer = 0;
         b.pole = -b.pole;
@@ -635,8 +693,8 @@
             strike(w, o, Math.round(T.repelMin + (T.repelMax - T.repelMin) * k), b);
             if (o.frozen <= 0 && !o.caughtBy) setDir(o, Math.atan2(o.y - b.y, o.x - b.x));
           }
-          emit(w, { kind: "skill", type: "magnet", id: b.id, r: T.repelR });
-        } else emit(w, { kind: "skill", type: "magnetTarik", id: b.id });
+          emit(w, { kind: "skill", type: "sumo", id: b.id, r: T.repelR });
+        } else emit(w, { kind: "skill", type: "sumoTarik", id: b.id });
       }
       for (const o of enemiesOf(w, b)) {
         const dx = b.x - o.x, dy = b.y - o.y, d = Math.hypot(dx, dy) || 1;
@@ -656,26 +714,26 @@
           h.vx = Math.cos(a) * sp; h.vy = Math.sin(a) * sp;
           h.team = b.team; h.owner = b; h.stolen = true; h.homing = false;
           if (h.kind === "rocket" && victim) { h.tx = victim.x; h.ty = victim.y; }
-          emit(w, { kind: "skill", type: "magnetCuri", id: b.id, x: h.x, y: h.y });
+          emit(w, { kind: "skill", type: "sumoCuri", id: b.id, x: h.x, y: h.y });
         }
       }
     }
 
-    if (b.type === "meriam") {
+    if (b.type === "koboi") {
       if (tgt) b.aim = Math.atan2(tgt.y - b.y, tgt.x - b.x); // laras selalu membidik lawan terdekat
       if (b.timer >= T.shotEvery && tgt) {
         b.timer = 0;
         shot(w, b, b.aim, { skin: "ball", speed: T.shotSpeed, r: 8, life: 3, dmg: T.shotDmg, bounces: T.shotBounces, bounceDmg: T.shotBounceDmg });
         setDir(b, b.aim + Math.PI); // tendangan mundur
-        emit(w, { kind: "skill", type: "meriam", id: b.id });
+        emit(w, { kind: "skill", type: "koboi", id: b.id });
       }
     }
 
-    if (b.type === "tawon") {
+    if (b.type === "necro") {
       b.droneAngle += T.droneSpin * dt;
       if (b.timer2 >= T.hiveEvery) {
         b.timer2 = 0;
-        if (b.bees < T.hiveMax) { b.bees++; emit(w, { kind: "skill", type: "tawonTambah", id: b.id }); }
+        if (b.bees < T.hiveMax) { b.bees++; emit(w, { kind: "skill", type: "necroTambah", id: b.id }); }
       }
       for (const p of dronePositions(b)) {
         for (const o of enemiesOf(w, b)) {
@@ -691,11 +749,11 @@
         b.timer = 0;
         b.bees--;
         shot(w, b, aimAngle(w, b, tgt), { skin: "bee", speed: T.beeSpeed, r: 7, life: 3, dmg: T.beeDmg, homing: true, turn: 5 });
-        emit(w, { kind: "skill", type: "tawon", id: b.id });
+        emit(w, { kind: "skill", type: "necro", id: b.id });
       }
     }
 
-    if (b.type === "hantu") {
+    if (b.type === "dukun") {
       if (b.ghost > 0) {
         b.ghost -= dt;
         if (b.ghost <= 0) b.timer = 0;
@@ -711,15 +769,15 @@
           walls.sort((p, q) => p[0] - q[0]);
           setDir(o, walls[0][1]);
           boost(o, BASE_SPEED * T.possessSpeed, T.possessTime);
-          emit(w, { kind: "skill", type: "hantu", id: b.id, target: o.id });
+          emit(w, { kind: "skill", type: "dukun", id: b.id, target: o.id });
         } else {
           b.ghost = T.ghostTime;
-          emit(w, { kind: "skill", type: "hantuTembus", id: b.id });
+          emit(w, { kind: "skill", type: "dukunTembus", id: b.id });
         }
       }
     }
 
-    if (b.type === "laser") {
+    if (b.type === "sniper") {
       // ancang-ancang: membidik lawan terdekat, lalu bidikan dikunci sesaat sebelum menembak (bisa dihindari)
       if (tgt && b.timer >= T.laserEvery - T.laserCharge && (b.aim == null || b.timer < T.laserEvery - T.laserLock)) {
         b.aim = Math.atan2(tgt.y - b.y, tgt.x - b.x);
@@ -733,25 +791,36 @@
             if (segDist(o.x, o.y, pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y) < o.r + T.laserWidth / 2) { strike(w, o, T.laserDmg, b); break; }
           }
         }
-        w.fx.push({ kind: "beam", pts, color: TYPES.laser.color, life: 0.3, max: 0.3 });
-        emit(w, { kind: "skill", type: "laser", id: b.id });
+        w.fx.push({ kind: "beam", pts, color: TYPES.sniper.color, life: 0.3, max: 0.3 });
+        emit(w, { kind: "skill", type: "sniper", id: b.id });
       }
     }
 
-    if (b.type === "portal" && b.timer >= T.trapEvery && tgt) {
+    if (b.type === "pencuri" && b.timer >= T.trapEvery && tgt) {
       b.timer = 0;
       const x = clamp(tgt.x + tgt.vx * T.trapWarn * 0.8, 30, ARENA - 30), y = clamp(tgt.y + tgt.vy * T.trapWarn * 0.8, 30, ARENA - 30);
       w.hazards.push({ kind: "trap", x, y, r: T.trapR, warn: T.trapWarn, max: T.trapWarn, life: 1, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "portal", id: b.id });
+      emit(w, { kind: "skill", type: "pencuri", id: b.id });
     }
 
-    if (b.type === "lubang" && b.timer >= T.holeEvery) {
+    if (b.type === "peramal" && b.timer >= T.cardEvery && tgt) {
       b.timer = 0;
-      w.hazards.push({ kind: "hole", x: b.x, y: b.y, r: T.holeR, life: T.holeLife, max: T.holeLife, team: b.team, owner: b, tick: 0, bonus: 0 });
-      emit(w, { kind: "skill", type: "lubang", id: b.id });
+      const r = w.rand();
+      const a = aimAngle(w, b, tgt);
+      const card = (o) => shot(w, b, a, Object.assign({ skin: "card", speed: T.cardSpeed, r: 9, life: 2 }, o));
+      if (r < T.cardGoldChance) { card({ card: "gold", color: "#ffd23c", dmg: T.cardGold }); emit(w, { kind: "skill", type: "peramalEmas", id: b.id }); }
+      else if (r < 0.37) { card({ card: "red", color: "#ff4a4a", dmg: T.cardDmg }); emit(w, { kind: "skill", type: "peramal", id: b.id }); }
+      else if (r < 0.59) { card({ card: "blue", color: "#5ac8ff", dmg: T.cardWeak, freeze: T.cardFreeze }); emit(w, { kind: "skill", type: "peramalBiru", id: b.id }); }
+      else if (r < 0.8) { card({ card: "purple", color: "#b06bff", dmg: T.cardWeak, silence: true, silenceTime: T.cardSilence }); emit(w, { kind: "skill", type: "peramalUngu", id: b.id }); }
+      else {
+        const heal = Math.min(T.cardHeal, b.maxHp - b.hp);
+        b.hp += heal;
+        emit(w, { kind: "heal", id: b.id, x: b.x, y: b.y, amt: heal });
+        emit(w, { kind: "skill", type: "peramalHijau", id: b.id });
+      }
     }
 
-    if (b.type === "bunga") {
+    if (b.type === "pemanah") {
       if (b.spiral > 0) {
         b.spiral -= dt;
         b.spiralT += dt;
@@ -760,7 +829,7 @@
           b.spiralT -= every;
           const a = b.spiralA + b.spiralN * 0.95;
           b.spiralN++;
-          shot(w, b, a, { skin: "petal", speed: T.petalSpeed, r: 7, life: 1.5, dmg: T.petalDmg, drowsy: true });
+          shot(w, b, a, { skin: "arrow", speed: T.petalSpeed, r: 7, life: 1.5, dmg: T.petalDmg, drowsy: true });
         }
         if (b.spiral <= 0) b.timer = 0;
       } else if (b.timer >= T.flowerEvery) {
@@ -768,41 +837,40 @@
         b.spiralN = 0;
         b.spiralT = 0;
         b.spiralA = aimAngle(w, b, tgt);
-        emit(w, { kind: "skill", type: "bunga", id: b.id });
+        emit(w, { kind: "skill", type: "pemanah", id: b.id });
       }
     }
 
-    if (b.type === "angin" && b.timer >= T.tornadoEvery && tgt) {
+    if (b.type === "biksu" && b.timer >= T.tornadoEvery && tgt) {
       b.timer = 0;
       w.hazards.push({ kind: "tornado", x: b.x, y: b.y, r: T.tornadoR, life: T.tornadoLife, max: T.tornadoLife, caught: null, catchT: 0,
         spin: 0, tick: 0, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "angin", id: b.id });
+      emit(w, { kind: "skill", type: "biksu", id: b.id });
     }
 
-    if (b.type === "gelembung") {
-      if (b.shield <= 0) {
-        b.shieldT -= dt;
-        if (b.shieldT <= 0) { b.shield = T.bubbleHp; emit(w, { kind: "skill", type: "gelembung", id: b.id }); }
-      }
-      if (b.timer >= T.prisonEvery && tgt) {
-        b.timer = 0;
-        shot(w, b, aimAngle(w, b, tgt), { skin: "bubble", speed: T.prisonSpeed, r: 13, life: 3, dmg: 0, prison: true, homing: true, turn: 2.2 });
-        emit(w, { kind: "skill", type: "gelembungTiup", id: b.id });
-      }
-    }
-
-    if (b.type === "cermin" && b.timer >= T.shardEvery) {
+    if (b.type === "gladiator" && b.timer >= T.prisonEvery && tgt) {
       b.timer = 0;
-      dropShard(w, b);
+      shot(w, b, aimAngle(w, b, tgt), { skin: "net", speed: T.prisonSpeed, r: 13, life: 3, dmg: T.netDmg, prison: true, homing: true, turn: 2.2 });
+      emit(w, { kind: "skill", type: "gladiatorTiup", id: b.id });
     }
 
-    if (b.type === "bintang") {
+    if (b.type === "ksatria" && b.timer >= T.bashEvery && tgt && dist(b, tgt) < T.bashR + tgt.r + 40) {
+      b.timer = 0;
+      blast(w, b.team, b, b.x, b.y, T.bashR, T.bashDmg, (o) => { if (o.frozen <= 0 && !o.caughtBy) setDir(o, Math.atan2(o.y - b.y, o.x - b.x)); });
+      emit(w, { kind: "skill", type: "ksatriaHantam", id: b.id, r: T.bashR });
+    }
+    if (b.type === "ksatria" && b.shield <= 0) {
+      b.shieldT -= dt;
+      if (b.shieldT <= 0) { b.shield = T.bubbleHp; emit(w, { kind: "skill", type: "ksatria", id: b.id }); }
+    }
+
+    if (b.type === "silat") {
       if (b.dash > 0) {
         b.dash -= dt;
         if (b.dash <= 0) {
           setSpeed(b, BASE_SPEED);
           b.marks.push({ x: b.x, y: b.y });
-          emit(w, { kind: "skill", type: "bintangTaruh", id: b.id, x: b.x, y: b.y });
+          emit(w, { kind: "skill", type: "silatTaruh", id: b.id, x: b.x, y: b.y });
           if (b.marks.length >= 3) {
             w.hazards.push({ kind: "constellation", pts: b.marks.slice(0, 3), warn: T.starWarn, max: T.starWarn, life: 1, team: b.team, owner: b });
             b.marks = [];
@@ -813,11 +881,11 @@
         b.dash = T.dashTime;
         setDir(b, aimAngle(w, b, tgt));
         setSpeed(b, BASE_SPEED * T.dashMult);
-        emit(w, { kind: "skill", type: "bintang", id: b.id });
+        emit(w, { kind: "skill", type: "silat", id: b.id });
       }
     }
 
-    if (b.type === "naga") {
+    if (b.type === "sihirapi") {
       if (b.breath > 0) {
         b.breath -= dt;
         if (tgt) { // kepala pelan-pelan mengikuti lawan
@@ -843,7 +911,7 @@
         if (b.timer >= T.breathEvery && tgt) {
           b.breath = T.breathTime;
           b.breathTick = T.breathTick;
-          emit(w, { kind: "skill", type: "naga", id: b.id });
+          emit(w, { kind: "skill", type: "sihirapi", id: b.id });
         }
       }
     }
@@ -854,24 +922,24 @@
       emit(w, { kind: "skill", type: "bayangan", id: b.id });
     }
 
-    if (b.type === "petasan" && b.timer >= T.rocketEvery && tgt) {
+    if (b.type === "grenadier" && b.timer >= T.rocketEvery && tgt) {
       b.timer = 0;
       const a = aimAngle(w, b, tgt);
       w.hazards.push({ kind: "rocket", x: b.x, y: b.y, tx: tgt.x, ty: tgt.y, vx: Math.cos(a) * T.rocketSpeed, vy: Math.sin(a) * T.rocketSpeed,
         r: 8, life: 2.5, team: b.team, owner: b, hue: Math.floor(w.rand() * 360) });
-      emit(w, { kind: "skill", type: "petasan", id: b.id });
+      emit(w, { kind: "skill", type: "grenadier", id: b.id });
     }
 
-    if (b.type === "meteor" && b.timer >= T.meteorEvery && tgt) {
+    if (b.type === "valkyrie" && b.timer >= T.meteorEvery && tgt) {
       b.timer = 0;
       // ditandai di posisi lawan + sedikit ke arah geraknya
       const x = clamp(tgt.x + tgt.vx * 0.35, 20, ARENA - 20);
       const y = clamp(tgt.y + tgt.vy * 0.35, 20, ARENA - 20);
-      w.hazards.push({ kind: "meteor", x, y, r: T.meteorR, delay: T.meteorDelay, max: T.meteorDelay, life: 1, team: b.team, owner: b });
-      emit(w, { kind: "skill", type: "meteor", id: b.id });
+      w.hazards.push({ kind: "valkyrie", x, y, r: T.meteorR, delay: T.meteorDelay, max: T.meteorDelay, life: 1, team: b.team, owner: b });
+      emit(w, { kind: "skill", type: "valkyrie", id: b.id });
     }
 
-    if (b.type === "matahari") {
+    if (b.type === "pendeta") {
       b.auraTick += dt;
       if (b.auraTick >= T.sunAuraTick) {
         b.auraTick = 0;
@@ -885,12 +953,253 @@
       if (b.timer >= T.sunNovaEvery) {
         b.timer = 0;
         blast(w, b.team, b, b.x, b.y, T.sunNovaR, T.sunNovaDmg);
-        emit(w, { kind: "skill", type: "matahari", id: b.id, x: b.x, y: b.y });
+        const heal = Math.min(T.sunNovaHeal, b.maxHp - b.hp);
+        if (heal > 0) { b.hp += heal; emit(w, { kind: "heal", id: b.id, x: b.x, y: b.y, amt: heal }); }
+        emit(w, { kind: "skill", type: "pendeta", id: b.id, x: b.x, y: b.y });
       }
+    }
+
+    if (b.type === "kosmos" && b.timer >= T.holeEvery) {
+      b.timer = 0;
+      w.hazards.push({ kind: "hole", x: b.x, y: b.y, r: T.holeR, life: T.holeLife, max: T.holeLife, team: b.team, owner: b, tick: 0, bonus: 0 });
+      emit(w, { kind: "skill", type: "kosmos", id: b.id });
+    }
+
+    if (b.type === "paladin" && tgt && b.boostT <= 0) steer(b, tgt.x, tgt.y, T.hammerTurn, dt);
+    if (b.type === "paladin" && b.timer >= T.hammerEvery && tgt && dist(b, tgt) < T.hammerR + tgt.r + 40) {
+      b.timer = 0;
+      blast(w, b.team, b, b.x, b.y, T.hammerR, T.hammerDmg, (o) => { if (o.alive) o.stun = Math.max(o.stun, T.hammerStun); });
+      emit(w, { kind: "skill", type: "paladin", id: b.id, r: T.hammerR });
+    }
+
+    if (b.type === "barong" && b.timer >= T.roarEvery && tgt && dist(b, tgt) < T.roarR + tgt.r) {
+      b.timer = 0;
+      blast(w, b.team, b, b.x, b.y, T.roarR, T.roarDmg, (o) => {
+        if (!o.alive || o.caughtBy || o.air > 0 || o.possessedBy) return;
+        o.fear = T.fearTime; o.fearSrc = b;
+        setDir(o, Math.atan2(o.y - b.y, o.x - b.x));
+        boost(o, BASE_SPEED * T.fearSpeed, T.fearTime);
+      });
+      emit(w, { kind: "skill", type: "barong", id: b.id, r: T.roarR });
+    }
+
+    if (b.type === "juggernaut") {
+      if (b.charge > 0) {
+        b.charge -= dt;
+        for (const o of enemiesOf(w, b)) {
+          if ((b.hitCd[o.id] || 0) > 0 || o.air > 0) continue;
+          if (dist(o, b) < o.r + b.r + 6) {
+            b.hitCd[o.id] = 0.6;
+            strike(w, o, T.chargeDmg, b);
+            if (o.alive && o.frozen <= 0 && !o.caughtBy) {
+              setDir(o, Math.atan2(o.y - b.y, o.x - b.x));
+              boost(o, BASE_SPEED * T.chargePush, 0.5);
+              o.flung = 0.5; o.flungSrc = b;
+            }
+            emit(w, { kind: "skill", type: "juggernautTabrak", id: b.id, x: o.x, y: o.y });
+          }
+        }
+        if (b.charge <= 0) setSpeed(b, BASE_SPEED);
+      } else if (b.timer >= T.chargeEvery && tgt) {
+        b.timer = 0;
+        b.charge = T.chargeTime;
+        setDir(b, aimAngle(w, b, tgt));
+        setSpeed(b, BASE_SPEED * T.chargeMult);
+        emit(w, { kind: "skill", type: "juggernaut", id: b.id });
+      }
+    }
+
+    if (b.type === "petinju" && tgt) {
+      if (b.boostT <= 0) steer(b, tgt.x, tgt.y, T.punchTurn, dt);
+      b.punchT += dt;
+      if (b.punchT >= T.punchEvery && dist(b, tgt) < b.r + tgt.r + T.punchR) {
+        b.punchT = 0;
+        b.upN++;
+        if (b.upN >= T.uppercutEvery) {
+          b.upN = 0;
+          strike(w, tgt, T.uppercutDmg, b);
+          if (tgt.alive) tgt.stun = Math.max(tgt.stun, T.uppercutStun);
+          emit(w, { kind: "skill", type: "petinju", id: b.id, x: tgt.x, y: tgt.y });
+        } else {
+          strike(w, tgt, T.punchDmg, b);
+          emit(w, { kind: "skill", type: "petinjuJab", id: b.id, x: tgt.x, y: tgt.y });
+        }
+      }
+    }
+
+    if (b.type === "jawara") {
+      if (b.timer >= T.jawaraTick) { b.timer = 0; b.stack++; }
+      if (b.stack >= T.jawaraStack) {
+        b.stack = 0;
+        blast(w, b.team, b, b.x, b.y, T.jawaraR, T.jawaraDmg, (o) => { if (o.frozen <= 0 && !o.caughtBy) setDir(o, Math.atan2(o.y - b.y, o.x - b.x)); });
+        emit(w, { kind: "skill", type: "jawara", id: b.id, r: T.jawaraR });
+      }
+    }
+
+    if (b.type === "ronin") {
+      if (b.rdash > 0) {
+        b.rdash -= dt;
+        for (const o of enemiesOf(w, b)) {
+          if ((b.hitCd[o.id] || 0) > 0 || o.air > 0) continue;
+          if (dist(o, b) < o.r + b.r + 4) {
+            b.hitCd[o.id] = 0.6;
+            strike(w, o, T.roninDmg, b);
+            if (o.alive) { o.bleed = T.bleedTime; o.bleedSrc = b; }
+            emit(w, { kind: "skill", type: "roninTebas", id: b.id, x: o.x, y: o.y });
+          }
+        }
+        if (b.rdash <= 0) setSpeed(b, BASE_SPEED);
+      } else if (b.timer >= T.roninEvery && tgt) {
+        b.timer = 0;
+        b.rdash = T.roninDash;
+        setDir(b, aimAngle(w, b, tgt));
+        setSpeed(b, BASE_SPEED * T.roninMult);
+        emit(w, { kind: "skill", type: "ronin", id: b.id });
+      }
+    }
+
+    if (b.type === "pembunuh") {
+      if (b.stealth > 0) {
+        b.stealth -= dt;
+        b.ghost = Math.max(0, b.stealth);
+        if (tgt) steer(b, tgt.x, tgt.y, T.stealthTurn, dt);
+        for (const o of enemiesOf(w, b)) {
+          if (o.air > 0 || dist(o, b) >= o.r + b.r + 4) continue;
+          b.stealth = 0; b.ghost = 0;
+          damage(w, o, T.backstabDmg, b, true);
+          emit(w, { kind: "skill", type: "pembunuhTikam", id: b.id, x: o.x, y: o.y });
+          break;
+        }
+        if (b.stealth <= 0) { b.ghost = 0; b.timer = 0; }
+      } else if (b.timer >= T.stealthEvery && tgt) {
+        b.stealth = T.stealthTime;
+        b.ghost = T.stealthTime;
+        emit(w, { kind: "skill", type: "pembunuh", id: b.id });
+      }
+    }
+
+    if (b.type === "kunoichi" && b.timer >= T.kunaiEvery && tgt) {
+      b.timer = 0;
+      const a = aimAngle(w, b, tgt);
+      for (let i = 0; i < T.kunaiCount; i++) {
+        const k = i - (T.kunaiCount - 1) / 2;
+        shot(w, b, a + k * T.kunaiSpread, { skin: "kunai", speed: T.kunaiSpeed, r: 6, life: 1.4, dmg: T.kunaiDmg, poison: true });
+      }
+      emit(w, { kind: "skill", type: "kunoichi", id: b.id });
+    }
+
+    if (b.type === "penjebak" && b.timer >= T.mineEvery && countOwned(w, b, "mine") < T.mineMax) {
+      b.timer = 0;
+      w.hazards.push({ kind: "mine", x: b.x, y: b.y, r: T.mineR, arm: T.mineArm, life: T.mineLife, max: T.mineLife, team: b.team, owner: b });
+      emit(w, { kind: "skill", type: "penjebakTanam", id: b.id });
+    }
+
+    if (b.type === "waktu") {
+      b.histT += dt;
+      if (b.histT >= 0.25) { b.histT = 0; b.hist.push(b.hp); if (b.hist.length > 20) b.hist.shift(); }
+      if (b.timer2 >= T.rewindEvery) {
+        b.timer2 = 0;
+        const back = b.hist[b.hist.length - 1 - Math.round(T.rewindBack / 0.25)];
+        if (back != null && back > b.hp) {
+          const heal = Math.min(T.rewindMax, Math.round(back - b.hp));
+          b.hp += heal;
+          emit(w, { kind: "heal", id: b.id, x: b.x, y: b.y, amt: heal });
+          emit(w, { kind: "skill", type: "waktuMundur", id: b.id });
+        }
+      }
+      if (b.timer >= T.slowFieldEvery && tgt) {
+        b.timer = 0;
+        w.hazards.push({ kind: "timefield", x: tgt.x, y: tgt.y, r: T.slowFieldR, life: T.slowFieldLife, max: T.slowFieldLife, tick: 0, team: b.team, owner: b });
+        emit(w, { kind: "skill", type: "waktu", id: b.id });
+      }
+    }
+
+    if (b.type === "alkemis" && b.timer >= T.potionEvery && tgt) {
+      b.timer = 0;
+      const a = aimAngle(w, b, tgt);
+      w.hazards.push({ kind: "potion", x: b.x, y: b.y, tx: tgt.x + tgt.vx * 0.3, ty: tgt.y + tgt.vy * 0.3, vx: Math.cos(a) * T.potionSpeed, vy: Math.sin(a) * T.potionSpeed,
+        r: 8, life: 2, team: b.team, owner: b, spin: 0 });
+      emit(w, { kind: "skill", type: "alkemis", id: b.id });
+    }
+
+    if (b.type === "pawang" && b.timer >= T.rainEvery && tgt) {
+      b.timer = 0;
+      w.hazards.push({ kind: "rain", x: tgt.x, y: tgt.y, r: T.rainR, target: tgt, life: T.rainLife, max: T.rainLife, tick: 0, team: b.team, owner: b });
+      emit(w, { kind: "skill", type: "pawang", id: b.id });
+    }
+
+    if (b.type === "nelayan" && b.timer >= T.hookEvery && tgt) {
+      b.timer = 0;
+      shot(w, b, aimAngle(w, b, tgt), { skin: "hook", speed: T.hookSpeed, r: 8, life: 1.2, dmg: T.hookDmg, hook: true });
+      emit(w, { kind: "skill", type: "nelayan", id: b.id });
+    }
+
+    if (b.type === "gunner") {
+      if (tgt) b.aim = Math.atan2(tgt.y - b.y, tgt.x - b.x);
+      if (b.timer >= T.pelletEvery && tgt) {
+        b.timer = 0;
+        for (let i = 0; i < T.pelletCount; i++) {
+          const k = i / (T.pelletCount - 1) - 0.5;
+          shot(w, b, b.aim + k * T.pelletSpread, { skin: "pellet", speed: T.pelletSpeed * (0.9 + w.rand() * 0.2), r: 5, life: T.pelletLife, dmg: T.pelletDmg });
+        }
+        setDir(b, b.aim + Math.PI);
+        emit(w, { kind: "skill", type: "gunner", id: b.id });
+      }
+    }
+
+    if (b.type === "sumpit" && b.timer >= T.dartEvery && tgt) {
+      b.timer = 0;
+      shot(w, b, aimAngle(w, b, tgt), { skin: "dart", speed: T.dartSpeed, r: 5, life: 1.3, dmg: T.dartDmg, sleepy: true });
+      emit(w, { kind: "skill", type: "sumpitTiup", id: b.id });
+    }
+
+    if (b.type === "tabib") {
+      if (b.timer2 >= T.jamuEvery) {
+        b.timer2 = 0;
+        const heal = Math.min(T.jamuHeal, b.maxHp - b.hp);
+        if (heal > 0) { b.hp += heal; emit(w, { kind: "heal", id: b.id, x: b.x, y: b.y, amt: heal }); }
+        boost(b, BASE_SPEED * T.jamuBoost, 1.5);
+        emit(w, { kind: "skill", type: "tabibJamu", id: b.id });
+      }
+      if (b.timer >= T.bitterEvery && tgt) {
+        b.timer = 0;
+        shot(w, b, aimAngle(w, b, tgt), { skin: "jamu", speed: 330, r: 8, life: 1.6, dmg: T.bitterDmg, drunk: T.bitterDrunk });
+        emit(w, { kind: "skill", type: "tabib", id: b.id });
+      }
+    }
+
+    if (b.type === "dalang" && b.timer >= T.puppetEvery && w.balls.filter((p) => p.minion && p.owner === b && p.alive).length < T.puppetMax) {
+      b.timer = 0;
+      const a = w.rand() * Math.PI * 2;
+      const p = makeBall(w, "dalang", b.team, clamp(b.x + Math.cos(a) * 50, 30, ARENA - 30), clamp(b.y + Math.sin(a) * 50, 30, ARENA - 30), a, 0);
+      p.minion = true; p.owner = b; p.r = T.puppetR; p.hp = p.maxHp = T.puppetHp; p.life = T.puppetLife;
+      setSpeed(p, BASE_SPEED * 1.1);
+      w.balls.push(p);
+      w.fx.push({ kind: "ring", x: p.x, y: p.y, r: 30, color: TYPES.dalang.color, life: 0.4, max: 0.4 });
+      emit(w, { kind: "skill", type: "dalang", id: b.id });
+    }
+
+    if (b.type === "totem" && b.timer >= T.totemEvery && countOwned(w, b, "totem") < T.totemMax) {
+      b.timer = 0;
+      w.hazards.push({ kind: "totem", x: b.x, y: b.y, r: T.totemR, life: T.totemLife, max: T.totemLife, tick: 0, team: b.team, owner: b });
+      emit(w, { kind: "skill", type: "totem", id: b.id });
+    }
+
+    if (b.type === "gong" && b.timer >= T.gongEvery) {
+      b.timer = 0;
+      for (let i = 0; i < T.gongWaves; i++) {
+        w.hazards.push({ kind: "gongwave", x: b.x, y: b.y, r: b.r, delay: i * T.gongGap, life: 1, hit: {}, team: b.team, owner: b });
+      }
+      emit(w, { kind: "skill", type: "gong", id: b.id });
     }
   }
 
   function poisonTick(w, b, dt) {
+    if (b.bleed > 0) {
+      b.bleed -= dt;
+      b.bleedTick += dt;
+      if (b.bleedTick >= T.bleedEvery) { b.bleedTick = 0; damage(w, b, T.bleedDmg, b.bleedSrc); }
+    }
     if (b.poison <= 0) return;
     b.poisonT -= dt;
     b.poisonTick += dt;
@@ -904,7 +1213,7 @@
   // ------------------------------------------------------------ peluru kena bola
   function projectileHits(w, h, o) {
     // cermin memantulkan semua peluru lawan
-    if (o.type === "cermin" && h.kind !== "bomb" && !h.mirrorRolled && (h.mirrorRolled = true) && w.rand() < T.mirrorShotChance) {
+    if (o.type === "ksatria" && h.kind !== "bomb" && !h.mirrorRolled && (h.mirrorRolled = true) && w.rand() < T.mirrorShotChance) {
       const back = h.owner && h.owner.alive ? h.owner : nearestEnemy(w, o);
       const sp = Math.hypot(h.vx, h.vy) || 300;
       const a = back ? Math.atan2(back.y - h.y, back.x - h.x) : Math.atan2(h.y - o.y, h.x - o.x);
@@ -997,7 +1306,7 @@
           if (Math.hypot(o.x - h.x, o.y - h.y) < o.r + h.r) {
             if (!projectileHits(w, h, o)) continue;
             strike(w, o, Math.round(T.snowDmgBase + h.r * T.snowDmgPerR), own);
-            if (o.alive && o.type !== "es") o.frozen = Math.max(o.frozen, T.snowFreeze + h.r * 0.02);
+            if (o.alive && o.type !== "sihires") o.frozen = Math.max(o.frozen, T.snowFreeze + h.r * 0.02);
             h.life = 0;
             emit(w, { kind: "impact", x: h.x, y: h.y, skin: "snow", r: h.r });
           }
@@ -1026,20 +1335,34 @@
             if (!projectileHits(w, h, o)) continue;
             if (h.dmg) strike(w, o, h.dmg, h.owner);
             if (o.alive) {
-              if (h.silence) { o.silence = T.silenceTime; emit(w, { kind: "skill", type: "bayanganCuri", id: h.owner.id, target: o.id }); }
-              if (h.drowsy && o.type !== "bunga") {
+              if (h.silence) { o.silence = h.silenceTime || T.silenceTime; emit(w, { kind: "skill", type: h.card ? "peramalKunci" : "bayanganCuri", id: h.owner.id, target: o.id }); }
+              if (h.freeze) o.frozen = Math.max(o.frozen, h.freeze);
+              if (h.poison) applyPoison(w, h.owner, o);
+              if (h.drunk) o.drunk = Math.max(o.drunk, h.drunk);
+              if (h.sleepy) {
+                o.dartN++;
+                o.dartT = T.dartReset;
+                if (o.dartN >= T.dartSleepN) { o.dartN = 0; o.sleep = Math.max(o.sleep, T.dartSleep); emit(w, { kind: "skill", type: "sumpitTidur", id: h.owner.id, target: o.id }); }
+              }
+              if (h.hook && !o.caughtBy && o.air <= 0 && !o.possessedBy && h.owner.alive) {
+                setDir(o, Math.atan2(h.owner.y - o.y, h.owner.x - o.x));
+                boost(o, T.hookPull, T.hookTime);
+                o.hookT = T.hookTime; o.hookSrc = h.owner;
+                emit(w, { kind: "skill", type: "nelayanTarik", id: h.owner.id, target: o.id });
+              }
+              if (h.drowsy && o.type !== "pemanah") {
                 o.drowsy++;
                 o.drowsyT = T.drowsyReset;
                 if (o.drowsy >= T.drowsyMax) {
                   o.drowsy = 0;
-                  o.sleep = T.sleepTime;
-                  emit(w, { kind: "skill", type: "bungaTidur", id: h.owner.id, target: o.id });
+                  o.stun = Math.max(o.stun, T.pinTime);
+                  emit(w, { kind: "skill", type: "pemanahPaku", id: h.owner.id, target: o.id });
                 }
               }
               if (h.prison && o.trapped <= 0) {
                 o.trapped = T.prisonTime;
                 o.trapSrc = h.owner;
-                emit(w, { kind: "skill", type: "gelembungPenjara", id: h.owner.id, target: o.id });
+                emit(w, { kind: "skill", type: "gladiatorPenjara", id: h.owner.id, target: o.id });
               }
             }
             h.life = 0;
@@ -1061,7 +1384,7 @@
           for (const o of w.balls) {
             if (h.state !== "fly" || !targetable(o) || o.team === h.team || o.air > 0) continue;
             if (Math.hypot(o.x - h.x, o.y - h.y) < o.r + h.r) {
-              if (o.type === "cermin") { // cermin memantulkan bomnya
+              if (o.type === "ksatria") { // ksatria menangkis tongnya
                 const a = Math.atan2(h.y - o.y, h.x - o.x);
                 h.vx = Math.cos(a) * sp; h.vy = Math.sin(a) * sp; h.team = o.team;
                 emit(w, { kind: "reflect", id: o.id, x: h.x, y: h.y, tx: h.x, ty: h.y });
@@ -1071,7 +1394,7 @@
               h.fuse = T.bombFuse;
               h.carrier = o;
               h.passCd = T.bombPass;
-              emit(w, { kind: "skill", type: "bomTempel", id: own.id, target: o.id });
+              emit(w, { kind: "skill", type: "bajaklautTempel", id: own.id, target: o.id });
             }
           }
         } else if (h.state === "stuck") {
@@ -1118,45 +1441,13 @@
           }
           emit(w, { kind: "firework", x: h.x, y: h.y, hue: h.hue });
         }
-      } else if (h.kind === "meteor") {
+      } else if (h.kind === "valkyrie") {
         h.delay -= dt;
         if (h.delay <= 0) {
           h.life = 0;
           blast(w, h.team, own, h.x, h.y, h.r, T.meteorDmg);
           w.hazards.push({ kind: "crater", x: h.x, y: h.y, r: T.craterR, life: T.craterLife, max: T.craterLife, team: h.team, owner: own });
-          emit(w, { kind: "meteorHit", x: h.x, y: h.y });
-        }
-      } else if (h.kind === "hole") {
-        h.life -= dt;
-        if (own.alive) { h.x = own.x; h.y = own.y; } // pusaran ikut pemiliknya
-        h.tick += dt;
-        const doTick = h.tick >= T.holeTick;
-        if (doTick) h.tick = 0;
-        for (const o of w.balls) {
-          if (!targetable(o) || o.team === h.team || o.air > 0) continue;
-          const dx = h.x - o.x, dy = h.y - o.y, d = Math.hypot(dx, dy) || 1;
-          if (d > h.r) continue;
-          if (o.frozen <= 0 && !o.caughtBy) {
-            o.vx += (dx / d) * T.holePull * dt;
-            o.vy += (dy / d) * T.holePull * dt;
-            setSpeed(o, o.speed);
-          }
-          if (doTick && d < T.holeCore + o.r) damage(w, o, T.holeDmg + h.bonus, own);
-        }
-        // menelan peluru lawan
-        for (const p of w.hazards) {
-          if (p === h || p.life <= 0 || p.team === h.team) continue;
-          if (!(p.kind === "shot" || p.kind === "snow" || p.kind === "rocket" || (p.kind === "bomb" && p.state !== "stuck"))) continue;
-          const dx = h.x - p.x, dy = h.y - p.y, d = Math.hypot(dx, dy) || 1;
-          if (d > h.r) continue;
-          if (d < 22) {
-            p.life = 0; if (p.kind === "bomb") p.fuse = 99;
-            h.bonus += T.holeEatDmg;
-            emit(w, { kind: "skill", type: "lubangMakan", id: own.id, x: h.x, y: h.y });
-          } else if (p.vx != null) {
-            p.vx += (dx / d) * 900 * dt;
-            p.vy += (dy / d) * 900 * dt;
-          }
+          emit(w, { kind: "valkyrieHit", x: h.x, y: h.y });
         }
       } else if (h.kind === "cloud") {
         h.life -= dt;
@@ -1214,7 +1505,7 @@
           if (o) {
             h.tick = 0;
             const a = Math.atan2(o.y - h.y, o.x - h.x);
-            w.hazards.push({ kind: "shot", skin: "needle", color: TYPES.duri.color, x: h.x, y: h.y, vx: Math.cos(a) * T.needleSpeed, vy: Math.sin(a) * T.needleSpeed,
+            w.hazards.push({ kind: "shot", skin: "needle", color: TYPES.mekanik.color, x: h.x, y: h.y, vx: Math.cos(a) * T.needleSpeed, vy: Math.sin(a) * T.needleSpeed,
               r: 5, life: 1.2, dmg: T.needleDmg, team: h.team, owner: own, bounces: 0 });
             h.shotT = 0.15;
           }
@@ -1248,26 +1539,16 @@
           if (!targetable(o) || o.air > 0 || h.life <= 0) continue;
           if (Math.hypot(o.x - h.x, o.y - h.y) > h.r + o.r) continue;
           if (o.team === h.team) {
-            if (o.type !== "jamur") continue;
+            if (o.type !== "druid") continue;
             h.life = 0;
             o.hp = Math.min(o.maxHp, o.hp + T.shroomHeal);
             emit(w, { kind: "heal", id: o.id, x: o.x, y: o.y, amt: T.shroomHeal });
-            emit(w, { kind: "skill", type: "jamurMakan", id: o.id });
+            emit(w, { kind: "skill", type: "druidMakan", id: o.id });
           } else {
             h.life = 0;
             strike(w, o, T.shroomDmg, own);
             if (o.alive) o.drunk = Math.max(o.drunk, T.shroomDizzy);
             emit(w, { kind: "spore", x: h.x, y: h.y });
-          }
-        }
-      } else if (h.kind === "shard") {
-        h.life -= dt;
-        for (const o of w.balls) {
-          if (h.life <= 0 || !targetable(o) || o.team === h.team || o.air > 0) continue;
-          if (Math.hypot(o.x - h.x, o.y - h.y) < h.r + o.r * 0.8) {
-            h.life = 0;
-            strike(w, o, T.shardDmg, own);
-            emit(w, { kind: "impact", x: h.x, y: h.y, skin: "glass" });
           }
         }
       } else if (h.kind === "trap") {
@@ -1280,7 +1561,7 @@
               o.hidden = T.fallTime;
               o.falling = true;
               o.fallSrc = own;
-              emit(w, { kind: "skill", type: "portalJatuh", id: own.id, target: o.id, x: h.x, y: h.y });
+              emit(w, { kind: "skill", type: "pencuriJatuh", id: own.id, target: o.id, x: h.x, y: h.y });
             }
           }
           emit(w, { kind: "trapClose", x: h.x, y: h.y });
@@ -1308,7 +1589,7 @@
             c.flung = T.flingTime;
             c.flungSrc = own;
             h.life = Math.min(h.life, 0.4);
-            emit(w, { kind: "skill", type: "anginLempar", id: own.id, target: c.id });
+            emit(w, { kind: "skill", type: "biksuLempar", id: own.id, target: c.id });
           }
         } else if (h.life > 0.4) {
           const t = nearestEnemy(w, { x: h.x, y: h.y, team: h.team });
@@ -1321,7 +1602,7 @@
               t.caughtBy = h;
               h.catchT = T.caughtTime;
               h.tick = 0;
-              emit(w, { kind: "skill", type: "anginTangkap", id: own.id, target: t.id });
+              emit(w, { kind: "skill", type: "biksuTangkap", id: own.id, target: t.id });
             }
           }
         }
@@ -1331,7 +1612,7 @@
           if (h.warn <= 0) {
             h.life = T.starLife;
             h.max = T.starLife;
-            emit(w, { kind: "skill", type: "bintangRasi", id: own.id, pts: h.pts });
+            emit(w, { kind: "skill", type: "silatRasi", id: own.id, pts: h.pts });
           }
           continue;
         }
@@ -1349,12 +1630,145 @@
             emit(w, { kind: "impact", x: o.x, y: o.y, skin: "star" });
           }
         }
+      } else if (h.kind === "hole") {
+        h.life -= dt;
+        if (own.alive) { h.x = own.x; h.y = own.y; } // pusaran ikut pemiliknya
+        h.tick += dt;
+        const doTick = h.tick >= T.holeTick;
+        if (doTick) h.tick = 0;
+        for (const o of w.balls) {
+          if (!targetable(o) || o.team === h.team || o.air > 0) continue;
+          const dx = h.x - o.x, dy = h.y - o.y, d = Math.hypot(dx, dy) || 1;
+          if (d > h.r) continue;
+          if (o.frozen <= 0 && !o.caughtBy) {
+            o.vx += (dx / d) * T.holePull * dt;
+            o.vy += (dy / d) * T.holePull * dt;
+            setSpeed(o, o.speed);
+          }
+          if (doTick && d < T.holeCore + o.r) damage(w, o, T.holeDmg + h.bonus, own);
+        }
+        // menelan peluru lawan
+        for (const p of w.hazards) {
+          if (p === h || p.life <= 0 || p.team === h.team) continue;
+          if (!(p.kind === "shot" || p.kind === "snow" || p.kind === "rocket" || (p.kind === "bomb" && p.state !== "stuck"))) continue;
+          const dx = h.x - p.x, dy = h.y - p.y, d = Math.hypot(dx, dy) || 1;
+          if (d > h.r) continue;
+          if (d < 22) {
+            p.life = 0; if (p.kind === "bomb") p.fuse = 99;
+            h.bonus += T.holeEatDmg;
+            emit(w, { kind: "skill", type: "kosmosMakan", id: own.id, x: h.x, y: h.y });
+          } else if (p.vx != null) {
+            p.vx += (dx / d) * 900 * dt;
+            p.vy += (dy / d) * 900 * dt;
+          }
+        }
+      } else if (h.kind === "mine") {
+        h.life -= dt;
+        h.arm -= dt;
+        if (h.arm > 0 || !own.alive) { if (!own.alive) h.life = 0; continue; }
+        for (const o of w.balls) {
+          if (!targetable(o) || o.team === h.team || o.air > 0) continue;
+          if (Math.hypot(o.x - h.x, o.y - h.y) < h.r + o.r * 0.8) {
+            h.life = 0;
+            blast(w, h.team, own, h.x, h.y, T.mineBlast, T.mineDmg, (v) => slowDown(v, T.mineSlow, 0.5));
+            w.fx.push({ kind: "boom", x: h.x, y: h.y, r: T.mineBlast, life: 0.35, max: 0.35 });
+            emit(w, { kind: "boom" });
+            break;
+          }
+        }
+      } else if (h.kind === "timefield") {
+        h.life -= dt;
+        h.tick += dt;
+        const doTick = h.tick >= T.slowFieldTick;
+        if (doTick) h.tick = 0;
+        for (const o of w.balls) {
+          if (!targetable(o) || o.team === h.team) continue;
+          if (Math.hypot(o.x - h.x, o.y - h.y) < h.r + o.r * 0.5) {
+            slowDown(o, 0.2, T.slowK);
+            if (doTick) damage(w, o, T.slowFieldDmg, own);
+          }
+        }
+      } else if (h.kind === "potion") {
+        h.life -= dt;
+        h.spin += dt * 12;
+        h.x += h.vx * dt;
+        h.y += h.vy * dt;
+        let boom = h.life <= 0 || Math.hypot(h.tx - h.x, h.ty - h.y) < 14 || h.x < 0 || h.y < 0 || h.x > ARENA || h.y > ARENA;
+        for (const o of w.balls) {
+          if (boom || !targetable(o) || o.team === h.team || o.air > 0) continue;
+          if (Math.hypot(o.x - h.x, o.y - h.y) < o.r + h.r && projectileHits(w, h, o)) boom = true;
+        }
+        if (boom) {
+          h.life = 0;
+          h.x = clamp(h.x, 10, ARENA - 10); h.y = clamp(h.y, 10, ARENA - 10);
+          blast(w, h.team, h.owner, h.x, h.y, T.potionR, T.potionDmg);
+          w.hazards.push({ kind: "acid", x: h.x, y: h.y, r: T.acidR, life: T.acidLife, max: T.acidLife, cd: {}, team: h.team, owner: h.owner });
+          emit(w, { kind: "splash", x: h.x, y: h.y });
+        }
+      } else if (h.kind === "acid") {
+        h.life -= dt;
+        for (const k in h.cd) h.cd[k] -= dt;
+        for (const o of w.balls) {
+          if (!targetable(o) || o.team === h.team || o.air > 0) continue;
+          if (Math.hypot(o.x - h.x, o.y - h.y) < h.r + o.r * 0.5) {
+            slowDown(o, 0.3, 0.6);
+            if ((h.cd[o.id] || 0) <= 0) { h.cd[o.id] = T.acidTick; damage(w, o, T.acidDmg, own); }
+          }
+        }
+      } else if (h.kind === "rain") {
+        h.life -= dt;
+        if (!own.alive) { h.life = 0; continue; }
+        const t = h.target;
+        if (t && targetable(t)) {
+          const dx = t.x - h.x, dy = t.y - h.y, d = Math.hypot(dx, dy);
+          const step = Math.min(d, T.rainSpeed * dt);
+          if (d > 0) { h.x += (dx / d) * step; h.y += (dy / d) * step; }
+        }
+        h.tick += dt;
+        const doTick = h.tick >= T.rainTick;
+        if (doTick) h.tick = 0;
+        for (const o of w.balls) {
+          if (!targetable(o) || o.team === h.team || o.air > 0) continue;
+          if (Math.hypot(o.x - h.x, o.y - h.y) < h.r + o.r * 0.5) {
+            slowDown(o, 0.3, T.rainSlow);
+            if (doTick) damage(w, o, T.rainDmg, own);
+          }
+        }
+      } else if (h.kind === "totem") {
+        h.life -= dt;
+        if (!own.alive) { h.life = 0; continue; }
+        h.tick += dt;
+        if (h.tick < T.totemTick) continue;
+        h.tick = 0;
+        for (const o of w.balls) {
+          if (!targetable(o)) continue;
+          if (Math.hypot(o.x - h.x, o.y - h.y) > h.r + o.r * 0.5) continue;
+          if (o.team !== h.team) { slowDown(o, T.totemTick + 0.1, T.totemSlow); damage(w, o, T.totemDmg, own); }
+          else if (o === own && o.hp < o.maxHp) {
+            const heal = Math.min(T.totemHeal, o.maxHp - o.hp);
+            o.hp += heal;
+            emit(w, { kind: "heal", id: o.id, x: o.x, y: o.y, amt: heal, quiet: true });
+          }
+        }
+      } else if (h.kind === "gongwave") {
+        if (h.delay > 0) { h.delay -= dt; continue; }
+        h.r += T.gongSpeed * dt;
+        if (h.r >= T.gongMaxR) { h.life = 0; continue; }
+        for (const o of w.balls) {
+          if (!targetable(o) || o.team === h.team || h.hit[o.id] || o.air > 0) continue;
+          const d = Math.hypot(o.x - h.x, o.y - h.y);
+          if (Math.abs(d - h.r) < T.gongWidth / 2 + o.r * 0.6) {
+            h.hit[o.id] = true;
+            strike(w, o, T.gongDmg, own);
+            if (o.alive && o.frozen <= 0 && !o.caughtBy) setDir(o, Math.atan2(o.y - h.y, o.x - h.x));
+          }
+        }
       }
     }
     w.hazards = w.hazards.filter((h) => h.life > 0 || (h.kind === "bomb" && h.fuse > 0 && h.fuse < 99));
   }
 
-  // pilar batu: dinding bulat yang bikin bola memantul
+  // pilar golem: dinding bulat yang bikin bola memantul
   function obstacles(w) {
     for (const h of w.hazards) {
       if (h.kind !== "pillar" || h.life <= 0) continue;
@@ -1395,8 +1809,8 @@
         // hantu yang tembus pandang melewati lawan begitu saja
         if (a.team !== b.team && (a.ghost > 0 || b.ghost > 0)) continue;
         const nx = dx / d, ny = dy / d;
-        const ma = a.r * a.r * (a.type === "batu" ? T.rockMass : 1);
-        const mb = b.r * b.r * (b.type === "batu" ? T.rockMass : 1);
+        const ma = a.r * a.r * (a.type === "golem" ? T.rockMass : 1);
+        const mb = b.r * b.r * (b.type === "golem" ? T.rockMass : 1);
         const overlap = min - d;
         a.x -= nx * overlap * (mb / (ma + mb));
         a.y -= ny * overlap * (mb / (ma + mb));
@@ -1416,10 +1830,15 @@
           if (h.carrier === a || h.carrier === b) {
             h.carrier = h.carrier === a ? b : a;
             h.passCd = T.bombPass;
-            emit(w, { kind: "skill", type: "bomPindah", id: h.owner.id, target: h.carrier.id });
+            emit(w, { kind: "skill", type: "bajaklautPindah", id: h.owner.id, target: h.carrier.id });
           }
         }
         if (a.team === b.team) continue;
+        for (const [m, o] of [[a, b], [b, a]]) {
+          if (!m.minion || (m.hitCd[o.id] || 0) > 0) continue;
+          m.hitCd[o.id] = T.puppetCd;
+          strike(w, o, T.puppetDmg, m.owner && m.owner.alive ? m.owner : m);
+        }
         const key = a.id < b.id ? a.id + ":" + b.id : b.id + ":" + a.id;
         if (w.pairCd[key]) continue;
         w.pairCd[key] = 0.25;
@@ -1436,6 +1855,11 @@
     if (b.stun > 0) b.stun -= dt;
     if (b.silence > 0) b.silence -= dt;
     if (b.drunk > 0) b.drunk -= dt;
+    if (b.slow > 0) { b.slow -= dt; if (b.slow <= 0) b.slowK = 1; }
+    if (b.fear > 0) b.fear -= dt;
+    if (b.hookT > 0) b.hookT -= dt;
+    if (b.dartT > 0) { b.dartT -= dt; if (b.dartT <= 0) b.dartN = 0; }
+    if (b.minion) for (const k in b.hitCd) b.hitCd[k] -= dt;
     if (b.flung > 0) b.flung -= dt;
     if (b.drowsyT > 0) { b.drowsyT -= dt; if (b.drowsyT <= 0) b.drowsy = 0; }
     if (b.boostT > 0) {
@@ -1459,6 +1883,18 @@
       if (!b.alive) continue;
       tickStatus(w, b, dt);
       if (!b.alive) continue;
+      if (b.minion) {
+        b.life -= dt;
+        if (b.life <= 0 || !b.owner || !b.owner.alive) {
+          b.alive = false;
+          b.hp = 0;
+          w.fx.push({ kind: "pop", x: b.x, y: b.y, r: b.r, color: TYPES[b.type].color, life: 0.5, max: 0.5 });
+          continue;
+        }
+        // wayang mengejar lawan terdekat
+        const t = nearestEnemy(w, b);
+        if (t && canMove(b) && b.boostT <= 0) steer(b, t.x, t.y, 2.5, dt);
+      }
 
       // hantu yang sedang merasuki ikut posisi korbannya
       if (b.possess) {
@@ -1469,7 +1905,7 @@
         poisonTick(w, b, dt);
         continue;
       }
-      // jatuh ke portal: hilang, lalu muncul dari langit di tempat acak
+      // jatuh ke pencuri: hilang, lalu muncul dari langit di tempat acak
       if (b.hidden > 0) {
         b.hidden -= dt;
         if (b.hidden <= 0 && b.falling) {
@@ -1496,7 +1932,7 @@
           blast(w, b.team, b, b.x, b.y, R, Math.round(b.r / T.stompDiv), (o) => {
             if (o.frozen <= 0 && !o.caughtBy) setDir(o, Math.atan2(o.y - b.y, o.x - b.x));
           });
-          emit(w, { kind: "skill", type: "raksasaInjak", id: b.id, r: R });
+          emit(w, { kind: "skill", type: "vikingInjak", id: b.id, r: R });
         }
         continue;
       }
@@ -1506,7 +1942,9 @@
           const a = Math.atan2(b.vy, b.vx) + Math.sin(w.t * 9 + b.id) * 5 * dt;
           setDir(b, a);
         }
-        const k = b.trapped > 0 ? T.prisonFloat / Math.max(1, b.speed) : 1; // terkurung gelembung: melayang pelan
+        if (b.fear > 0 && b.fearSrc && b.fearSrc.alive) steer(b, 2 * b.x - b.fearSrc.x, 2 * b.y - b.fearSrc.y, 8, dt); // ketakutan: lari menjauh
+        let k = b.trapped > 0 ? T.prisonFloat / Math.max(1, b.speed) : 1; // terjerat jaring: melayang pelan
+        if (b.slow > 0) k *= b.slowK;
         b.x += b.vx * dt * k;
         b.y += b.vy * dt * k;
       }
@@ -1519,7 +1957,7 @@
         emit(w, { kind: "wall", id: b.id, nx: wnx, ny: wny }); // untuk efek gepeng di tampilan
         onWall(w, b);
       }
-      if (b.alive && canAct(b)) skills(w, b, dt);
+      if (b.alive && canAct(b) && !b.minion) skills(w, b, dt);
       poisonTick(w, b, dt);
     }
     hazards(w, dt);
@@ -1538,14 +1976,14 @@
     for (const f of w.fx) f.life -= dt;
     w.fx = w.fx.filter((f) => f.life > 0);
 
-    const teams = new Set(w.balls.filter((b) => b.alive).map((b) => b.team));
+    const teams = new Set(w.balls.filter((b) => b.alive && !b.minion).map((b) => b.team));
     if (teams.size <= 1) {
       w.done = true;
       if (teams.size === 1) {
         w.winner = [...teams][0];
       } else {
         // semua mati di saat yang sama: yang sisa darahnya paling "tidak minus" menang
-        const last = w.balls.filter((b) => b.diedAt === w.t).sort((a, b) => b.deathHp - a.deathHp);
+        const last = w.balls.filter((b) => b.diedAt === w.t && !b.minion).sort((a, b) => b.deathHp - a.deathHp);
         const top = last.filter((b) => b.deathHp === last[0].deathHp);
         w.winner = top.length ? top[Math.floor(w.rand() * top.length)].team : null; // seri persis: undian
       }
@@ -1564,7 +2002,7 @@
   }
 
   const api = {
-    ARENA, OVERTIME_AT, T, TYPES, RARITY, rng, createWorld, step,
+    ARENA, OVERTIME_AT, T, TYPES, ROLES, rng, createWorld, step,
     bladeTip, bladeThrowPos, dronePositions, maxHpFor, laserPath, kembarPartner,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
